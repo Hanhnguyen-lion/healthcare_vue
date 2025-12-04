@@ -1,6 +1,34 @@
 # medicalcare
 
 ## Project setup
+## npm install -g @vue/cli
+```
+npm install -g @vue/cli
+```
+## install bootstrap
+```
+npm install bootstrap @popperjs/core
+```
+## install vue-router
+```
+npm install vue-router@4
+```
+
+
+## install axios
+```
+npm install axios
+```
+## install @vueuse/core
+```
+npm i @vueuse/core
+```
+## install vue-confirm-dialog
+```
+npm i vue3-confirm-dialog
+```
+
+
 ```
 npm install
 ```
