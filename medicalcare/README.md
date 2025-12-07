@@ -27,7 +27,10 @@ npm i @vueuse/core
 ```
 npm i vue3-confirm-dialog
 ```
-
+## npm install numeral --save
+```
+npm install numeral --save
+```
 
 ```
 npm install

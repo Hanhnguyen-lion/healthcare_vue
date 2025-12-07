@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './router/router';
 import Vue3ConfirmDialog from 'vue3-confirm-dialog';
 import 'vue3-confirm-dialog/style';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
 app.use(router);

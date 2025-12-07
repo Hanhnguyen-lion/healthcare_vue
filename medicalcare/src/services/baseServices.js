@@ -32,7 +32,6 @@ export async function addItem(apiUrl, item){
 
 export async function updateItem(apiUrl, item, id){
     try{
-        item.id = id;
         var url = `${apiUrl}/Edit/${id}`;
         return await axios.put(url, item);
     }

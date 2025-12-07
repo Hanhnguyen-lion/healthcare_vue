@@ -30,6 +30,10 @@ body {
   margin-bottom: 60px;
 }
 
+.invalid-feedback{
+  display: block !important;
+}
+
 .form-floating>.form-control-plaintext::placeholder,
 .form-floating>.form-control::placeholder {
   color: var(--bs-secondary-color);

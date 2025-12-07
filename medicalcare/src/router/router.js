@@ -4,6 +4,11 @@ import HomeComponent from "@/components/home/HomeComponent.vue";
 import LoginComponent from "@/components/account/LoginComponent.vue";
 import PatientsComponent from "@/components/patients/PatientsComponent.vue";
 import AddPatientComponent from "@/components/patients/AddPatientComponent.vue";
+import TestComponent from "@/components/TestComponent.vue";
+import BillingComponent from "@/components/billing/BillingComponent.vue";
+import AddBillingComponent from "@/components/billing/AddBillingComponent.vue";
+import BillingDetailComponent from "@/components/billing/BillingDetailComponent.vue";
+import ViewMedicalCareComponent from "@/components/MedicalCare/ViewMedicalCareComponent.vue";
 
 
 const router = createRouter({
@@ -32,6 +37,30 @@ const router = createRouter({
         {
             path: "/Patient/View/:id",
             component: AddPatientComponent
+        },
+        {
+            path: "/Billing",
+            component: BillingComponent
+        },
+        {
+            path: "/Billing/Add",
+            component: AddBillingComponent
+        },
+        {
+            path: "/Billing/Edit/:id",
+            component: AddBillingComponent
+        },
+        {
+            path: "/Billing/View/:id",
+            component: BillingDetailComponent
+        },
+        {
+            path: "/MedicalCare/Print",
+            component: ViewMedicalCareComponent
+        },
+        {
+            path: "/Test",
+            component: TestComponent
         }
     ]
 })
