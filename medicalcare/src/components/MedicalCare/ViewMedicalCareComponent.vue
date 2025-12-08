@@ -1,8 +1,7 @@
 <script setup>
-import { getItems } from '@/services/baseServices';
+import { getItems, getItemsWithParam } from '@/services/baseServices';
 import { pad, formatDateToString } from '../helper/helper';
 import { enviroment } from '@/enviroments/enviroment';
-import axios from 'axios';
 
 </script>
 
@@ -45,6 +44,9 @@ import axios from 'axios';
                 </form>
                     <div class="input-group mb-3">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onSearch()">Search</button>
+                    </div>
+                    <div v-if="error_message" class="input-group mb-3">
+                        {{ error_message }}
                     </div>
                     <div v-if="searchMedical" class="row mb-3">
                         <div class="col-md-12">
@@ -205,6 +207,7 @@ import axios from 'axios';
         data(){
             return{
                 searchMedical: false,
+                error_message: "",
                 currentYear:new Date().getFullYear(),
                 months:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                 input_data:{
@@ -236,12 +239,22 @@ import axios from 'axios';
                 this.searchMedical = true;
                 this.medicalCares = [];
                 var url = `${enviroment.apiUrl}/MedicalCares/Search`
-                axios.get(url, {params: this.input_data}).then((data)=>{
-                    var item = data.data;
-                    this.patientItem = item;
-                    var patient_id = item.patient_id;
-                    if (patient_id > 0){
-                        this.medicalCares = item.medical;
+
+                getItemsWithParam(url, this.input_data).
+                then(data=>{
+                    if (data.valid){
+                        var item = data.data;
+                        this.patientItem = item;
+                        var patient_id = item.patient_id;
+                        if (patient_id > 0){
+                            this.medicalCares = item.medical;
+                            console.log("this.medicalCares:", this.medicalCares);
+                        }
+                    }
+                    else{
+                        console.log("data.message:", data.message, data);
+                        this.searchMedical = false;
+                        this.error_message = data.message;
                     }
                 });
             },
@@ -293,7 +306,8 @@ import axios from 'axios';
         },
         mounted(){
             this.getPatients().then(data=>{
-                this.patientItems = data;
+                if (data.valid)
+                    this.patientItems = data.data;
             });
             this.setYears();
         }

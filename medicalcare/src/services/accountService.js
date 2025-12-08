@@ -8,9 +8,8 @@ export default{
             "password": password
         };
 
-
         return await axios.post(url, param).then((data)=>{
-            console.log(data);
+            console.log(data.data);
             return data.data;
         }).catch((error)=>{
             console.log("login error: ", error)

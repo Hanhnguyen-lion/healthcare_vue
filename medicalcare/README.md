@@ -31,6 +31,10 @@ npm i vue3-confirm-dialog
 ```
 npm install numeral --save
 ```
+## npm i --save moment
+```
+npm i --save moment
+```
 
 ```
 npm install

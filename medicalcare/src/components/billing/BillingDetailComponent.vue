@@ -273,14 +273,17 @@ export default{
     },
     methods:{
         getBillingDetail(billing_id){
-            getItemById(this.apiUrl, billing_id)
+            var url = `${this.apiUrl}/${billing_id}`;
+            getItemById(url)
             .then(data =>{
-                this.patientItem = data;
-                var patient_id = data.patient_id;
-                if (patient_id > 0){
-                    this.prescriptionItems = data.prescriptions;
-                    this.treatmemtItems = data.treatments;
-                    this.billingItem = data.billing;
+                if (data.valid){
+                    this.patientItem = data.data;
+                    var patient_id = this.patientItem.patient_id;
+                    if (patient_id > 0){
+                        this.prescriptionItems = this.patientItem.prescriptions;
+                        this.treatmemtItems = this.patientItem.treatments;
+                        this.billingItem = this.patientItem.billing;
+                    }
                 }
             });
         },
@@ -334,8 +337,8 @@ export default{
         }
     },
     mounted(){
-      var billing_id = +this.$route.params.id;
-      this.getBillingDetail( billing_id);
+      var billing_id = (this.$route.params.id) ? +this.$route.params.id : 0;
+      this.getBillingDetail(billing_id);
 
     }
 }    

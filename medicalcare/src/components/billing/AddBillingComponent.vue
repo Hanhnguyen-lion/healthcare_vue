@@ -1,13 +1,11 @@
 <script setup>
     import { RouterLink } from 'vue-router';
-    import { addItemToArray, deleteItemToArray, formatDateToString } from '../helper/helper';
-    import { deleteItem, getItemById, getItems, updateItem } from '@/services/baseServices';
+    import { addItemToArray, deleteItemToArray, formatDateToString, formatDateYYYYMMDD } from '../helper/helper';
+    import { addItem, deleteItem, getItemById, getItems, updateItem } from '@/services/baseServices';
     import { enviroment } from '@/enviroments/enviroment';
     import treatmentModal from "@/components/modals/TreatmentModal";
     import prescriptionModal from "@/components/modals/PrescriptionModal";
     import numeral from 'numeral';
-    import axios from 'axios';
-    
 
 </script>
 
@@ -246,17 +244,19 @@ export default{
                 department_id :"",
                 diagnostic :"",
                 notes :"",
-                discharge_date :"",
-                admission_date :""
+                discharge_date :formatDateYYYYMMDD(new Date()),
+                admission_date :formatDateYYYYMMDD(new Date())
             },
             prescriptionItemObs:{
 				dosage:"",
 				quantity:0,
+                prescription_date: ""
             },
             treatmentItemObs:{
 				category_id:0,
 				description:"",
 				quantity:0,
+                treatment_date: ""
             },
             patientItems: [],
             doctorItems: [],
@@ -313,21 +313,28 @@ export default{
                 !this.admission_date_error &&
                 !this.discharge_date_error
             ){
+                var url = `${this.apiUrl}`;
                 if (this.billing_id > 0){
                     this.item.id = this.billing_id;
-                    updateItem(this.apiUrl, this.item, this.billing_id);
+                    url = `${url}/Edit/${this.billing_id}`
+                    updateItem(url, this.item);
                 }
                 else{
-                    var url = `${this.apiUrl}/Add`;
-                    axios.post(url, this.item).then(data=>{
-                        var id = data.data;
-                        url = `${this.apiUrl}/Add/Treatement/${id}`;
-                        axios.post(url, this.treatmentItems).then(()=>{
-                            url = `${this.apiUrl}/Add/Prescription/${id}`;
-                            axios.post(url, this.prescriptionItems).then(()=>{
-                            })
-                        });
-                    });
+                    url = `${url}/Add`;
+                    addItem(url, this.item)
+                    .then(data=>{
+                        if (data.valid){
+                            var id = data.data;
+                            url = `${this.apiUrl}/Add/Treatement/${id}`;
+
+                            addItem(url, this.treatmentItems).then((data)=>{
+                                if (data.valid){
+                                    url = `${this.apiUrl}/Add/Prescription/${id}`;
+                                    addItem(url, this.prescriptionItems).then(()=>{});
+                                }
+                            });
+                        }
+                    })
                 }
                 this.$router.push("/Billing");
             }
@@ -337,10 +344,11 @@ export default{
             if (saveData){
                 if (this.billing_id > 0){
                     this.loadTreatments().then(data =>{
-                        this.treatmentItems = data;
+                        this.treatmentItems = data.data;
                     });
                 }
                 else{
+                    console.log("this.treatmentItems:", this.treatmentItems);
                     this.treatmentItems = addItemToArray(this.treatmentItems, data, "new_id");
                 }
             }
@@ -350,7 +358,7 @@ export default{
             if (saveData){
                 if (this.billing_id > 0){
                     this.loadPrescriptions().then(data =>{
-                        this.prescriptionItems = data;
+                        this.prescriptionItems = data.data;
                     });
                 }
                 else{
@@ -364,6 +372,7 @@ export default{
             this.item.billing_id = this.billing_id;
             if (type == "Treatment"){
                 treatmentItem = this.treatmentItems.find(item => item.new_id === new_id);
+                console.log("treatmentItem:", treatmentItem);
                 this.item.treatment_id = id;
                 this.item.new_treatment_id = new_id;
                 this.item.treatmentItemObs = treatmentItem;
@@ -396,15 +405,16 @@ export default{
                 callback: confirm => {
                     if (confirm) {
                         if (id > 0){
-                            deleteItem(url, id).then(()=>{
+                            url = `${url}/Delete/${id}`;
+                            deleteItem(url).then(()=>{
                                 if (type == "Treatment"){
                                     this.loadTreatments().then(data =>{
-                                        this.treatmentItems = data;
+                                        this.treatmentItems = data.data;
                                     });
                                 }
                                 else{
                                     this.loadPrescriptions().then(data=>{
-                                        this.prescriptionItems = data;
+                                        this.prescriptionItems = data.data;
                                     });
                                 }
                             });
@@ -436,35 +446,43 @@ export default{
 
         getItems(`${enviroment.apiUrl}/Patients`)
         .then(data =>{
-            this.patientItems = data;
+            if (data.valid)
+                this.patientItems = data.data;
         });
 
         getItems(`${enviroment.apiUrl}/Doctors`)
         .then(data =>{
-            this.doctorItems = data;
+            if (data.valid)
+                this.doctorItems = data.data;
         });
 
         getItems(`${enviroment.apiUrl}/Departments`)
         .then(data =>{
-            this.departmentItems = data;
+            if (data.valid)
+                this.departmentItems = data.data;
         });
 
         if (this.billing_id > 0){
-            getItemById(this.apiUrl, this.billing_id)
-            .then(data =>{
-                this.item = data;
-                this.item.admission_date = formatDateToString(this.item.admission_date, "YYYY-MM-DD");
-                this.item.discharge_date = formatDateToString(this.item.discharge_date, "YYYY-MM-DD");
+            var url = `${this.apiUrl}/${this.billing_id}`;
+            getItemById(url)
+            .then(data=>{
+                if (data.valid){
+                    this.item = data.data;
+                    this.item.admission_date = formatDateToString(this.item.admission_date, "YYYY-MM-DD");
+                    this.item.discharge_date = formatDateToString(this.item.discharge_date, "YYYY-MM-DD");
+                }
             });
         }
 
-        this.loadTreatments().then(data =>{
-            this.treatmentItems = data;
+        this.loadTreatments().then(data=>{
+            if (data.valid)
+                this.treatmentItems = data.data;
         });
 
         this.loadPrescriptions()
         .then(data=>{
-            this.prescriptionItems = data;
+            if (data.valid)
+                this.prescriptionItems = data.data;
         });
     }
 }

@@ -1,7 +1,11 @@
-import { useDateFormat } from "@vueuse/core";
+import moment from "moment";
 
 export function formatDateToString(value, format) {
-    return useDateFormat(value, format);
+    return moment(value).format(format);
+}
+
+export function formatDateYYYYMMDD(value) {
+    return moment(value).format("YYYY-MM-DD");
 }
 
 export function addItemToArray(itemArr, item, key){

@@ -6,14 +6,14 @@
                 <div class="card">
                     <h3 class="card-header">Login</h3>
                     <div class="card-body">
-                        <form v-on:submit.prevent="handleLogin">
+                        <form name="form" @submit="handleLogin">
                             <div class="form-group mb-3">
                                 <label>Email <span class="text-danger">*</span></label>
-                                <input type="text" required v-model="email" class="form-control" placeholder="Enter your email" />
+                                <input type="text" required name="email" v-model="email" class="form-control" placeholder="Enter your email" />
                             </div>
                             <div class="form-group mb-3">
                                 <label>Password <span class="text-danger">*</span></label>
-                                <input type="password" required v-model="password" class="form-control" placeholder="Enter password" />
+                                <input type="password" required name="password" v-model="password" class="form-control" placeholder="Enter password" />
                             </div>
                             <div class="form-group mb-3">
                                 <div class="form-group col d-md-flex">

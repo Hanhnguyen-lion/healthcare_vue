@@ -9,6 +9,19 @@
                 <div class="container">
                     <form name="form">
                         <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="fw-bold">Treatment Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" name="treatment_date" 
+                                        v-model="output_data.treatment_date"   
+                                        placeholder="Enter treatment date">
+                                    <div v-if="treatment_date_error" class="invalid-feedback">
+                                        <div>{{ treatment_date_error }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Treatment Type <span class="text-danger">*</span></label>
@@ -56,8 +69,8 @@
 <script>
 import { enviroment } from "@/enviroments/enviroment";
 import "./modal.css";
-import { getItemById, getItems} from "@/services/baseServices";
-import axios from "axios";
+import { addItem, getItemById, getItems, updateItem} from "@/services/baseServices";
+import { formatDateYYYYMMDD } from "../helper/helper";
 
 export default {
     name: "TreatmentModal",
@@ -70,11 +83,13 @@ export default {
             new_treatment_id: 0,
             quantity_error: "",
             treatment_type_error: "",
+            treatment_date_error: "",
 
             output_data: {
                 category_id: 0,
                 description: "",
                 quantity: 0,
+                treatment_date: formatDateYYYYMMDD(new Date()),
                 treatmentItemObs: {
 
                 }
@@ -99,35 +114,51 @@ export default {
                 this.treatment_type_error = "";
             }
         },
+        validTreatmentDate(){
+            if (!this.output_data.category_id)
+                this.treatment_date_error = "Treatment date is required";
+            else{
+                this.treatment_date_error = "";
+            }
+        },
         async handleSave() {
             this.validQuantity();
             this.validTreatmentType();
-
+            this.validTreatmentDate();
             if (!this.quantity_error &&
-                !this.treatment_type_error
+                !this.treatment_type_error &&
+                !this.treatment_date_error
             ){
                 this.saveData = true;
+                var url = `${this.apiUrl}`;
                 var item = {
                     billing_id: this.billing_id,
                     id: this.treatment_id,
                     new_id: this.new_treatment_id,
                     category_id: this.output_data.category_id,
                     description: this.output_data.description,
+                    treatment_date: this.output_data.treatment_date,
                     quantity: this.output_data.quantity
                 }
                 if (this.billing_id > 0) {
-                    var url = `${this.apiUrl}/Edit/${item.id}`;
-                    await axios.put(url, item).then(()=>{
-                        this.handleClose();
+                    url = `${url}/Edit/${item.id}`;
+                    updateItem(url, item).then((data)=>{
+                        if (data.valid)
+                            this.handleClose();
                     });
                 }
                 else{
                     url = `${enviroment.apiUrl}/Billings/TreatmentItem`;
-                    axios.post(url, item).then(data=>{
-                        this.output_data = data.data;
-                        this.output_data.id = data.data.id;
-                        this.output_data.new_id = data.data.new_id;
-                        this.handleClose();
+                    addItem(url, item).then(data=>{
+                        console.log("data:", data);
+                        if (data.valid){
+                            console.log("data.data:", data.data);
+                            var item = data.data;
+                            this.output_data = item;
+                            this.output_data.id = item.id;
+                            this.output_data.new_id = item.new_id;
+                            this.handleClose();
+                        }
                     })
                 }
             }
@@ -137,16 +168,24 @@ export default {
         }
     },
     mounted() {
+        
         this.billing_id = this.input_data.billing_id;
         this.treatment_id = this.input_data.treatment_id;
         this.new_treatment_id = this.input_data.new_treatment_id;
-        getItems(`${this.apiUrl}/Category`).then(data => {
-            this.categoryItems = data;
+        var url = `${this.apiUrl}`; 
+        
+        getItems(`${url}/Category`).then(data => {
+            if (data.valid)
+                this.categoryItems = data.data;
         });
+
         if (this.treatment_id > 0) {
-            var url = `${this.apiUrl}/item`;
-            getItemById(url, this.treatment_id).then(item => {
-                this.output_data = item;
+            url = `${url}/item/${this.treatment_id}`;
+            getItemById(url).then(item => {
+                if (item.valid){
+                    this.output_data = item.data;
+                    this.output_data.treatment_date = formatDateYYYYMMDD(item.data.treatment_date);
+                }
             });
         }
         else {
@@ -155,7 +194,8 @@ export default {
                 this.output_data = {
                     category_id: this.input_data.treatmentItemObs.category_id,
                     description: this.input_data.treatmentItemObs.description,
-                    quantity: this.input_data.treatmentItemObs.quantity
+                    quantity: this.input_data.treatmentItemObs.quantity,
+                    treatment_date: formatDateYYYYMMDD(this.input_data.treatmentItemObs.treatment_date)
                 };
             }
         }

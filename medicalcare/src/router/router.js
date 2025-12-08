@@ -40,7 +40,10 @@ const router = createRouter({
         },
         {
             path: "/Billing",
-            component: BillingComponent
+            component: BillingComponent,
+            meta:{
+                requiresAuth: false
+            }
         },
         {
             path: "/Billing/Add",
@@ -61,7 +64,12 @@ const router = createRouter({
         {
             path: "/Test",
             component: TestComponent
-        }
+        },
+        // router.beforeEach((to, from) => {
+        //     if (to.meta.requiresAuth){
+        //         return {name: 'Login'}
+        //     }
+        // })
     ]
 })
 

@@ -20,6 +20,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="fw-bold">Date of birth</label>
+                                    <input :readonly="constant_item.readonly" type="date" class="form-control" 
+                                        name="date_of_birth" v-model="item.date_of_birth"
+                                        placeholder="Enter date of birth">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="fw-bold">First Name <span class="text-danger">*</span></label>
                                     <input :readonly="constant_item.readonly" type="text" class="form-control"
                                         name="first_name" v-model="item.first_name" 
@@ -29,8 +39,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Last Name <span class="text-danger">*</span></label>
@@ -40,14 +48,6 @@
                                     <div v-if="item_error.lastNameError" class="invalid-feedback">
                                         <div>{{item_error.lastNameError}}</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Date of birth</label>
-                                    <input :readonly="constant_item.readonly" type="date" class="form-control" 
-                                        v-model="item.date_of_birth" name="date_of_birth" 
-                                        placeholder="Enter date of birth">
                                 </div>
                             </div>
                         </div>
@@ -192,6 +192,9 @@
                                 <router-link to="/Patient" class="btn btn-outline-secondary">Cancel</router-link>
                             </div>
                         </div>
+                        <div v-if="item_error.error" class="row mb-3 invalid-feedback fw-bold">
+                            <div>{{item_error.error}}</div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -222,9 +225,9 @@ export default{
                 code: "",
                 first_name: "",
                 last_name: "",
-                date_of_birth: "",
+                date_of_birth: formatDateToString(new Date(), "YYYY-MM-DD"),
                 email: "",
-                gender: "",
+                gender: "Female",
                 phone_number: "",
                 job: "",
                 home_address: "",
@@ -232,7 +235,7 @@ export default{
                 emergency_contact_name: "",
                 emergency_contact_phone: "",
                 insurance_policy_number: "",
-                insurance_expire: "",
+                insurance_expire: null,
                 insurance_provider: "",
                 insurance_type: "",
                 insurance_info: "",
@@ -242,44 +245,10 @@ export default{
                 codeError : "",
                 firstNameError: "",
                 lastNameError: "",
-                emailError: ""
+                emailError: "",
+                error:""
             }
         };
-    },
-    mounted(){
-        this.constant_item.id = +this.$route.params.id;
-        var currentPath = this.$route.path;
-        if (this.constant_item.id > 0) {
-            this.constant_item.title = "Edit Patient";
-            if (currentPath.indexOf("View") != -1){
-                this.constant_item.title = "View Patient";
-                this.constant_item.readonly = true;
-            }
-            getItemById(this.constant_item.url, this.constant_item.id)
-            .then(item =>{
-
-                this.item = {
-                    code: item.code,
-                    first_name: item.first_name,
-                    last_name: item.last_name,
-                    email: item.email,
-                    gender: item.gender,
-                    date_of_birth: formatDateToString(item.date_of_birth, "YYYY-MM-DD"),
-                    insurance_expire: formatDateToString(item.insurance_expire, "YYYY-MM-DD"),
-                    insurance_info: item.insurance_info,
-                    insurance_policy_number: item.insurance_policy_number,
-                    insurance_provider: item.insurance_provider,
-                    insurance_type: item.insurance_type,
-                    medical_history: item.medical_history,
-                    job: item.job,
-                    phone_number: item.phone_number,
-                    home_address: item.home_address,
-                    office_address: item.office_address,
-                    emergency_contact_name: item.emergency_contact_name,
-                    emergency_contact_phone: item.emergency_contact_phone
-                }
-            });
-        }
     },
     methods:{
         validFirstName(){
@@ -329,15 +298,72 @@ export default{
                 !this.item_error.lastNameError &&
                 !this.item_error.emailError
             ){
+                var url = `${this.constant_item.url}`;
+                this.item.date_of_birth = (this.item.date_of_birth) ? this.item.date_of_birth : null;
+
+                this.item.insurance_expire = (this.item.insurance_expire) ? this.item.insurance_expire : null;
                 if (this.constant_item.id > 0){
+                    url = `${url}/Edit/${this.constant_item.id}`;
                     this.item.id = this.constant_item.id;
-                    updateItem(this.constant_item.url, this.item, this.constant_item.id);
+                    updateItem(url, this.item)
+                    .then((response)=>{
+                        if (response.valid){
+                            this.$router.push("/Patient");
+                        }
+                        else{
+                            this.item_error.error = response.message;
+                        }
+                    });
                 }
                 else{
-                    addItem(this.constant_item.url, this.item);
+                    url = `${url}/Add`;
+                    addItem(url, this.item).then(response=>{
+                        if (response.valid){
+                            this.$router.push("/Patient");
+                        }
+                        else{
+                            this.item_error.error = response.message;
+                        }
+                    });
                 }
-                this.$router.push("/Patient");
             }
+        }
+    },
+    mounted(){
+        this.constant_item.id = (this.$route.params.id) ? +this.$route.params.id : 0;
+        var currentPath = this.$route.path;
+        if (this.constant_item.id > 0) {
+            this.constant_item.title = "Edit Patient";
+            if (currentPath.indexOf("View") != -1){
+                this.constant_item.title = "View Patient";
+                this.constant_item.readonly = true;
+            }
+            getItemById(`${this.constant_item.url}/${this.constant_item.id}`)
+            .then(response =>{
+                if (response.valid){
+                    var item = response.data; 
+                    this.item = {
+                        code: item.code,
+                        first_name: item.first_name,
+                        last_name: item.last_name,
+                        email: item.email,
+                        gender: item.gender,
+                        date_of_birth: (item.date_of_birth) ? formatDateToString(item.date_of_birth, "YYYY-MM-DD"):null,
+                        insurance_expire: (item.insurance_expire) ? formatDateToString(item.insurance_expire, "YYYY-MM-DD"):null,
+                        insurance_info: item.insurance_info,
+                        insurance_policy_number: item.insurance_policy_number,
+                        insurance_provider: item.insurance_provider,
+                        insurance_type: item.insurance_type,
+                        medical_history: item.medical_history,
+                        job: item.job,
+                        phone_number: item.phone_number,
+                        home_address: item.home_address,
+                        office_address: item.office_address,
+                        emergency_contact_name: item.emergency_contact_name,
+                        emergency_contact_phone: item.emergency_contact_phone
+                    }
+                }
+            });
         }
     }
 }    

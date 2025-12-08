@@ -29,7 +29,7 @@
                     <td>{{item.code}}</td>
                     <td>{{item.first_name}}</td>
                     <td>{{item.last_name}}</td>
-                    <td>{{formatDateToString(item.date_of_birth, 'DD/MM/YYYY')}}</td>
+                    <td><div v-if="item.date_of_birth">{{formatDateToString(item.date_of_birth, 'DD/MM/YYYY')}}</div></td>
                     <td>{{item.gender}}</td>
                     <td>
                         <button class="btn btn-outline-primary" 
@@ -60,12 +60,6 @@ export default{
             url: `${enviroment.apiUrl}/Patients`
         }
     },
-    mounted() {
-        var data = getItems(this.url)
-        data.then(data =>{
-            this.patients = data;
-        });
-    },
     methods: {
         remove(id){
             this.$confirm(
@@ -78,9 +72,10 @@ export default{
                 },
                 callback: confirm => {
                     if (confirm) {
-                        var deleted = deleteItem(this.url, id);
-                        deleted.then(deleted=>{
-                            if (deleted){
+                        var apiUrl = `${this.url}/Delete/${id}`;
+                        deleteItem(apiUrl)
+                        .then(response=>{
+                            if (response.valid){
                                 const index = this.patients.findIndex(p => p.id === id);
                                 this.patients.splice(index, 1)
                             }
@@ -98,6 +93,13 @@ export default{
         view(id){
             this.$router.push(`/Patient/View/${id}`);
         }
+    },
+    mounted() {
+        getItems(this.url)
+        .then(response =>{
+            if (response.valid)
+                this.patients = response.data;
+        });
     }
 }
 

@@ -9,7 +9,7 @@
                 <div class="container">
                     <form name="form">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Medicine <span class="text-danger">*</span></label>
                                     <select class="form-select" name="medicine_id" v-model="output_data.medicine_id" placeholder="Enter Medicine">
@@ -19,6 +19,17 @@
                                     </select>
                                     <div v-if="medicine_id_error" class="invalid-feedback">
                                         <div>{{medicine_id_error}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="fw-bold">Prescription Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" name="prescription_date" 
+                                        v-model="output_data.prescription_date"   
+                                        placeholder="Enter prescription date">
+                                    <div v-if="prescription_date_error" class="invalid-feedback">
+                                        <div>{{ prescription_date_error }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -95,8 +106,8 @@
 <script>
 import { enviroment } from "@/enviroments/enviroment";
 import "./modal.css";
-import { getItemById, getItems} from "@/services/baseServices";
-import axios from "axios";
+import { addItem, getItemById, getItems, updateItem} from "@/services/baseServices";
+import { formatDateYYYYMMDD } from "../helper/helper";
 
 export default {
     name: "PrescriptionModal",
@@ -110,6 +121,7 @@ export default {
             medicine_id_error: "",
             quantity_error: "",
             duration_error: "",
+            prescription_date_error: "",
 
             output_data: {
                 medicine_id: 0,
@@ -119,6 +131,7 @@ export default {
                 duration: 0,
                 medicine_type: "tablets",
                 quantity: 0,
+                prescription_date: formatDateYYYYMMDD(new Date()),
                 prescriptionItemObs: {
 
                 }
@@ -145,6 +158,13 @@ export default {
                 this.quantity_error = "";
             }
         },
+        validPrescriptionDate(){
+            if (!this.output_data.prescription_date)
+                this.prescription_date_error = "Prescription date is required";
+            else{
+                this.prescription_date_error = "";
+            }
+        },
         validDuration(){
             if (!this.output_data.duration)
                 this.duration_error = "Duration is required";
@@ -156,11 +176,14 @@ export default {
             this.validMedicine();
             this.validQuantity();
             this.validDuration();
+            this.validPrescriptionDate();
             if (!this.medicine_id_error &&
                 !this.quantity_error &&
-                !this.duration_error
+                !this.duration_error &&
+                !this.prescription_date_error
             ){
                 this.saveData = true;
+                var url = `${this.apiUrl}`;
                 var item = {
                     billing_id: this.billing_id,
                     id: this.prescription_id,
@@ -171,22 +194,27 @@ export default {
                     duration: this.output_data.duration,
                     medicine_type: this.output_data.medicine_type,
                     duration_type: this.output_data.duration_type,
-                    quantity: this.output_data.quantity
+                    quantity: this.output_data.quantity,
+                    prescription_date: formatDateYYYYMMDD(this.output_data.prescription_date)
                 }
                 if (this.billing_id > 0) {
-                    var url = `${this.apiUrl}/Edit/${item.id}`;
-                    await axios.put(url, item).then(()=>{
-                        this.handleClose();
+                    url = `${url}/Edit/${item.id}`;
+                    updateItem(url, item).then(response=>{
+                        if (response.valid)
+                            this.handleClose();
                     });
                 }
                 else{
                     url = `${enviroment.apiUrl}/Billings/PrescriptionItem`;
-                    axios.post(url, item).then(data=>{
-                        this.output_data = data.data;
-                        this.output_data.id = data.data.id;
-                        this.output_data.new_id = data.data.new_id;
-                        this.handleClose();
-                    })
+                    addItem(url, item).then(response=>{
+                        if (response.valid){
+                            var data = response.data;
+                            this.output_data = data;
+                            this.output_data.id = data.id;
+                            this.output_data.new_id = data.new_id;
+                            this.handleClose();
+                        }
+                    });
                 }
             }
         },
@@ -198,23 +226,31 @@ export default {
         this.billing_id = this.input_data.billing_id;
         this.prescription_id = this.input_data.prescription_id;
         this.new_prescription_id = this.input_data.new_prescription_id;
+        
+        var url = `${this.apiUrl}`;
 
         getItems(`${enviroment.apiUrl}/Medicines`).then(data => {
-            this.medicineItems = data;
+            if (data.valid)
+                this.medicineItems = data.data;
         });
         
-        getItems(`${this.apiUrl}/DurationTypes`).then(data => {
-            this.durationItems = data;
+        getItems(`${url}/DurationTypes`).then(data => {
+            if (data.valid)
+                this.durationItems = data.data;
         });
         
-        getItems(`${this.apiUrl}/MedicineTypes`).then(data => {
-            this.medicineTypeItems = data;
+        getItems(`${url}/MedicineTypes`).then(data => {
+            if (data.valid)
+                this.medicineTypeItems = data.data;
         });
 
         if (this.prescription_id > 0) {
-            var url = `${this.apiUrl}/item`;
-            getItemById(url, this.prescription_id).then(item => {
-                this.output_data = item;
+            url = `${url}/item/${this.prescription_id}`;
+            getItemById(url).then(item => {
+                if (item.valid){
+                    this.output_data = item.data;
+                    this.output_data.prescription_date = formatDateYYYYMMDD(item.data.prescription_date);
+                }
             });
         }
         else {
@@ -227,7 +263,8 @@ export default {
                     duration_type: this.input_data.prescriptionItemObs.duration_type,
                     duration: this.input_data.prescriptionItemObs.duration,
                     medicine_type: this.input_data.prescriptionItemObs.medicine_type,
-                    quantity: this.input_data.prescriptionItemObs.quantity
+                    quantity: this.input_data.prescriptionItemObs.quantity,
+                    prescription_date: formatDateYYYYMMDD(this.input_data.prescriptionItemObs.prescription_date)
                 };
             }
         }

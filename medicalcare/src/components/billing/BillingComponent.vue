@@ -61,12 +61,6 @@ export default{
             url: `${enviroment.apiUrl}/Billings`
         }
     },
-    mounted() {
-        var data = getItems(this.url)
-        data.then(data =>{
-            this.items = data;
-        });
-    },
     methods: {
         remove(id){
             this.$confirm(
@@ -79,17 +73,24 @@ export default{
                 },
                 callback: confirm => {
                     if (confirm) {
-                        var deleted = deleteItem(this.url, id);
-                        deleted.then(deleted=>{
-                            if (deleted){
+                        var apiUrl = `${this.url}/Delete/${id}`;
+                        deleteItem(apiUrl)
+                        .then(response=>{
+                            if (response.valid){
                                 const index = this.items.findIndex(p => p.id === id);
                                 this.items.splice(index, 1)
                             }
                         })
                     }
                 }
-            })
+            });
         }
+    },
+    mounted() {
+        getItems(this.url)
+        .then(data =>{
+            this.items = data.data;
+        });
     }
 }
 
