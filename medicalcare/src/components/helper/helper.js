@@ -28,3 +28,8 @@ export function deleteItemToArray(itemArr, id, key){
 export function pad(n) {
     return (n<10 ? '0'+n : n);
 }
+
+export function validEmail(email){
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+}
