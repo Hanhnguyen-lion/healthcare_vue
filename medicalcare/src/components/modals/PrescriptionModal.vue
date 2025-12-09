@@ -102,10 +102,27 @@
         </div>
     </div>
 </template>
-
+<style scoped>
+  .modal-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+  }
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }    
+</style>
 <script>
 import { enviroment } from "@/enviroments/enviroment";
-import "./modal.css";
 import { getItemById, getItems, post, updateItem} from "@/services/baseServices";
 import { formatDateYYYYMMDD } from "../helper/helper";
 

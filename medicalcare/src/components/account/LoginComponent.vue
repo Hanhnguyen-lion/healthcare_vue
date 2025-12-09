@@ -49,7 +49,8 @@
     <router-view></router-view>
 </template>
 <script>
-import { useAuthStore } from '../store/auth.module';
+import { useAuthStore } from '@/store/auth.module';
+
 export default {
     name: "LoginComponent",
     data: () => {
@@ -62,7 +63,6 @@ export default {
     },
     methods: {
         async handleLogin() {
-            console.log("handleLogin:", this.email, this.password);
             const useAuth = useAuthStore();
             var data = await useAuth.login(this.email, this.password);
             if (!data.valid){

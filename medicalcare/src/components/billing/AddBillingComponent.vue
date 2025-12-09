@@ -165,11 +165,6 @@
                                 <button class="btn btn-outline-primary" type="button" @click="addOrEditPrescription(0, 0, 'Prescription')">Add</button>
                             </div>
                         </div>
-                        <transition name="prescriptionModal">
-                            <div class="modal-mask" v-if="showPrescriptionModal">
-                                <prescriptionModal :input_data="item" @close="closePrescriptionModal"/>
-                            </div>
-                        </transition>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="tableFixHead">
@@ -218,12 +213,18 @@
         </div>
     </div>
 </div>
+<transition name="prescriptionModal">
+    <div v-if="showPrescriptionModal">
+        <prescriptionModal :input_data="item" @close="closePrescriptionModal"/>
+    </div>
+</transition>
+
 </template>
 
 <script>
 export default{
     
-    components:[treatmentModal],
+    components:[treatmentModal, prescriptionModal],
 
     data(){
         return {

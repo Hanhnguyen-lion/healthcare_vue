@@ -62,8 +62,7 @@
     <router-view></router-view>
   </template>
 <script>
-import { useAuthStore } from './components/store/auth.module';
-
+import { useAuthStore } from './store/auth.module';
   export default{
     data(){
       return {
