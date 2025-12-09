@@ -35,6 +35,11 @@ npm install numeral --save
 ```
 npm i --save moment
 ```
+## npm install pinia
+```
+npm install pinia
+```
+
 
 ```
 npm install

@@ -18,62 +18,75 @@ const router = createRouter({
     routes:[
         {
             path: "/",
-            component: HomeComponent
+            component: HomeComponent,
+            meta: { requiredAuth: false }
         },
         {
             path: "/Account/Login",
-            component: LoginComponent
+            component: LoginComponent,
+            meta: { requiredAuth: false }
         },
         {
             path: "/Account/Forgotpassword",
-            component: ForgotPasswordComponent
+            component: ForgotPasswordComponent,
+            meta: { requiredAuth: false }
         },
         {
             path: "/Account/Register",
-            component: RegisterComponent
+            component: RegisterComponent,
+            meta: { requiredAuth: false }
         },
         {
             path: "/Patient",
-            component: PatientsComponent
+            component: PatientsComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Patient/Add",
-            component: AddPatientComponent
+            component: AddPatientComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Patient/Edit/:id",
-            component: AddPatientComponent
+            component: AddPatientComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Patient/View/:id",
-            component: AddPatientComponent
+            component: AddPatientComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Billing",
             component: BillingComponent,
             meta:{
-                requiresAuth: false
+                requiresAuth: true
             }
         },
         {
             path: "/Billing/Add",
-            component: AddBillingComponent
+            component: AddBillingComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Billing/Edit/:id",
-            component: AddBillingComponent
+            component: AddBillingComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Billing/View/:id",
-            component: BillingDetailComponent
+            component: BillingDetailComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/MedicalCare/Print",
-            component: ViewMedicalCareComponent
+            component: ViewMedicalCareComponent,
+            meta: { requiredAuth: true }
         },
         {
             path: "/Test",
-            component: TestComponent
+            component: TestComponent,
+            meta: { requiredAuth: false }
         },
         // router.beforeEach((to, from) => {
         //     if (to.meta.requiresAuth){

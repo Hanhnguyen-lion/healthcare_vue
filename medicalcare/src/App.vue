@@ -8,7 +8,7 @@
                 <h6> Hospital Management System</h6>
             </div>
           </div>
-          <div class="navbar-collapse collapse">
+          <div v-if="showMenu()" class="navbar-collapse collapse">
             <ul class="navbar-nav flex-grow-1 justify-content-end">
               <li class="nav-item">
                 <RouterLink to="/" class="nav-link text-white fw-bold">Home
@@ -51,7 +51,7 @@
                 <RouterLink class="nav-link text-white fw-bold" to ="/MedicalCare/Print">Medical Care</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink to="/Account/Login" class="nav-link text-white fw-bold">Logout</RouterLink>
+                <a @click="logout()" class="nav-link text-white fw-bold" href="">Logout</a>
               </li>
             </ul>
           </div>
@@ -62,11 +62,21 @@
     <router-view></router-view>
   </template>
 <script>
-export default{
-  methods: {
-    logout(){
-      this.$router.push("/Account/Login");
+import { useAuthStore } from './components/store/auth.module';
+
+  export default{
+    data(){
+      return {
+        auth : useAuthStore()
+      }
+    },
+    methods:{
+      logout(){
+        this.auth.logout();
+      },
+      showMenu(){
+        return (this.auth.accountLogin) ? true : false;
+      }
     }
   }
-}
 </script>
