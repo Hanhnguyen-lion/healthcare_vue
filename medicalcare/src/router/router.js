@@ -9,6 +9,8 @@ import BillingComponent from "@/components/billing/BillingComponent.vue";
 import AddBillingComponent from "@/components/billing/AddBillingComponent.vue";
 import BillingDetailComponent from "@/components/billing/BillingDetailComponent.vue";
 import ViewMedicalCareComponent from "@/components/MedicalCare/ViewMedicalCareComponent.vue";
+import RegisterComponent from "@/components/account/RegisterComponent.vue";
+import ForgotPasswordComponent from "@/components/account/ForgotPasswordComponent.vue";
 
 
 const router = createRouter({
@@ -21,6 +23,14 @@ const router = createRouter({
         {
             path: "/Account/Login",
             component: LoginComponent
+        },
+        {
+            path: "/Account/Forgotpassword",
+            component: ForgotPasswordComponent
+        },
+        {
+            path: "/Account/Register",
+            component: RegisterComponent
         },
         {
             path: "/Patient",

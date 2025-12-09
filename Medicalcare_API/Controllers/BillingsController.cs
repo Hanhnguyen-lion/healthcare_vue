@@ -94,7 +94,7 @@ namespace Medicalcare_API.Controllers{
                             treatmentItem.quantity = Convert.ToInt32(item["quantity"].ToString());
                             treatmentItem.description = item["description"].ToString();
                             treatmentItem.category_id = Convert.ToInt32(item["category_id"].ToString());
-
+                            treatmentItem.treatment_date = Convert.ToDateTime(item["treatment_date"].ToString());
                             this.context.m_treatment.Add(treatmentItem);
                         } 
                         this.context.SaveChanges();
@@ -133,6 +133,7 @@ namespace Medicalcare_API.Controllers{
                             prescriptionItem.notes = item["notes"].ToString();
                             prescriptionItem.medicine_type = item["medicine_type"].ToString();
                             prescriptionItem.duration_type = item["duration_type"].ToString();
+                            prescriptionItem.prescription_date = Convert.ToDateTime(item["prescription_date"].ToString());
 
 
                             this.context.h_prescription.Add(prescriptionItem);

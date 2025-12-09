@@ -39,7 +39,7 @@
                                 <div class="form-group">
                                     <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="quantity"
-                                        v-model="output_data.quantity" placeholder="Enter quantity">
+                                        v-model="output_data.quantity" min="0" placeholder="Enter quantity">
                                     <div v-if="quantity_error" class="invalid-feedback">
                                         <div>{{ quantity_error }}</div>
                                     </div>
@@ -69,7 +69,7 @@
 <script>
 import { enviroment } from "@/enviroments/enviroment";
 import "./modal.css";
-import { addItem, getItemById, getItems, updateItem} from "@/services/baseServices";
+import { getItemById, getItems, post, updateItem} from "@/services/baseServices";
 import { formatDateYYYYMMDD } from "../helper/helper";
 
 export default {
@@ -149,7 +149,7 @@ export default {
                 }
                 else{
                     url = `${enviroment.apiUrl}/Billings/TreatmentItem`;
-                    addItem(url, item).then(data=>{
+                    post(url, item).then(data=>{
                         console.log("data:", data);
                         if (data.valid){
                             console.log("data.data:", data.data);

@@ -206,7 +206,7 @@
 <script>
 
     import { enviroment } from '@/enviroments/enviroment';
-    import { addItem, getItemById, updateItem } from '@/services/baseServices';
+    import { post, getItemById, updateItem } from '@/services/baseServices';
     import { formatDateToString } from '../helper/helper';
 
 export default{
@@ -317,7 +317,7 @@ export default{
                 }
                 else{
                     url = `${url}/Add`;
-                    addItem(url, this.item).then(response=>{
+                    post(url, this.item).then(response=>{
                         if (response.valid){
                             this.$router.push("/Patient");
                         }

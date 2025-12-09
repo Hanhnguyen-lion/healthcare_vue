@@ -1,7 +1,7 @@
 <script setup>
     import { RouterLink } from 'vue-router';
     import { addItemToArray, deleteItemToArray, formatDateToString, formatDateYYYYMMDD } from '../helper/helper';
-    import { addItem, deleteItem, getItemById, getItems, updateItem } from '@/services/baseServices';
+    import { deleteItem, getItemById, getItems, post, updateItem } from '@/services/baseServices';
     import { enviroment } from '@/enviroments/enviroment';
     import treatmentModal from "@/components/modals/TreatmentModal";
     import prescriptionModal from "@/components/modals/PrescriptionModal";
@@ -321,16 +321,16 @@ export default{
                 }
                 else{
                     url = `${url}/Add`;
-                    addItem(url, this.item)
+                    post(url, this.item)
                     .then(data=>{
                         if (data.valid){
                             var id = data.data;
                             url = `${this.apiUrl}/Add/Treatement/${id}`;
 
-                            addItem(url, this.treatmentItems).then((data)=>{
+                            post(url, this.treatmentItems).then((data)=>{
                                 if (data.valid){
                                     url = `${this.apiUrl}/Add/Prescription/${id}`;
-                                    addItem(url, this.prescriptionItems).then(()=>{});
+                                    post(url, this.prescriptionItems).then(()=>{});
                                 }
                             });
                         }
@@ -348,7 +348,6 @@ export default{
                     });
                 }
                 else{
-                    console.log("this.treatmentItems:", this.treatmentItems);
                     this.treatmentItems = addItemToArray(this.treatmentItems, data, "new_id");
                 }
             }
@@ -372,7 +371,6 @@ export default{
             this.item.billing_id = this.billing_id;
             if (type == "Treatment"){
                 treatmentItem = this.treatmentItems.find(item => item.new_id === new_id);
-                console.log("treatmentItem:", treatmentItem);
                 this.item.treatment_id = id;
                 this.item.new_treatment_id = new_id;
                 this.item.treatmentItemObs = treatmentItem;

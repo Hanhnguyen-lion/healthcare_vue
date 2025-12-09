@@ -6,7 +6,7 @@
                 <div class="card">
                     <h3 class="card-header">Login</h3>
                     <div class="card-body">
-                        <form name="form" @submit="handleLogin">
+                        <form name="form" @submit.prevent="handleLogin">
                             <div class="form-group mb-3">
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input type="text" required name="email" v-model="email" class="form-control" placeholder="Enter your email" />
@@ -45,7 +45,8 @@
 <router-view></router-view>
 </template>
 <script>
-import accountService from '@/services/accountService';
+import { enviroment } from '@/enviroments/enviroment';
+import { post } from '@/services/baseServices';
 
 export default{
     name: "LoginComponent",
@@ -59,20 +60,23 @@ export default{
     },
     methods:{
         handleLogin(){
-            var accountItem = accountService.login(this.email, this.password);
-            accountItem.then((accountItem)=>{
-                if (accountItem && accountItem.item){
-                    console.log("accountItem: ",accountItem.item);
+            const url = `${enviroment.apiUrl}/Accounts/Authenticate`;
+            var param = {
+                "email": this.email,
+                "password": this.password
+            };
+
+            post(url, param).then(response=>{
+                console.log(response)
+                if (response.valid){
                     this.$router.push("/");
                 }
                 else{
+                    this.email = "";
+                    this.password = "";
                     this.inValid = true;
-                    this.messageError = accountItem.message; 
+                    this.messageError = response.message;
                 }
-            }).catch((error)=>{
-                console.log("login error: ", error);
-                this.inValid = true;
-                this.messageError = "Email or password is incorrect.";
             });
         }
     }

@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="quantity" v-model="output_data.quantity" placeholder="Enter quantity"/>
+                                    <input type="number" min="0" class="form-control" name="quantity" v-model="output_data.quantity" placeholder="Enter quantity"/>
                                     <div v-if="quantity_error" class="invalid-feedback">
                                         <div>{{quantity_error}}</div>
                                     </div>
@@ -59,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Duration <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="duration" v-model="output_data.duration" placeholder="Enter duration"/>
+                                    <input type="number" min="0" class="form-control" name="duration" v-model="output_data.duration" placeholder="Enter duration"/>
                                     <div v-if="duration_error" class="invalid-feedback">
                                         <div>{{duration_error}}</div>
                                     </div>
@@ -106,7 +106,7 @@
 <script>
 import { enviroment } from "@/enviroments/enviroment";
 import "./modal.css";
-import { addItem, getItemById, getItems, updateItem} from "@/services/baseServices";
+import { getItemById, getItems, post, updateItem} from "@/services/baseServices";
 import { formatDateYYYYMMDD } from "../helper/helper";
 
 export default {
@@ -206,7 +206,7 @@ export default {
                 }
                 else{
                     url = `${enviroment.apiUrl}/Billings/PrescriptionItem`;
-                    addItem(url, item).then(response=>{
+                    post(url, item).then(response=>{
                         if (response.valid){
                             var data = response.data;
                             this.output_data = data;

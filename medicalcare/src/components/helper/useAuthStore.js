@@ -1,6 +1,6 @@
 import { enviroment } from "@/enviroments/enviroment";
 import router from "@/router/router";
-import { addItem } from "@/services/baseServices";
+import {post } from "@/services/baseServices";
 // import { BehaviorSubject } from "rxjs";
 
 //const accountSubject = new BehaviorSubject(null);
@@ -23,7 +23,7 @@ export default {
             "password": password
         };
 
-        return addItem(url, param).then(response=>{
+        return post(url, param).then(response=>{
             if (response.valid){
                 var user = response.data.item;
                 sessionStorage.setItem("user", JSON.stringify(user));

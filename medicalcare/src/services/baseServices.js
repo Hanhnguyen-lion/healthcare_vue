@@ -66,7 +66,7 @@ export async function deleteItem(apiUrl){
     });
 }
 
-export async function addItem(apiUrl, item){
+export async function post(apiUrl, item){
     return await axios.post(apiUrl, item)
         .then((response)=>{
             return {valid: true, data:response.data, message: "Add Item success"};
@@ -83,8 +83,6 @@ export async function addItem(apiUrl, item){
         }
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('addItem finish:');
     });
 }
 
