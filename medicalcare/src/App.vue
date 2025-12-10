@@ -14,7 +14,7 @@
                 <RouterLink to="/" class="nav-link text-white fw-bold">Home
                 </RouterLink>
               </li>
-              <!-- <li class="nav-item dropdown text-white">
+              <li class="nav-item dropdown text-white">
                   <a class="nav-link dropdown-toggle text-white fw-bold" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Category
                   </a>
@@ -32,9 +32,10 @@
               <li class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Medicine">Medicine</RouterLink>
               </li>
+              
               <li class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Doctor">Doctor</RouterLink>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Patient">Patient</RouterLink>
               </li>

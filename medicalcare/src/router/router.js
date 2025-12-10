@@ -11,6 +11,18 @@ import BillingDetailComponent from "@/components/billing/BillingDetailComponent.
 import ViewMedicalCareComponent from "@/components/MedicalCare/ViewMedicalCareComponent.vue";
 import RegisterComponent from "@/components/account/RegisterComponent.vue";
 import ForgotPasswordComponent from "@/components/account/ForgotPasswordComponent.vue";
+import AddMedicineCategoryComponent from "@/components/medicine/AddMedicineCategoryComponent.vue";
+import MedicineCategoriesComponent from "@/components/medicine/MedicinesComponent.vue";
+import AddTreatmentCategoryComponent from "@/components/treatement/AddTreatmentCategoryComponent.vue";
+import TreatmentCategoriesComponent from "@/components/treatement/TreatmentCategoriesComponent.vue";
+import MedicinesComponent from "@/components/medicine/MedicinesComponent.vue";
+import AddMedicineComponent from "@/components/medicine/AddMedicineComponent.vue";
+import HospitalsComponent from "@/components/hospital/HospitalsComponent.vue";
+import AddHospitalComponent from "@/components/hospital/AddHospitalComponent.vue";
+import DepartmentsComponent from "@/components/department/DepartmentsComponent.vue";
+import AddDepartmentComponent from "@/components/department/AddDepartmentComponent.vue";
+import DoctorsComponent from "@/components/doctor/DoctorsComponent.vue";
+import AddDoctorComponent from "@/components/doctor/AddDoctorComponent.vue";
 
 
 const router = createRouter({
@@ -33,6 +45,30 @@ const router = createRouter({
             component: RegisterComponent
         },
         {
+            path: "/Treatement/Category",
+            component: TreatmentCategoriesComponent
+        },
+        {
+            path: "/Treatement/Category/Edit/:id",
+            component: AddTreatmentCategoryComponent
+        },
+        {
+            path: "/Treatement/Category/Add",
+            component: AddTreatmentCategoryComponent
+        },
+        {
+            path: "/Medicine/Category",
+            component: MedicineCategoriesComponent
+        },
+        {
+            path: "/Medicine/Category/Edit/:id",
+            component: AddMedicineCategoryComponent
+        },
+        {
+            path: "/Medicine/Category/Add",
+            component: AddMedicineCategoryComponent
+        },
+        {
             path: "/Patient",
             component: PatientsComponent
         },
@@ -47,6 +83,70 @@ const router = createRouter({
         {
             path: "/Patient/View/:id",
             component: AddPatientComponent
+        },
+        {
+            path: "/Medicine",
+            component: MedicinesComponent
+        },
+        {
+            path: "/Medicine/Add",
+            component: AddMedicineComponent
+        },
+        {
+            path: "/Medicine/Edit/:id",
+            component: AddMedicineComponent
+        },
+        {
+            path: "/Medicine/View/:id",
+            component: AddMedicineComponent
+        },
+        {
+            path: "/Hospital",
+            component: HospitalsComponent
+        },
+        {
+            path: "/Hospital/Add",
+            component: AddHospitalComponent
+        },
+        {
+            path: "/Hospital/Edit/:id",
+            component: AddHospitalComponent
+        },
+        {
+            path: "/Hospital/View/:id",
+            component: AddHospitalComponent
+        },
+        {
+            path: "/Department",
+            component: DepartmentsComponent
+        },
+        {
+            path: "/Department/Add",
+            component: AddDepartmentComponent
+        },
+        {
+            path: "/Department/Edit/:id",
+            component: AddDepartmentComponent
+        },
+        {
+            path: "/Department/View/:id",
+            component: AddDepartmentComponent
+        },
+        {
+            path: "/Doctor",
+            component: DoctorsComponent
+        },
+        {
+            path: "/Doctor/Add",
+            component: AddDoctorComponent
+        },
+        {
+            path: "/Doctor/Edit/:id",
+            component: AddDoctorComponent
+        },
+        {
+            path: "/Doctor/View/:id",
+            component: AddDoctorComponent
         },
         {
             path: "/Billing",

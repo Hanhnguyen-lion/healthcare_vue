@@ -6,6 +6,7 @@
     import treatmentModal from "@/components/modals/TreatmentModal";
     import prescriptionModal from "@/components/modals/PrescriptionModal";
     import numeral from 'numeral';
+import FooterComponent from '../footer/FooterComponent.vue';
 
 </script>
 
@@ -218,7 +219,7 @@
         <prescriptionModal :input_data="item" @close="closePrescriptionModal"/>
     </div>
 </transition>
-
+<FooterComponent></FooterComponent>
 </template>
 
 <script>
