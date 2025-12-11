@@ -30,6 +30,8 @@ namespace Medicalcare_API.Helpers{
         public DbSet<TreatmentCategory> m_treatment_category{get;set;}
         public DbSet<BillingDTO> h_billing{get;set;}
         public DbSet<Billing> v_billing{get;set;}
+        public DbSet<AppointmentDTO> h_appointment{get;set;}
+        public DbSet<Appointment> v_appointment{get;set;}
 
         public void WriteJsonFile(string filePath, string jsonString)
         {

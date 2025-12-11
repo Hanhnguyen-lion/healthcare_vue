@@ -24,6 +24,9 @@
                   </ul>
               </li>
               <li class="nav-item">
+                <RouterLink class="nav-link text-white fw-bold" to ="/Appointment">Appointment</RouterLink>
+              </li>
+              <li class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Hospital">Hospital</RouterLink>
               </li>
               <li class="nav-item">

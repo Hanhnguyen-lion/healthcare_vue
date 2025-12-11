@@ -34,10 +34,6 @@
                         :to="'/Medicine/Edit/' + item.id"
                         style="margin-left: 10px;" 
                         >Edit</RouterLink>
-                        <RouterLink class="btn btn-outline-info" 
-                        style="margin-left: 10px;" 
-                        :to="'/Medicine/View/' + item.id"
-                        >View</RouterLink>
                         <button class="btn btn-outline-danger" 
                             style="margin-left: 10px;" 
                             @click="remove(item.id)" type="button">Delete</button>

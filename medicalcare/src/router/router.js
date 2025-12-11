@@ -23,6 +23,8 @@ import DepartmentsComponent from "@/components/department/DepartmentsComponent.v
 import AddDepartmentComponent from "@/components/department/AddDepartmentComponent.vue";
 import DoctorsComponent from "@/components/doctor/DoctorsComponent.vue";
 import AddDoctorComponent from "@/components/doctor/AddDoctorComponent.vue";
+import AppointmentsComponent from "@/components/appointment/AppointmentsComponent.vue";
+import AddAppointmentComponent from "@/components/appointment/AddAppointmentComponent.vue";
 
 
 const router = createRouter({
@@ -147,6 +149,22 @@ const router = createRouter({
         {
             path: "/Doctor/View/:id",
             component: AddDoctorComponent
+        },
+        {
+            path: "/Appointment",
+            component: AppointmentsComponent
+        },
+        {
+            path: "/Appointment/Add",
+            component: AddAppointmentComponent
+        },
+        {
+            path: "/Appointment/Edit/:id",
+            component: AddAppointmentComponent
+        },
+        {
+            path: "/Appointment/View/:id",
+            component: AddAppointmentComponent
         },
         {
             path: "/Billing",

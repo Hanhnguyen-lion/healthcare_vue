@@ -35,9 +35,6 @@
                         <button class="btn btn-outline-primary" 
                             style="margin-left: 10px;" 
                             @click="edit(item.id)" type="button">Edit</button>
-                        <button class="btn btn-outline-info" 
-                            style="margin-left: 10px;" 
-                            @click="view(item.id)" type="button">View</button>
                         <button class="btn btn-outline-danger" 
                             style="margin-left: 10px;" 
                             @click="remove(item.id)" type="button">Delete</button>
