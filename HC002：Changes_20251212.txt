@@ -1,0 +1,43 @@
+2025.12.11～2025.12.12
+Changes record
+
+
+■Database changed for appointment
+◇ rename_column_appoiment.sql
+- RENAME COLUMN reason_to_vist TO reason_to_visit on table public.h_appointment
+- Add view public.v_appointment
+
+〇 Appointment menu
+◇ router.js, App.vue, AppointmentsComponent.vue, AddAppointmentComponent.vue
+-Add new Appointment menu
+
+〇 Billing menu
+◇ BillingDetailComponent.vue, BillingComponent.vue
+- Add Appointment on billing detail
+- Remove view button
+
+〇 Department menu
+◇ DepartmentsComponent.vue
+- Remove view button
+
+〇 Doctor menu
+◇ DoctorsComponent.vue
+- Remove view button
+
+〇 Hospital menu
+◇ HospitalsComponent.vue
+- Remove view button
+
+〇 Medicine menu
+◇ MedicinesComponent.vue
+- Remove view button
+
+〇 Patient menu
+◇ PatientsComponent.vue
+- Remove view button
+
+
+
+
+
+

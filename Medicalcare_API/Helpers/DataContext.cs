@@ -257,6 +257,8 @@ namespace Medicalcare_API.Helpers{
             var treatmentItems = v_treatment.Where(li => li.billing_id == billing_id).ToList<Treatment?>();
             paItem["treatments"] = treatmentItems;
 
+            var appointmentItems = v_appointment.Where(li => li.patient_id == patient_id).ToList<Appointment?>();
+            paItem["appointments"] = appointmentItems;
 
             return paItem;
         }

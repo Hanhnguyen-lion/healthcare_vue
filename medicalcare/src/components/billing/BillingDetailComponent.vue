@@ -204,6 +204,44 @@
                                                 </div>
                                             </td>
                                         </tr>                                            
+                                        <tr class="borderleft fw-bold">
+                                            <td colspan="7">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">Appointment
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>                                            
+                                        <tr class="borderleft bordertop-double">
+                                            <td class="alncenter" colspan="7">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <div class="tableFixHead">
+                                                            <table class="table table-striped">
+                                                                <thead class="table-header">
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Date</th>
+                                                                        <th>Patient</th>
+                                                                        <th>Doctor</th>
+                                                                        <th>Reason</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                        <tr v-for="(item, index) in appoitmentItems" :key="item.id">
+                                                                            <td>{{index + 1}}</td>
+                                                                            <td>{{formatDateToString(item.appointment_date, "DD/MM/YYYY")}}</td>
+                                                                            <td>{{item.patient_name}}</td>
+                                                                            <td>{{item.doctor_name}}</td>
+                                                                            <td>{{item.reason_to_visit}}</td>
+                                                                        </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>                                            
                                         <tr class="borderleft bordertop-double">
                                             <td class="alnright" colspan="7">
                                                 <div class="row mb-3">
@@ -268,7 +306,8 @@ export default{
                 amount :0
             },
             treatmemtItems: [],
-            prescriptionItems: []
+            prescriptionItems: [],
+            appoitmentItems: []
         };
     },
     methods:{
@@ -282,6 +321,7 @@ export default{
                     if (patient_id > 0){
                         this.prescriptionItems = this.patientItem.prescriptions;
                         this.treatmemtItems = this.patientItem.treatments;
+                        this.appoitmentItems = this.patientItem.appointments;
                         this.billingItem = this.patientItem.billing;
                     }
                 }
