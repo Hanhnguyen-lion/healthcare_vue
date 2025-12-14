@@ -12,9 +12,8 @@ Changes record
 -Add new Appointment menu
 
 〇 Billing menu
-◇ BillingDetailComponent.vue, BillingComponent.vue
+◇ BillingDetailComponent.vue
 - Add Appointment on billing detail
-- Remove view button
 
 〇 Department menu
 ◇ DepartmentsComponent.vue
