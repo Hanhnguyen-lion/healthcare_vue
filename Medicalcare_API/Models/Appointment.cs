@@ -15,6 +15,7 @@ namespace Medicalcare_API.Models{
         public string? doctor_name{get;set;}
         
         public DateTime? appointment_date{get;set;}
+        public string? times{get;set;}
 
         public int? patient_id{get;set;}
         public int? doctor_id{get;set;}

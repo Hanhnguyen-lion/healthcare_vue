@@ -20,6 +20,7 @@ import { formatDateToString } from '../helper/helper';
                     <th>Patient</th>
                     <th>Doctor</th>
                     <th>Appointment Date</th>
+                    <th>Time</th>
                     <th>Reason</th>
                     <th>Action</th>
                 </tr>
@@ -30,6 +31,7 @@ import { formatDateToString } from '../helper/helper';
                     <td>{{item.patient_name}}</td>
                     <td>{{item.doctor_name}}</td>
                     <td>{{formatDateToString(item.appointment_date, "DD/MM/YYYY")}}</td>
+                    <td>{{item.times}}</td>
                     <td>{{item.reason_to_visit}}</td>
                     <td>
                         <RouterLink class="btn btn-outline-primary" 

@@ -27,5 +27,7 @@ namespace Medicalcare_API.DTOs{
         public string? account_type{get;set;}
 
         public string? gender{get;set;}
+
+        public int? hospital_id{get;set;}
     }
 }

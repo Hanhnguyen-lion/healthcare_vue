@@ -1,76 +1,82 @@
 <template>
-    <div class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ title }}</h4>
-                <button type="button" class="btn-close" aria-label="Close" @click="handleClose()"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <form name="form">
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="fw-bold">Treatment Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="treatment_date" 
-                                        v-model="output_data.treatment_date"   
-                                        placeholder="Enter treatment date">
-                                    <div v-if="treatment_date_error" class="invalid-feedback">
-                                        <div>{{ treatment_date_error }}</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-4">
+            <div class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ title }}</h4>
+                        <button type="button" class="btn-close" aria-label="Close" @click="handleClose()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <form name="form">
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Treatment Date <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="treatment_date" 
+                                                v-model="output_data.treatment_date"   
+                                                placeholder="Enter treatment date">
+                                            <div v-if="treatment_date_error" class="invalid-feedback">
+                                                <div>{{ treatment_date_error }}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Treatment Type <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="category_id" v-model="output_data.category_id">
-                                        <option v-for="item in categoryItems" :key="item.id" :value="item.id">
-                                            {{ item.name_en }}
-                                        </option>
-                                    </select>
-                                    <div v-if="treatment_type_error" class="invalid-feedback">
-                                        <div>{{ treatment_type_error }}</div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Treatment Type <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="category_id" v-model="output_data.category_id">
+                                                <option v-for="item in categoryItems" :key="item.id" :value="item.id">
+                                                    {{ item.name_en }}
+                                                </option>
+                                            </select>
+                                            <div v-if="treatment_type_error" class="invalid-feedback">
+                                                <div>{{ treatment_type_error }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" name="quantity"
+                                                v-model="output_data.quantity" min="0" placeholder="Enter quantity">
+                                            <div v-if="quantity_error" class="invalid-feedback">
+                                                <div>{{ quantity_error }}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="quantity"
-                                        v-model="output_data.quantity" min="0" placeholder="Enter quantity">
-                                    <div v-if="quantity_error" class="invalid-feedback">
-                                        <div>{{ quantity_error }}</div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Description</label>
+                                            <textarea rows="3" class="form-control" name="description"
+                                                v-model="output_data.description" placeholder="Enter description" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="fw-bold">Description</label>
-                                    <textarea rows="3" class="form-control" name="description"
-                                        v-model="output_data.description" placeholder="Enter description" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
+                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
-                <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
-            </div>
-        </div>
-    </div>
+        </div>    
+    </div>    
+</div>    
 </template>
 <style scoped>
  .modal-overlay {
     display: flex;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 10%;
     width: 80%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);

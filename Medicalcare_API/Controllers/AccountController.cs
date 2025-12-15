@@ -51,6 +51,7 @@ namespace Medicalcare_API.Controllers{
                 password = registerDto?.password,
                 dob = registerDto?.dob,
                 gender = registerDto?.gender,
+                hospital_id = registerDto?.hospital_id,
                 account_type = registerDto?.account_type
             };
 

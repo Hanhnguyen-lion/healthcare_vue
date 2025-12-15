@@ -1,0 +1,49 @@
+2025.12.12～2025.12.15
+Changes record
+
+
+■Database changed for appointment
+◇ modify_appointment.sql
+- add hour and minute columns on public.h_appointment table
+- modify public.v_appointment view
+- add hospital_id column on m_account table
+〇 Appointment API
+◇ AppointmentDTO.cs, Appointment.cs, RegisterDTO.cs, Account.cs, AccountController.cs, AppointmentsController.cs
+- Add hospital_id on register
+- Add hour, minute on appointment
+
+〇 Appointment menu
+◇ AppointmentsComponent.vue, AddAppointmentComponent.vue
+- Add times
+
+〇 Billing menu
+◇ BillingDetailComponent.vue
+- Modify get Appointment with apppointment date >= discharge date
+◇ AddBillingComponent.vue
+- Change position treatment and prescription modals
+
+〇 Department menu
+◇ DepartmentsComponent.vue
+- Remove view button
+
+〇 Register
+◇ RegisterComponent.vue
+- Add hospital
+
+〇 Hospital menu
+◇ HospitalsComponent.vue
+- Remove view button
+
+〇 Medicine menu
+◇ MedicinesComponent.vue
+- Remove view button
+
+〇 Patient menu
+◇ PatientsComponent.vue
+- Remove view button
+
+
+
+
+
+

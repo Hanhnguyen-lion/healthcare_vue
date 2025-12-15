@@ -226,6 +226,7 @@ namespace Medicalcare_API.Helpers{
         {
             var billingItem = h_billing.Where(li => li.id == billing_id).FirstOrDefault();
             var patient_id = billingItem?.patient_id;
+            var discharge_date = billingItem?.discharge_date;
             var item = m_patient.Where(li => li.id == patient_id).FirstOrDefault<Patient?>();
 
             var first_name = item?.first_name??"";
@@ -257,7 +258,7 @@ namespace Medicalcare_API.Helpers{
             var treatmentItems = v_treatment.Where(li => li.billing_id == billing_id).ToList<Treatment?>();
             paItem["treatments"] = treatmentItems;
 
-            var appointmentItems = v_appointment.Where(li => li.patient_id == patient_id).ToList<Appointment?>();
+            var appointmentItems = v_appointment.Where(li => li.patient_id == patient_id && li.appointment_date >= discharge_date).ToList<Appointment?>();
             paItem["appointments"] = appointmentItems;
 
             return paItem;

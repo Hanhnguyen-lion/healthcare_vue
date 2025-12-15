@@ -1,117 +1,123 @@
 <template>
-    <div class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ title }}</h4>
-                <button type="button" class="btn-close" aria-label="Close" @click="handleClose()"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <form name="form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Medicine <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="medicine_id" v-model="output_data.medicine_id" placeholder="Enter Medicine">
-                                        <option v-for="item in medicineItems" :key="item.id" :value="item.id">
-                                            {{item.name}}
-                                        </option>
-                                    </select>
-                                    <div v-if="medicine_id_error" class="invalid-feedback">
-                                        <div>{{medicine_id_error}}</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-4">
+            <div class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ title }}</h4>
+                        <button type="button" class="btn-close" aria-label="Close" @click="handleClose()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <form name="form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Medicine <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="medicine_id" v-model="output_data.medicine_id" placeholder="Enter Medicine">
+                                                <option v-for="item in medicineItems" :key="item.id" :value="item.id">
+                                                    {{item.name}}
+                                                </option>
+                                            </select>
+                                            <div v-if="medicine_id_error" class="invalid-feedback">
+                                                <div>{{medicine_id_error}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Prescription Date <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="prescription_date" 
+                                                v-model="output_data.prescription_date"   
+                                                placeholder="Enter prescription date">
+                                            <div v-if="prescription_date_error" class="invalid-feedback">
+                                                <div>{{ prescription_date_error }}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Prescription Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="prescription_date" 
-                                        v-model="output_data.prescription_date"   
-                                        placeholder="Enter prescription date">
-                                    <div v-if="prescription_date_error" class="invalid-feedback">
-                                        <div>{{ prescription_date_error }}</div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
+                                            <input type="number" min="0" class="form-control" name="quantity" v-model="output_data.quantity" placeholder="Enter quantity"/>
+                                            <div v-if="quantity_error" class="invalid-feedback">
+                                                <div>{{quantity_error}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <select class="form-select" name="medicine_type" v-model="output_data.medicine_type">
+                                                <option v-for="item in medicineTypeItems" :key="item.id" :value="item.name_en">
+                                                    {{item.name_en}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Duration <span class="text-danger">*</span></label>
+                                            <input type="number" min="0" class="form-control" name="duration" v-model="output_data.duration" placeholder="Enter duration"/>
+                                            <div v-if="duration_error" class="invalid-feedback">
+                                                <div>{{duration_error}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <select class="form-select" name="duration_type" v-model="output_data.duration_type">
+                                                <option v-for="item in durationItems" :key="item.id" :value="item.name_en">
+                                                    {{item.name_en}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
-                                    <input type="number" min="0" class="form-control" name="quantity" v-model="output_data.quantity" placeholder="Enter quantity"/>
-                                    <div v-if="quantity_error" class="invalid-feedback">
-                                        <div>{{quantity_error}}</div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Dosage</label>
+                                            <textarea rows="3" class="form-control" name="dosage" v-model="output_data.dosage" placeholder="Enter dosage"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label></label>
-                                    <select class="form-select" name="medicine_type" v-model="output_data.medicine_type">
-                                        <option v-for="item in medicineTypeItems" :key="item.id" :value="item.name_en">
-                                            {{item.name_en}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>    
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Duration <span class="text-danger">*</span></label>
-                                    <input type="number" min="0" class="form-control" name="duration" v-model="output_data.duration" placeholder="Enter duration"/>
-                                    <div v-if="duration_error" class="invalid-feedback">
-                                        <div>{{duration_error}}</div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="fw-bold">Notes</label>
+                                            <textarea rows="3" class="form-control" name="notes" v-model="output_data.notes" placeholder="Enter notes"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label></label>
-                                    <select class="form-select" name="duration_type" v-model="output_data.duration_type">
-                                        <option v-for="item in durationItems" :key="item.id" :value="item.name_en">
-                                            {{item.name_en}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="fw-bold">Dosage</label>
-                                    <textarea rows="3" class="form-control" name="dosage" v-model="output_data.dosage" placeholder="Enter dosage"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="fw-bold">Notes</label>
-                                    <textarea rows="3" class="form-control" name="notes" v-model="output_data.notes" placeholder="Enter notes"/>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
+                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
-                <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
             </div>
         </div>
     </div>
+ </div>
 </template>
 <style scoped>
   .modal-overlay {
     display: flex;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 10%;
     width: 80%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     z-index: 1001;
   }

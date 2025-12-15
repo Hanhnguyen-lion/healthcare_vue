@@ -2,8 +2,7 @@
 import { getItemById, getItems, post, updateItem } from '@/services/baseServices';
 import FooterComponent from '../footer/FooterComponent.vue';
 import { enviroment } from '@/enviroments/enviroment';
-import { formatDateYYYYMMDD} from '../helper/helper';
-
+import { formatDateYYYYMMDD, pad} from '../helper/helper';
 </script>
 
 <template>
@@ -21,6 +20,29 @@ import { formatDateYYYYMMDD} from '../helper/helper';
                                         placeholder="Enter first name" />
                                     <div v-if="appointment_date_error" class="invalid-feedback">
                                         <div>{{ appointment_date_error }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group">
+                                    <label class="fw-bold">Times <span class="text-danger">*</span></label>
+                                    <div class="input-group mb-2">
+                                        <select class="form-select" name="hour" v-model="item.hour">
+                                            <option v-for="hour in hours" :key="hour" :value="hour">
+                                                {{hour}}
+                                            </option>
+                                        </select>
+                                        <select class="form-select" name="minute" v-model="item.minute">
+                                            <option v-for="minute in minutes" :key="minute" :value="minute">
+                                                {{pad(minute)}}
+                                            </option>
+                                        </select>
+                                        <div v-if="hour_error" class="invalid-feedback">
+                                            <div>{{ hour_error }}</div>
+                                        </div>
+                                        <div v-if="minute_error" class="invalid-feedback">
+                                            <div>{{ minute_error }}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -81,6 +103,7 @@ import { formatDateYYYYMMDD} from '../helper/helper';
     <FooterComponent></FooterComponent>
 </template>
 <script>
+    const hour_default = 8;
     export default{
         data(){
             return{
@@ -89,20 +112,35 @@ import { formatDateYYYYMMDD} from '../helper/helper';
                 title: "Add Appointment",
                 patient_error:"",
                 appointment_date_error:"",
+                hour_error:"",
                 message_error:"",
                 doctorItems:[],
                 patientsItems:[],
+                hours:[],
+                minutes:[],
                 item:{
                     appointment_date:formatDateYYYYMMDD(new Date()),
                     patient_id: null,
                     doctor_id: null,
                     reason_to_visit:"",
                     id: 0,
+                    hour: hour_default, 
+                    minute: 0
                 },
                 apiUrl: `${enviroment.apiUrl}/Appointments`
             }
         },
         methods:{
+            setHours(){
+                for (let index = 1; index <= 24; index++){
+                    this.hours.push(index);
+                }
+            },
+            setMinutes(){
+                for (let index = 0; index <= 60; index++){
+                    this.minutes.push(index);
+                }
+            },
             validPatient(){
                 if (!this.item.patient_id)
                     this.patient_error = "Patient is required";
@@ -114,6 +152,12 @@ import { formatDateYYYYMMDD} from '../helper/helper';
                     this.appointment_date_error = "Appointment date is required";
                 else
                     this.appointment_date_error = "";
+            },
+            validHour(){
+                if (!this.item.hour)
+                    this.hour_error = "Hour is required";
+                else
+                    this.hour_error = "";
             },
             async getItem(){
                 return await getItemById(`${this.apiUrl}/${this.item.id}`);
@@ -127,8 +171,10 @@ import { formatDateYYYYMMDD} from '../helper/helper';
             async save(){
                 this.validAppointmentDate();
                 this.validPatient();
+                this.validHour();
                 if (!this.patient_error &&
-                    !this.appointment_date_error
+                    !this.appointment_date_error &&
+                    !this.hour_error
                 ){
                     if (this.item.id == 0){
                         
@@ -165,12 +211,17 @@ import { formatDateYYYYMMDD} from '../helper/helper';
                 var appointment_date = formatDateYYYYMMDD(data.data.appointment_date);
                 this.item = data.data;
                 this.item.appointment_date = formatDateYYYYMMDD(appointment_date);
+                this.item.hour = (this.item.hour) ? this.item.hour : hour_default;
+                this.item.minute = (this.item.minute) ? this.item.minute : 0;
             }
 
             var categories = await this.getPatientItems();
             this.patientsItems = categories.data;
             categories = await this.getDoctorItems();
             this.doctorItems = categories.data;
+
+            this.setHours();
+            this.setMinutes();
         }
     }
 </script>

@@ -37,5 +37,7 @@ namespace Medicalcare_API.Models{
         public string? account_type{get;set;}
 
         public string? token{get;set;}
+
+        public int? hospital_id{get;set;}
     }
 }
