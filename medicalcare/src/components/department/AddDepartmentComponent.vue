@@ -2,6 +2,8 @@
 import { getItemById, getItems, post, updateItem } from '@/services/baseServices';
 import FooterComponent from '../footer/FooterComponent.vue';
 import { enviroment } from '@/enviroments/enviroment';
+import { useAuthStore } from '@/store/auth.module';
+import { isSupperAdmin } from '../helper/helper';
 
 </script>
 
@@ -80,6 +82,7 @@ import { enviroment } from '@/enviroments/enviroment';
     export default{
         data(){
             return{
+                auth: useAuthStore(),
                 loading: false,
                 readonly: false,
                 title: "Add Department",
@@ -127,7 +130,6 @@ import { enviroment } from '@/enviroments/enviroment';
                         });
                     }
                     else{
-                        console.log(this.item);
                         await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
                             if (response.valid){
                                 this.$router.push("/Department");
@@ -151,11 +153,15 @@ import { enviroment } from '@/enviroments/enviroment';
                 var data = await this.getItem();
                 this.item = data.data;
             }
-
             var categories = await this.getDoctorItems();
             this.doctorItems = categories.data;
             categories = await this.getHospitalItems();
             this.hospitalItems = categories.data;
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
+                this.doctorItems = this.doctorItems.filter(li => li.hospital_id == hospital_id);
+            }
         }
     }
 </script>

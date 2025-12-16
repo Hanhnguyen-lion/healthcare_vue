@@ -1,8 +1,9 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { formatDateToString } from '../helper/helper';
+    import { formatDateToString, isSupperAdmin } from '../helper/helper';
     import { deleteItem, getItems } from '@/services/baseServices';
+import { useAuthStore } from '@/store/auth.module';
 </script>
 
 <template>
@@ -53,6 +54,7 @@
 export default{
     data() {
         return {
+            auth: useAuthStore(),
             patients: [],
             url: `${enviroment.apiUrl}/Patients`
         }
@@ -94,8 +96,13 @@ export default{
     mounted() {
         getItems(this.url)
         .then(response =>{
-            if (response.valid)
+            if (response.valid){
                 this.patients = response.data;
+                if (!isSupperAdmin(this.auth.accountLogin)){
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.patients = this.patients.filter(li => li.hospital_id == hospital_id);
+                }
+            }
         });
     }
 }

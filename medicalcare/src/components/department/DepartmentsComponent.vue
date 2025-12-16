@@ -2,6 +2,8 @@
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
     import { deleteItem, getItems } from '@/services/baseServices';
+import { useAuthStore } from '@/store/auth.module';
+import { isSupperAdmin } from '../helper/helper';
 
 </script>
 
@@ -49,6 +51,7 @@
 export default{
     data() {
         return {
+            auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Departments`
         }
@@ -82,6 +85,10 @@ export default{
         getItems(this.url)
         .then(data =>{
             this.items = data.data;
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                this.items = this.items.filter(li => li.hospital_id == hospital_id);
+            }
         });
     }
 }

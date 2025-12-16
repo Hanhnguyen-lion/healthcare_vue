@@ -50,6 +50,7 @@
                                     <label>Account Type <span class="text-danger">*</span></label>
                                     <select name="account_type" v-model="accountItem.account_type" class="form-select" placeholder="Enter acount type">
                                         <option value=""></option>
+                                        <option value="Super Admin">Super Admin</option>
                                         <option value="Admin">Admin</option>
                                         <option value="Doctor">Doctor</option>
                                     </select>
@@ -58,15 +59,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Hospital <span class="text-danger">*</span></label>
+                                    <label>Hospital</label>
                                     <select name="hospital_id" v-model="accountItem.hospital_id" class="form-select">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{ item.name }}
                                         </option>
                                     </select>
-                                    <div v-if="error.hospital_error" class="invalid-feedback">
-                                        <div>{{error.hospital_error}}</div>
-                                    </div>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Date of birth <span class="text-danger">*</span></label>
@@ -125,8 +123,7 @@ import { getItems, post } from '@/services/baseServices';
                     confirmPassword_error: "",
                     account_type_error:"",
                     dob_error:"",
-                    message_error:"",
-                    hospital_error:""
+                    message_error:""
                 }
             }
         },
@@ -181,12 +178,6 @@ import { getItems, post } from '@/services/baseServices';
                 else
                     this.error.dob_error = "";
             },
-            validHospital(){
-                if (!this.accountItem.hospital_id)
-                    this.error.hospital_error = "Hospital is required";
-                else
-                    this.error.hospital_error = "";
-            },
             async getHospitalItems(){
                 return await getItems(`${enviroment.apiUrl}/Hospitals`);
             },
@@ -205,8 +196,7 @@ import { getItems, post } from '@/services/baseServices';
                     !this.error.dob_error &&
                     !this.error.email_error &&
                     !this.error.password_error &&
-                    !this.error.confirmPassword_error &&
-                    !this.error.hospital_error
+                    !this.error.confirmPassword_error
                 ){
                     this.loading = true;
                     var register = await post(this.apiUrl, this.accountItem);

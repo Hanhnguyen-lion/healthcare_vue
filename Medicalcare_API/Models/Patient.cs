@@ -37,5 +37,7 @@ namespace Medicalcare_API.Models{
         public DateTime? insurance_expire{get;set;}
         public string? insurance_info{get;set;}
         public string? medical_history{get;set;}
+
+        public int? hospital_id{get;set;}
    }
 }

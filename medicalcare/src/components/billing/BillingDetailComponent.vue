@@ -212,7 +212,7 @@
                                                 </div>
                                             </td>
                                         </tr>                                            
-                                        <tr class="borderleft bordertop-double">
+                                        <tr v-if="appoitmentItems && appoitmentItems.length > 0" class="borderleft bordertop-double">
                                             <td class="alncenter" colspan="7">
                                                 <div class="row mb-3">
                                                     <div class="col-md-12">

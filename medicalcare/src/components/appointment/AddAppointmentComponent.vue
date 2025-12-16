@@ -2,7 +2,8 @@
 import { getItemById, getItems, post, updateItem } from '@/services/baseServices';
 import FooterComponent from '../footer/FooterComponent.vue';
 import { enviroment } from '@/enviroments/enviroment';
-import { formatDateYYYYMMDD, pad} from '../helper/helper';
+import { formatDateYYYYMMDD, isSupperAdmin, pad} from '../helper/helper';
+import { useAuthStore } from '@/store/auth.module';
 </script>
 
 <template>
@@ -25,7 +26,7 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Times <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">Time</label>
                                     <div class="input-group mb-2">
                                         <select class="form-select" name="hour" v-model="item.hour">
                                             <option v-for="hour in hours" :key="hour" :value="hour">
@@ -37,12 +38,6 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
                                                 {{pad(minute)}}
                                             </option>
                                         </select>
-                                        <div v-if="hour_error" class="invalid-feedback">
-                                            <div>{{ hour_error }}</div>
-                                        </div>
-                                        <div v-if="minute_error" class="invalid-feedback">
-                                            <div>{{ minute_error }}</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -103,16 +98,15 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
     <FooterComponent></FooterComponent>
 </template>
 <script>
-    const hour_default = 8;
     export default{
         data(){
             return{
+                auth: useAuthStore(),
                 loading: false,
                 readonly: false,
                 title: "Add Appointment",
                 patient_error:"",
                 appointment_date_error:"",
-                hour_error:"",
                 message_error:"",
                 doctorItems:[],
                 patientsItems:[],
@@ -124,8 +118,8 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
                     doctor_id: null,
                     reason_to_visit:"",
                     id: 0,
-                    hour: hour_default, 
-                    minute: 0
+                    hour: null,
+                    minute: null
                 },
                 apiUrl: `${enviroment.apiUrl}/Appointments`
             }
@@ -153,12 +147,6 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
                 else
                     this.appointment_date_error = "";
             },
-            validHour(){
-                if (!this.item.hour)
-                    this.hour_error = "Hour is required";
-                else
-                    this.hour_error = "";
-            },
             async getItem(){
                 return await getItemById(`${this.apiUrl}/${this.item.id}`);
             },
@@ -171,10 +159,8 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
             async save(){
                 this.validAppointmentDate();
                 this.validPatient();
-                this.validHour();
                 if (!this.patient_error &&
-                    !this.appointment_date_error &&
-                    !this.hour_error
+                    !this.appointment_date_error
                 ){
                     if (this.item.id == 0){
                         
@@ -211,14 +197,17 @@ import { formatDateYYYYMMDD, pad} from '../helper/helper';
                 var appointment_date = formatDateYYYYMMDD(data.data.appointment_date);
                 this.item = data.data;
                 this.item.appointment_date = formatDateYYYYMMDD(appointment_date);
-                this.item.hour = (this.item.hour) ? this.item.hour : hour_default;
-                this.item.minute = (this.item.minute) ? this.item.minute : 0;
             }
 
             var categories = await this.getPatientItems();
             this.patientsItems = categories.data;
             categories = await this.getDoctorItems();
             this.doctorItems = categories.data;
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.patientsItems = this.patientsItems.filter(li=>li.hospital_id == hospital_id);
+                this.doctorItems = this.doctorItems.filter(li=>li.hospital_id == hospital_id);
+            }
 
             this.setHours();
             this.setMinutes();

@@ -31,7 +31,8 @@ namespace Medicalcare_API.Controllers{
             var data = await this.context.v_medicalcare.Select(li =>
             new {
                 li.patient_id, 
-                li.patient_code
+                li.patient_code, 
+                li.hospital_id
             }).Distinct().ToListAsync();
 
             return Ok(data);

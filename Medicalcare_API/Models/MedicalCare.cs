@@ -10,6 +10,7 @@ namespace Medicalcare_API.Models{
         public int? patient_id{get;set;}
         public int? doctor_id{get;set;}
         public int? department_id{get;set;}
+        public int? hospital_id{get;set;}
         public int? admission_month{get;set;}
         public int? admission_year{get;set;}
 

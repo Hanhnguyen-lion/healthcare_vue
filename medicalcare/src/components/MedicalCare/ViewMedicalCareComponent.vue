@@ -1,7 +1,8 @@
 <script setup>
 import { getItems, getItemsWithParam } from '@/services/baseServices';
-import { pad, formatDateToString } from '../helper/helper';
+import { pad, formatDateToString, isSupperAdmin } from '../helper/helper';
 import { enviroment } from '@/enviroments/enviroment';
+import { useAuthStore } from '@/store/auth.module';
 
 </script>
 
@@ -206,6 +207,7 @@ import { enviroment } from '@/enviroments/enviroment';
     export default{
         data(){
             return{
+                auth: useAuthStore(),
                 searchMedical: false,
                 error_message: "",
                 currentYear:new Date().getFullYear(),
@@ -248,11 +250,9 @@ import { enviroment } from '@/enviroments/enviroment';
                         var patient_id = item.patient_id;
                         if (patient_id > 0){
                             this.medicalCares = item.medical;
-                            console.log("this.medicalCares:", this.medicalCares);
                         }
                     }
                     else{
-                        console.log("data.message:", data.message, data);
                         this.searchMedical = false;
                         this.error_message = data.message;
                     }
@@ -306,8 +306,13 @@ import { enviroment } from '@/enviroments/enviroment';
         },
         mounted(){
             this.getPatients().then(data=>{
-                if (data.valid)
+                if (data.valid){
                     this.patientItems = data.data;
+                    if (!isSupperAdmin(this.auth.accountLogin)){
+                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                        this.patientItems = this.patientItems.filter(li=>li.hospital_id == hospital_id);
+                    }
+                }
             });
             this.setYears();
         }

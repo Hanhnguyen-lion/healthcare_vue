@@ -2,7 +2,8 @@
 import { getItemById, getItems, post, updateItem } from '@/services/baseServices';
 import FooterComponent from '../footer/FooterComponent.vue';
 import { enviroment } from '@/enviroments/enviroment';
-import { validEmail } from '../helper/helper';
+import { isSupperAdmin, validEmail } from '../helper/helper';
+import { useAuthStore } from '@/store/auth.module';
 
 </script>
 
@@ -62,7 +63,7 @@ import { validEmail } from '../helper/helper';
                                         <input :disabled="readonly" type="radio" name="gender" v-model="item.gender" id="Male" value="Male">Male
                                     </label>
                                     <label class="btn">
-                                        <input :disabled="readonly" type="radio" name="gender" v-model="item.gender" id="Order" value="Order">Order
+                                        <input :disabled="readonly" type="radio" name="gender" v-model="item.gender" id="Other" value="Other">Other
                                     </label>
                                 </div>
                                 </div>
@@ -131,6 +132,7 @@ import { validEmail } from '../helper/helper';
     export default{
         data(){
             return{
+                auth: useAuthStore(),
                 loading: false,
                 readonly: false,
                 title: "Add Doctor",
@@ -145,7 +147,7 @@ import { validEmail } from '../helper/helper';
                     last_name: "",
                     phone: "",
                     email:"",
-                    gender: "",
+                    gender: "Female",
                     quanlification:"",
                     job_specification:"",
                     hospital_id: null,
@@ -225,12 +227,18 @@ import { validEmail } from '../helper/helper';
                 }
                 var data = await this.getItem();
                 this.item = data.data;
+                this.item.gender = (this.item.gender) ? this.item.gender : "Female";
             }
 
             var categories = await this.getDepartmentItems();
             this.departmentItems = categories.data;
             categories = await this.getHospitalItems();
             this.hospitalItems = categories.data;
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                this.hospitalItems = this.hospitalItems.filter(li=> li.id == hospital_id);
+                this.departmentItems = this.departmentItems.filter(li=> li.hospital_id == hospital_id);
+            }
         }
     }
 </script>

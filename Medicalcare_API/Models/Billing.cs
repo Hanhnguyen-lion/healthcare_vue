@@ -7,6 +7,7 @@ namespace Medicalcare_API.Models{
         [Key]
         public int billing_id{get;set;}
 
+	    public int? hospital_id {get;set;}
 	    public int? patient_id {get;set;}
         public string? patient_code {get;set;}
         public string? patient_name {get;set;}

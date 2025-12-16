@@ -33,3 +33,9 @@ export function validEmail(email){
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
 }
+
+export function isSupperAdmin(accountItem){
+    if (accountItem && accountItem.account_type == "Super Admin")
+        return true;
+    return false;
+}

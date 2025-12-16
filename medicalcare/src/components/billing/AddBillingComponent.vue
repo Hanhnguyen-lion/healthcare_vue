@@ -1,12 +1,13 @@
 <script setup>
     import { RouterLink } from 'vue-router';
-    import { addItemToArray, deleteItemToArray, formatDateToString, formatDateYYYYMMDD } from '../helper/helper';
+    import { addItemToArray, deleteItemToArray, formatDateToString, formatDateYYYYMMDD, isSupperAdmin } from '../helper/helper';
     import { deleteItem, getItemById, getItems, post, updateItem } from '@/services/baseServices';
     import { enviroment } from '@/enviroments/enviroment';
     import treatmentModal from "@/components/modals/TreatmentModal";
     import prescriptionModal from "@/components/modals/PrescriptionModal";
     import numeral from 'numeral';
 import FooterComponent from '../footer/FooterComponent.vue';
+import { useAuthStore } from '@/store/auth.module';
 
 </script>
 
@@ -229,6 +230,7 @@ export default{
 
     data(){
         return {
+            auth: useAuthStore(),
             apiUrl:`${enviroment.apiUrl}/Billings`,
             billing_id:0,
             title : "",
@@ -446,20 +448,35 @@ export default{
 
         getItems(`${enviroment.apiUrl}/Patients`)
         .then(data =>{
-            if (data.valid)
+            if (data.valid){
                 this.patientItems = data.data;
+                if (!isSupperAdmin(this.auth.accountLogin)){
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.patientItems = this.patientItems.filter(li=>li.hospital_id == hospital_id);
+                }
+            }
         });
 
         getItems(`${enviroment.apiUrl}/Doctors`)
         .then(data =>{
-            if (data.valid)
+            if (data.valid){
                 this.doctorItems = data.data;
+                if (!isSupperAdmin(this.auth.accountLogin)){
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.doctorItems = this.doctorItems.filter(li=>li.hospital_id == hospital_id);
+                }
+            }
         });
 
         getItems(`${enviroment.apiUrl}/Departments`)
         .then(data =>{
-            if (data.valid)
+            if (data.valid){
                 this.departmentItems = data.data;
+                if (!isSupperAdmin(this.auth.accountLogin)){
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.departmentItems = this.departmentItems.filter(li=>li.hospital_id == hospital_id);
+                }
+            }
         });
 
         if (this.billing_id > 0){

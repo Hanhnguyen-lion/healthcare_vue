@@ -1,0 +1,58 @@
+2025.12.15～2025.12.16
+Changes record
+
+
+■Database changed for m_patient, v_billing, v_medicalcare, v_appointment
+◇ modify_appointment.sql
+- add hospital_id on public.m_patient table
+- modify public.v_billing, v_medicalcare, v_appointment view
+〇 API
+◇ Billing.cs, Patient.cs, MedicalCare.cs, Appointment.cs
+- Add hospital_id
+
+〇 Appointment menu
+◇ AppointmentsComponent.vue
+- get Appointments to hospital 
+◇ AddAppointmentComponent.vue
+- get patients and doctors to hospital 
+
+〇 Billing menu
+◇ BillingComponent.vue
+- Get billings to hospital
+◇ AddBillingComponent.vue
+- get patients, doctors and departments to hospital
+
+〇 Department menu
+◇ DepartmentsComponent.vue
+- Get departments to hospital
+◇ AddDepartmentComponent.vue
+- Get hospitals, doctors to hospital
+
+〇 Doctor menu
+◇ DoctorsComponent.vue
+- Get doctors to hospital
+◇ AddDoctorComponent.vue
+- Get hospitals to hospital
+
+〇 Hospital menu
+◇ HospitalsComponent.vue
+- Get hospitals to hospital
+
+〇 Patient menu
+◇ PatientsComponent.vue
+- Get patients to hospital
+◇ AddPatientComponent.vue
+- Get hospitals to hospital
+
+〇 Medical Care menu
+◇ ViewMedicalCareComponent.vue
+- Get patients to hospital
+
+〇 Account
+◇ RegisterComponent.vue
+- Add Super Admin on account type
+
+
+
+
+

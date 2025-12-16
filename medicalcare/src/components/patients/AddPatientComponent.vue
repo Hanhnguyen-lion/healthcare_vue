@@ -10,7 +10,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Code <span class="text-danger">*</span></label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control"
+                                    <input type="text" class="form-control"
                                         name="code" id="code" v-model="item.code" 
                                         placeholder="Enter code">
                                         <div v-if="item_error.codeError" class="invalid-feedback">
@@ -21,7 +21,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Date of birth</label>
-                                    <input :readonly="constant_item.readonly" type="date" class="form-control" 
+                                    <input  type="date" class="form-control" 
                                         name="date_of_birth" v-model="item.date_of_birth"
                                         placeholder="Enter date of birth">
                                 </div>
@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">First Name <span class="text-danger">*</span></label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control"
+                                    <input  type="text" class="form-control"
                                         name="first_name" v-model="item.first_name" 
                                         placeholder="Enter first name">
                                     <div v-if="item_error.firstNameError" class="invalid-feedback">
@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Last Name <span class="text-danger">*</span></label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control"
+                                    <input  type="text" class="form-control"
                                         name="last_name" v-model="item.last_name" 
                                         placeholder="Enter last name">
                                     <div v-if="item_error.lastNameError" class="invalid-feedback">
@@ -55,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Email</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="email" v-model="item.email"
                                         placeholder="Enter email">
                                     <div v-if="item_error.emailError" class="invalid-feedback">
@@ -84,7 +84,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Phone Number</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="phone_number" v-model="item.phone_number" 
                                         placeholder="Enter phone number">
                                 </div>
@@ -92,16 +92,27 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Job</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="job" v-model="item.job" placeholder="Enter job">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="form-group">
+                                <label class="fw-bold">Hospital</label>
+                                <select :disabled="readonly" class="form-select" name="hospital_id"
+                                    v-model="item.hospital_id">
+                                    <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
+                                        {{item.name}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="fw-bold">Home Address</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="home_address" v-model="item.home_address" placeholder="Enter home address">
                                 </div>
                             </div>
@@ -110,7 +121,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="fw-bold">Office Address</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="office_address" v-model="item.office_address" placeholder="Enter office address">
                                 </div>
                             </div>
@@ -119,14 +130,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Emergency Contact Name</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="emergency_contact_name" v-model="item.emergency_contact_name" placeholder="Enter emergency contact name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Emergency Contact Phone</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="emergency_contact_phone" v-model="item.emergency_contact_phone" placeholder="Enter emergency contact phone">
                                 </div>
                             </div>
@@ -135,7 +146,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Insurance Number</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="insurance_policy_number" v-model="item.insurance_policy_number" placeholder="Enter insurance number">
                                 </div>
                             </div>
@@ -144,7 +155,7 @@
                                     <label class="fw-bold">Insurance Expire</label>
                                     <input type="date" class="form-control" name="insurance_expire" 
                                         v-model="item.insurance_expire"   
-                                        :readonly="constant_item.readonly" placeholder="Enter insurance expire">
+                                         placeholder="Enter insurance expire">
                                 </div>
                             </div>
                         </div>
@@ -152,14 +163,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Insurance Provider</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" name="insurance_provider" 
+                                    <input  type="text" class="form-control" name="insurance_provider" 
                                        v-model="item.insurance_provider" placeholder="Enter Insurance Provider">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">Insurance Type</label>
-                                    <input :readonly="constant_item.readonly" type="text" class="form-control" 
+                                    <input  type="text" class="form-control" 
                                         name="insurance_type" v-model="item.insurance_type" placeholder="Enter Insurance Type">
                                 </div>
                             </div>
@@ -168,7 +179,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="fw-bold">Insurance Info</label>
-                                    <textarea :readonly="constant_item.readonly" rows="3" class="form-control" 
+                                    <textarea  rows="3" class="form-control" 
                                         name="insurance_info" v-model="item.insurance_info" placeholder="Enter insurance info"></textarea>
                                 </div>
                             </div>
@@ -177,7 +188,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="fw-bold">Medical History</label>
-                                    <textarea :readonly="constant_item.readonly" rows="3" class="form-control" 
+                                    <textarea rows="3" class="form-control" 
                                         name="medical_history" v-model="item.medical_history" placeholder="Enter medical history"></textarea>
                                 </div>
                             </div>
@@ -206,17 +217,19 @@
 <script>
 
     import { enviroment } from '@/enviroments/enviroment';
-    import { post, getItemById, updateItem } from '@/services/baseServices';
-    import { formatDateToString } from '../helper/helper';
+    import { post, getItemById, updateItem, getItems } from '@/services/baseServices';
+    import { formatDateToString, formatDateYYYYMMDD, isSupperAdmin } from '../helper/helper';
+import { useAuthStore } from '@/store/auth.module';
 
 export default{
 
     data(){
         return {
+            auth: useAuthStore(),
+            hospitalItems:[],
             constant_item:{
                 title : "Add Patient",
                 loading : false,
-                readonly : false,
                 isView: false,
                  id: 0,
                  url: `${enviroment.apiUrl}/Patients`
@@ -239,7 +252,8 @@ export default{
                 insurance_provider: "",
                 insurance_type: "",
                 insurance_info: "",
-                medical_history: ""
+                medical_history: "",
+                hospital_id: null
             },
             item_error: {
                 codeError : "",
@@ -287,7 +301,13 @@ export default{
                 this.item_error.emailError = "";
             }
         },
-        handleAdd(){
+        async getItem(){
+            return await getItemById(`${this.constant_item.url}/${this.constant_item.id}`);
+        },
+        async getHospitalItems(){
+            return await getItems(`${enviroment.apiUrl}/Hospitals`);
+        },
+        async handleAdd(){
             this.validCode();
             this.validFirstName();
             this.validLastName();
@@ -305,7 +325,7 @@ export default{
                 if (this.constant_item.id > 0){
                     url = `${url}/Edit/${this.constant_item.id}`;
                     this.item.id = this.constant_item.id;
-                    updateItem(url, this.item)
+                    await updateItem(url, this.item)
                     .then((response)=>{
                         if (response.valid){
                             this.$router.push("/Patient");
@@ -317,7 +337,7 @@ export default{
                 }
                 else{
                     url = `${url}/Add`;
-                    post(url, this.item).then(response=>{
+                    await post(url, this.item).then(response=>{
                         if (response.valid){
                             this.$router.push("/Patient");
                         }
@@ -329,41 +349,22 @@ export default{
             }
         }
     },
-    mounted(){
+    async mounted(){
         this.constant_item.id = (this.$route.params.id) ? +this.$route.params.id : 0;
-        var currentPath = this.$route.path;
         if (this.constant_item.id > 0) {
             this.constant_item.title = "Edit Patient";
-            if (currentPath.indexOf("View") != -1){
-                this.constant_item.title = "View Patient";
-                this.constant_item.readonly = true;
-            }
-            getItemById(`${this.constant_item.url}/${this.constant_item.id}`)
-            .then(response =>{
-                if (response.valid){
-                    var item = response.data; 
-                    this.item = {
-                        code: item.code,
-                        first_name: item.first_name,
-                        last_name: item.last_name,
-                        email: item.email,
-                        gender: item.gender,
-                        date_of_birth: (item.date_of_birth) ? formatDateToString(item.date_of_birth, "YYYY-MM-DD"):null,
-                        insurance_expire: (item.insurance_expire) ? formatDateToString(item.insurance_expire, "YYYY-MM-DD"):null,
-                        insurance_info: item.insurance_info,
-                        insurance_policy_number: item.insurance_policy_number,
-                        insurance_provider: item.insurance_provider,
-                        insurance_type: item.insurance_type,
-                        medical_history: item.medical_history,
-                        job: item.job,
-                        phone_number: item.phone_number,
-                        home_address: item.home_address,
-                        office_address: item.office_address,
-                        emergency_contact_name: item.emergency_contact_name,
-                        emergency_contact_phone: item.emergency_contact_phone
-                    }
-                }
-            });
+            var data = await this.getItem();
+            this.item = data.data;
+            var date_of_birth = this.item.date_of_birth;
+            var insurance_expire = this.item.insurance_expire;
+            this.item.date_of_birth = (date_of_birth) ? formatDateYYYYMMDD(date_of_birth):null;
+            this.item.insurance_expire = (insurance_expire) ? formatDateYYYYMMDD(insurance_expire):null;
+        }
+        var categories = await this.getHospitalItems();
+        this.hospitalItems = categories.data;
+        if (!isSupperAdmin(this.auth.accountLogin)){
+            var hospital_id = this.auth.accountLogin.hospital_id || 0;
+            this.hospitalItems = this.hospitalItems.filter(li=> li.id == hospital_id);
         }
     }
 }    
