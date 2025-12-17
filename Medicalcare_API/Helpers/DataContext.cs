@@ -3,6 +3,7 @@ using Medicalcare_API.Models;
 using System.Text.Json;
 using System.Collections;
 using Medicalcare_API.DTOs;
+using MongoDB.EntityFrameworkCore.Extensions;
 
 namespace Medicalcare_API.Helpers{
     public class DataContext: DbContext{
@@ -33,6 +34,11 @@ namespace Medicalcare_API.Helpers{
         public DbSet<AppointmentDTO> h_appointment{get;set;}
         public DbSet<Appointment> v_appointment{get;set;}
 
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     base.OnModelCreating(modelBuilder);
+        //     modelBuilder.Entity<Hospital>().ToCollection("m_hospital");
+        // }
         public void WriteJsonFile(string filePath, string jsonString)
         {
             File.WriteAllText(filePath, jsonString);

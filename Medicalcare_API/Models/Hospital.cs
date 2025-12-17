@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
 
 namespace Medicalcare_API.Models{
     public class Hospital{

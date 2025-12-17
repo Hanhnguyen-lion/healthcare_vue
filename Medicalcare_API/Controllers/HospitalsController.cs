@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Medicalcare_API.Helpers;
 using Medicalcare_API.Models;
 using System.Text.Json;
+using MongoDB.Bson;
 
 namespace Medicalcare_API.Controllers{
 
