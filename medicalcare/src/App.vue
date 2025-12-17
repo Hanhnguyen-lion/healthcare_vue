@@ -3,10 +3,12 @@
       <nav class="navbar navbar-expand-lg" style="background-color:rgb(35, 64, 196, 0.6);" data-bs-theme="light">
         <div class="container-fluid">
           <div class="navbar-collapse collapse d-sm-inline-flex">
-            <div class="text-white">
-                <h1><b>HEALTH CARE</b></h1>
-                <h6> Hospital Management System</h6>
-            </div>
+            <RouterLink to="/" class="nav-link text-white">
+              <div>
+                  <h1><b>HEALTH CARE</b></h1>
+                  <h6> Hospital Management System</h6>
+              </div>
+            </RouterLink>
           </div>
           <div v-if="showMenu()" class="navbar-collapse collapse">
             <ul class="navbar-nav flex-grow-1 justify-content-end">
