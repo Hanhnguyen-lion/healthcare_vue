@@ -29,7 +29,7 @@
               <li class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Appointment">Appointment</RouterLink>
               </li>
-              <li class="nav-item">
+              <li v-if="superAdmin()" class="nav-item">
                 <RouterLink class="nav-link text-white fw-bold" to ="/Hospital">Hospital</RouterLink>
               </li>
               <li class="nav-item">
@@ -65,6 +65,7 @@
     <router-view></router-view>
   </template>
 <script>
+import { isSupperAdmin } from './components/helper/helper';
 import { useAuthStore } from './store/auth.module';
   export default{
     data(){
@@ -78,6 +79,9 @@ import { useAuthStore } from './store/auth.module';
       },
       showMenu(){
         return (this.auth.accountLogin) ? true : false;
+      },
+      superAdmin(){
+        return isSupperAdmin(this.auth.accountLogin);
       }
     }
   }
