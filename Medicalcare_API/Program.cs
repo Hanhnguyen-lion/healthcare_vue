@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Medicalcare_API.Helpers;
+using Medicalcare_API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var APICors = "ApiCORS";
@@ -9,6 +10,12 @@ var APICors = "ApiCORS";
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// var mongoSetting = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+
+// builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+
+// builder.Services.AddDbContext<DbContext>();
 
 builder.Services.AddDbContext<DataContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("MedicalCareConnectionDb")));

@@ -66,13 +66,6 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label>Date of birth <span class="text-danger">*</span></label>
-                                    <input type="date" name="dob" v-model="accountItem.dob" placeholder="Enter date of borth" class="form-control"/>
-                                        <div v-if="error.dob_error" class="invalid-feedback">
-                                            <div>{{error.dob_error}}</div>
-                                        </div>
-                                </div>
                                 <div class="form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button :disabled="loading" class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
@@ -96,7 +89,7 @@
 </template>
 <script>
 import { enviroment } from '@/enviroments/enviroment';
-import { formatDateYYYYMMDD, validEmail } from '../helper/helper';
+import { validEmail } from '../helper/helper';
 import { getItems, post } from '@/services/baseServices';
 
     export default{
@@ -112,8 +105,7 @@ import { getItems, post } from '@/services/baseServices';
                     email: "",
                     password : "",
                     account_type: "",
-                    hospital_id: 0,
-                    dob: formatDateYYYYMMDD(new Date())
+                    hospital_id: 0
                 },
                 error:{
                     first_name_error : "",
@@ -122,7 +114,6 @@ import { getItems, post } from '@/services/baseServices';
                     password_error: "",
                     confirmPassword_error: "",
                     account_type_error:"",
-                    dob_error:"",
                     message_error:""
                 }
             }
@@ -172,12 +163,6 @@ import { getItems, post } from '@/services/baseServices';
                 else
                     this.error.account_type_error = "";
             },
-            validDob(){
-                if (!this.accountItem.dob)
-                    this.error.dob_error = "Date of birth is required";
-                else
-                    this.error.dob_error = "";
-            },
             async getHospitalItems(){
                 return await getItems(`${enviroment.apiUrl}/Hospitals`);
             },
@@ -188,12 +173,9 @@ import { getItems, post } from '@/services/baseServices';
                 this.checkPassword();
                 this.checkConfirmPassword();
                 this.validAccountType();
-                this.validDob();
-                this.validHospital();
                 if (!this.error.first_name_error &&
                     !this.error.last_name_error &&
                     !this.error.account_type_error &&
-                    !this.error.dob_error &&
                     !this.error.email_error &&
                     !this.error.password_error &&
                     !this.error.confirmPassword_error
