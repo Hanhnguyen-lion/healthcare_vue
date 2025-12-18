@@ -27,20 +27,29 @@ import { isSupperAdmin } from '../helper/helper';
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in items" :key="item.id">
-                    <td>{{ index + 1}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.phone}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.country}}</td>
-                    <td>
-                        <RouterLink class="btn btn-outline-primary" 
-                        :to="'/Hospital/Edit/' + item.id"
-                        style="margin-left: 10px;" 
-                        >Edit</RouterLink>
-                        <button class="btn btn-outline-danger" 
+                        <td>{{ index + 1}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.country}}</td>
+                        <td v-if="enviroment.mongo_db">
+                            <RouterLink class="btn btn-outline-primary" 
+                            :to="'/Hospital/Edit/' + item.hospital_id_guid"
                             style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete</button>
-                    </td>
+                            >Edit</RouterLink>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.hospital_id_guid)" type="button">Delete</button>
+                        </td>
+                        <td v-else>
+                            <RouterLink class="btn btn-outline-primary" 
+                            :to="'/Hospital/Edit/' + item.id"
+                            style="margin-left: 10px;" 
+                            >Edit</RouterLink>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.id)" type="button">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -76,7 +85,11 @@ export default{
                         deleteItem(apiUrl)
                         .then(response=>{
                             if (response.valid){
-                                const index = this.items.findIndex(p => p.id === id);
+                                var index = 0;
+                                if (enviroment.mongo_db)
+                                    index = this.items.findIndex(p => p.id === id);
+                                else
+                                    index = this.items.findIndex(p => p.hospital_id_guid === id);
                                 this.items.splice(index, 1)
                             }
                         })

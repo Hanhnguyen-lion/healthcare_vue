@@ -12,10 +12,10 @@ import ViewMedicalCareComponent from "@/components/MedicalCare/ViewMedicalCareCo
 import RegisterComponent from "@/components/account/RegisterComponent.vue";
 import ForgotPasswordComponent from "@/components/account/ForgotPasswordComponent.vue";
 import AddMedicineCategoryComponent from "@/components/medicine/AddMedicineCategoryComponent.vue";
-import MedicineCategoriesComponent from "@/components/medicine/MedicinesComponent.vue";
 import AddTreatmentCategoryComponent from "@/components/treatement/AddTreatmentCategoryComponent.vue";
 import TreatmentCategoriesComponent from "@/components/treatement/TreatmentCategoriesComponent.vue";
 import MedicinesComponent from "@/components/medicine/MedicinesComponent.vue";
+import MedicineCategoriesComponent from "@/components/medicine/MedicineCategoriesComponent.vue";
 import AddMedicineComponent from "@/components/medicine/AddMedicineComponent.vue";
 import HospitalsComponent from "@/components/hospital/HospitalsComponent.vue";
 import AddHospitalComponent from "@/components/hospital/AddHospitalComponent.vue";

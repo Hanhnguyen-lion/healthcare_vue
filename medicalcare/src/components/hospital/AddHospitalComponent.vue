@@ -17,7 +17,7 @@ import { validEmail } from '../helper/helper';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Name <span class="text-danger">*</span></label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="name" v-model="item.name"
+                                    <input type="text" class="form-control" name="name" v-model="item.name"
                                         placeholder="Enter name" />
                                     <div v-if="name_error" class="invalid-feedback">
                                         <div>{{ name_error }}</div>
@@ -27,28 +27,28 @@ import { validEmail } from '../helper/helper';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Phone</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="phone" v-model="item.phone"
+                                    <input type="text" class="form-control" name="phone" v-model="item.phone"
                                         placeholder="Enter phone" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Country</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="country" v-model="item.country"
+                                    <input type="text" class="form-control" name="country" v-model="item.country"
                                         placeholder="Enter country" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Address</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="address" v-model="item.address"
+                                    <input type="text" class="form-control" name="address" v-model="item.address"
                                         placeholder="Enter address" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Email</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="email" v-model="item.email"
+                                    <input type="text" class="form-control" name="email" v-model="item.email"
                                         placeholder="Enter email" />
                                     <div v-if="email_error" class="invalid-feedback">
                                         <div>{{ email_error }}</div>
@@ -57,7 +57,7 @@ import { validEmail } from '../helper/helper';
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
-                                    <button :disabled="readonly" class="btn btn-outline-primary">
+                                    <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
                                         Save
                                     </button>
@@ -84,7 +84,6 @@ import { validEmail } from '../helper/helper';
         data(){
             return{
                 loading: false,
-                readonly: false,
                 title: "Add Hospital",
                 name_error:"",
                 email_error:"",
@@ -115,7 +114,8 @@ import { validEmail } from '../helper/helper';
                     this.email_error = "";
             },
             async getItem(){
-                return await getItemById(`${this.apiUrl}/${this.item.id}`);
+                var url = (enviroment.mongo_db) ? `${this.apiUrl}/${this.item.hospital_id_guid}` : `${this.apiUrl}/${this.item.id}`;
+                return await getItemById(url);
             },
             async save(){
                 this.validName();
@@ -133,7 +133,8 @@ import { validEmail } from '../helper/helper';
                         });
                     }
                     else{
-                        await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
+                        var url = (enviroment.mongo_db) ? `${this.apiUrl}/Edit/${this.item.hospital_id_guid}` : `${this.apiUrl}/Edit/${this.item.id}`;
+                        await updateItem(url, this.item).then(response=>{
                             if (response.valid){
                                 this.$router.push("/Hospital");
                             }
@@ -145,14 +146,15 @@ import { validEmail } from '../helper/helper';
             }
         },
         async mounted(){
-            this.item.id = this.$route.params["id"] || 0;
-            var currentPath = this.$route.path;
-            if (this.item.id > 0){
-                this.title = "Edit Hospital";
-                if (currentPath.indexOf("View") != -1){
-                    this.title = "View Hospital";
-                    this.readonly = true;
+            var id = this.$route.params["id"];
+            if (id){
+                if (enviroment.mongo_db){
+                    this.item.hospital_id_guid = id;
                 }
+                else{
+                    this.item.id = id;
+                }
+                this.title = "Edit Hospital";
                 var data = await this.getItem();
                 this.item = data.data;
             }

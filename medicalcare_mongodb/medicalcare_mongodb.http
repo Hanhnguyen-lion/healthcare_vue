@@ -1,0 +1,6 @@
+@medicalcare_mongodb_HostAddress = http://localhost:5250
+
+GET {{medicalcare_mongodb_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -101,7 +101,8 @@ import { enviroment } from '@/enviroments/enviroment';
                     this.name_en_error = "";
             },
             async getItem(){
-                return await getItemById(`${this.apiUrl}/${this.item.id}`);
+                var url = (enviroment.mongo_db) ? `${this.apiUrl}/${this.item.id_guid}` : `${this.apiUrl}/${this.item.id}`;
+                return await getItemById(url);
             },
             async save(){
                 this.validName();
@@ -117,7 +118,8 @@ import { enviroment } from '@/enviroments/enviroment';
                         });
                     }
                     else{
-                        await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
+                        var url = (enviroment.mongo_db) ? `${this.apiUrl}/Edit/${this.item.id_guid}` : `${this.apiUrl}/Edit/${this.item.id}`;
+                        await updateItem(url, this.item).then(response=>{
                             if (response.valid){
                                 this.$router.push("/Treatement/Category");
                             }
@@ -129,11 +131,23 @@ import { enviroment } from '@/enviroments/enviroment';
             }
         },
         async mounted(){
-            this.item.id = this.$route.params["id"] || 0;
-            if (this.item.id > 0){
+            var id = this.$route.params["id"];
+            if (id){
+                if (enviroment.mongo_db){
+                    this.item.id_guid = id;
+                } 
+                else{
+                    this.item.id = id;
+                }
                 this.title = "Edit Treatment Category";
                 var data = await this.getItem();
                 this.item = data.data;
+            }
+            else{
+                if (enviroment.mongo_db)
+                    this.item.id_guid = "";
+                else
+                    this.item.id = 0
             }
         }
     }

@@ -26,7 +26,11 @@ import { enviroment } from '@/enviroments/enviroment';
                 <td>{{item.name_en}}</td>
                 <td>{{item.name_vn}}</td>
                 <td>{{item.name_jp}}</td>
-                <td>
+                <td v-if="enviroment.mongo_db">
+                    <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Medicine/Category/Edit/'+item.id_guid">Edit</RouterLink>
+                    <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id_guid)" type="button">Delete</button>
+                </td>
+                <td v-else>
                     <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Medicine/Category/Edit/'+item.id">Edit</RouterLink>
                     <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id)" type="button">Delete</button>
                 </td>
@@ -42,8 +46,8 @@ import { enviroment } from '@/enviroments/enviroment';
     export default{
         data:()=>{
             return {
-                data:[],
-                apiUrl: `${enviroment.apiUrl}/Medicines/Category`
+                data: [],
+                apiUrl:`${enviroment.apiUrl}/Medicines/Category`
             };
         },
         methods:{
@@ -75,8 +79,9 @@ import { enviroment } from '@/enviroments/enviroment';
         mounted(){
             getItems(this.apiUrl)
             .then(response =>{
-                if (response.valid)
+                if (response.valid){
                     this.data = response.data;
+                }
             });
         }
     }
