@@ -1,0 +1,28 @@
+2025.12.17～2025.12.18
+Changes record
+
+〇 medicalcare_mongodb
+- create new project connect on mongodb
+
+
+〇 Category menu
+◇ TreatmentCategoriesComponent.vue, AddTreatmentCategoryComponent.vue
+◇ MedicineCategoriesComponent.vue, AddMedicineCategoryComponent.vue
+- connection on mongodb 
+
+〇 Hospital menu
+◇ HospitalsComponent.vue,AddHospitalComponent.vue 
+- connection on mongodb 
+
+〇 Home menu
+◇ HomeComponent.vue
+- Modify Home page
+
+〇 Account
+◇ RegisterComponent.vue
+- connection on mongodb 
+
+
+
+
+
