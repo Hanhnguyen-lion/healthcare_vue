@@ -1,0 +1,17 @@
+2025.12.18～2025.12.19
+Changes record
+〇 medicalcare_mongodb
+◇ Department.cs, DepartmentsController.cs
+- Add Department
+
+〇 Department menu
+◇ DepartmentsComponent.vue, AddDepartmentComponent.vue
+- connection on mongodb 
+
+〇 Home menu
+◇ HomeComponent.vue
+- Add link menu to item detail
+
+
+
+

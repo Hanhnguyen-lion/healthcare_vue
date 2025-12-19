@@ -18,7 +18,7 @@ import FooterComponent from '../footer/FooterComponent.vue';
 <div class="container my-4">
     <div class="row mb-2">
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Patient" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     
                     <h3 class="mb-0">Patient Management</h3>
@@ -26,42 +26,42 @@ import FooterComponent from '../footer/FooterComponent.vue';
                     <p class="card-text mb-auto">Patient Management module Hospital Management System is designed to manage everything related to Patient activities.</p>
                     
                 </div>
-            </div>
+            </RouterLink>
         </div>
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Doctor" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Doctor Management</h3>
                 
                     <p class="card-text mb-auto">Doctor Management module Hospital Management System is designed to manage everything related to Doctor activities.</p>
                 
                 </div>
-            </div>
+            </RouterLink>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Hospital" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Hospital Management</h3>
                     <p class="card-text mb-auto">Hospital Management module Hospital Management System is designed to manage everything related to Hospital activities.</p>
                 </div>
-            </div>
+            </RouterLink>
         </div>
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Medicine" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Medicine Management</h3>
                     <p class="card-text mb-auto">Medicine Management module Hospital Management System is designed to manage everything related to Medicine activities.</p>
                 </div>
-            </div>
+            </RouterLink>
         </div>
     </div>
 </div>
 <div class="container my-4">
     <div class="row mb-2">
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Department" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     
                     <h3 class="mb-0">Department Management</h3>
@@ -69,45 +69,43 @@ import FooterComponent from '../footer/FooterComponent.vue';
                     <p class="card-text mb-auto">Department Management module Hospital Management System is designed to manage everything related to Department activities.</p>
                     
                 </div>
-            </div>
+            </RouterLink>
         </div>
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Medicine/Category" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Categories Management</h3>
-                
                     <p class="card-text mb-auto">Categories Management module Hospital Management System is designed to manage categories: medicine, treatment, etc...</p>
-                
                 </div>
-            </div>
+            </RouterLink>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Billing" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Billing Management</h3>
                     <p class="card-text mb-auto">Billing of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.</p>
                 </div>
-            </div>
+            </RouterLink>
         </div>
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/MedicalCare/Print" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Medical Care Management</h3>
                     <p class="card-text mb-auto">Medical Care of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.</p>
                 </div>
-            </div>
+            </RouterLink>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <RouterLink to="/Appointment" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <h3 class="mb-0">Appointment Management</h3>
                     <p class="card-text mb-auto">Appointment Management module Hospital Management System is designed to manage the effective appointments of patients for the doctors</p>
                 </div>
-            </div>
+            </RouterLink>
         </div>
         <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

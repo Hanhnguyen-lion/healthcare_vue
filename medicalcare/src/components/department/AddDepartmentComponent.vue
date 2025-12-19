@@ -35,7 +35,13 @@ import { isSupperAdmin } from '../helper/helper';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Hospital</label>
-                                    <select class="form-select" name="hospital_id"
+                                    <select v-if="enviroment.mongo_db" class="form-select" name="hospital_id"
+                                     v-model="item.hospital_id_str">
+                                        <option v-for="item in hospitalItems" :key="item.hospital_id_guid" :value="item.hospital_id_guid">
+                                            {{item.name}}
+                                        </option>
+                                    </select>
+                                    <select v-else class="form-select" name="hospital_id"
                                      v-model="item.hospital_id">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{item.name}}
@@ -81,7 +87,8 @@ import { isSupperAdmin } from '../helper/helper';
                     name:"",
                     phone: "",
                     hospital_id: null,
-                    id: 0,
+                    hospital_id_str: null,
+                    id: null,
                 },
                 apiUrl: `${enviroment.apiUrl}/Departments`
             }
@@ -102,8 +109,7 @@ import { isSupperAdmin } from '../helper/helper';
             async save(){
                 this.validName();
                 if (!this.name_en_error){
-                    if (this.item.id == 0){
-                        
+                    if (!this.item.id){
                         await post(`${this.apiUrl}/Add`, this.item).then(response=>{
                             if (response.valid){
                                 this.$router.push("/Department");
@@ -125,17 +131,28 @@ import { isSupperAdmin } from '../helper/helper';
             }
         },
         async mounted(){
-            this.item.id = this.$route.params["id"] || 0;
-            if (this.item.id > 0){
+            var id = this.$route.params["id"];
+            if (id){
+                this.item.id = id;
                 this.title = "Edit Department";
                 var data = await this.getItem();
-                this.item = data.data;
+                this.item.name = data.data.name;
+                this.item.phone = data.data.phone;
+                if (enviroment.mongo_db){
+                    this.item.hospital_id_str = data.data.hospital_id_guid;
+                }
             }
             var categories = await this.getHospitalItems();
             this.hospitalItems = categories.data;
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    this.hospitalItems = this.hospitalItems.filter(li => li.hospital_id_guid == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
+                }
             }
         }
     }

@@ -25,18 +25,27 @@ import { isSupperAdmin } from '../helper/helper';
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in items" :key="item.id">
-                    <td>{{ index + 1}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.phone}}</td>
-                    <td>
-                        <RouterLink class="btn btn-outline-primary" 
-                        :to="'/Department/Edit/' + item.id"
-                        style="margin-left: 10px;" 
-                        >Edit</RouterLink>
-                        <button class="btn btn-outline-danger" 
+                        <td>{{ index + 1}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td v-if="enviroment.mongo_db">
+                            <RouterLink class="btn btn-outline-primary" 
+                            :to="'/Department/Edit/' + item.id_guid"
                             style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete</button>
-                    </td>
+                            >Edit</RouterLink>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.id_guid)" type="button">Delete</button>
+                        </td>
+                        <td v-else>
+                            <RouterLink class="btn btn-outline-primary" 
+                            :to="'/Department/Edit/' + item.id"
+                            style="margin-left: 10px;" 
+                            >Edit</RouterLink>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.id)" type="button">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -72,7 +81,7 @@ export default{
                         deleteItem(apiUrl)
                         .then(response=>{
                             if (response.valid){
-                                const index = this.items.findIndex(p => p.id === id);
+                                const index = (enviroment.mongo_db) ? this.items.findIndex(p => p.id_guid === id) : this.items.findIndex(p => p.id === id);
                                 this.items.splice(index, 1)
                             }
                         })
@@ -86,8 +95,15 @@ export default{
         .then(data =>{
             this.items = data.data;
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.items = this.items.filter(li => li.hospital_id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    this.items = this.items.filter(li => li.hospital_id_guid == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
+                    
+                }
             }
         });
     }

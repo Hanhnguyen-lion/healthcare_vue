@@ -9,6 +9,7 @@ namespace medicalcare_mongodb
         public DbSet<Hospital> m_hospital{get;set;}
         public DbSet<TreatmentCategory> m_treatment_category{get;set;}
         public DbSet<MedicineType> m_medicine_type{get;set;}
+        public DbSet<Department> m_department {get;init;}
         public MedicalcareDbContext(DbContextOptions options): base(options)
         {
             
@@ -21,6 +22,7 @@ namespace medicalcare_mongodb
             modelBuilder.Entity<Hospital>().HasKey(a=> a.id);
             modelBuilder.Entity<MedicineType>().HasKey(a=> a.id);
             modelBuilder.Entity<TreatmentCategory>().HasKey(a=> a.id);
+            modelBuilder.Entity<Department>().HasKey(a=> a.id);
         }
     }
 }
