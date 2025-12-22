@@ -18,7 +18,7 @@ import { useAuthStore } from '@/store/auth.module';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">First Name <span class="text-danger">*</span></label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="first_name" v-model="item.first_name"
+                                    <input type="text" class="form-control" name="first_name" v-model="item.first_name"
                                         placeholder="Enter first name" />
                                     <div v-if="first_name_error" class="invalid-feedback">
                                         <div>{{ first_name_error }}</div>
@@ -28,7 +28,7 @@ import { useAuthStore } from '@/store/auth.module';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Last Name <span class="text-danger">*</span></label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="last_name" v-model="item.last_name"
+                                    <input type="text" class="form-control" name="last_name" v-model="item.last_name"
                                         placeholder="Enter last name" />
                                     <div v-if="last_name_error" class="invalid-feedback">
                                         <div>{{ last_name_error }}</div>
@@ -38,14 +38,14 @@ import { useAuthStore } from '@/store/auth.module';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Phone Number</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="phone" v-model="item.phone"
+                                    <input type="text" class="form-control" name="phone" v-model="item.phone"
                                         placeholder="Enter phone" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Email</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="email" v-model="item.email"
+                                    <input type="text" class="form-control" name="email" v-model="item.email"
                                         placeholder="Enter email" />
                                     <div v-if="email_error" class="invalid-feedback">
                                         <div>{{ email_error }}</div>
@@ -57,13 +57,13 @@ import { useAuthStore } from '@/store/auth.module';
                                 <label class="fw-bold">Gender</label>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label class="btn">
-                                        <input :disabled="creadonly" type="radio" name="gender" v-model="item.gender" id="Female" value="Female" checked>Female
+                                        <input type="radio" name="gender" v-model="item.gender" id="Female" value="Female" checked>Female
                                     </label>
                                     <label class="btn">
-                                        <input :disabled="readonly" type="radio" name="gender" v-model="item.gender" id="Male" value="Male">Male
+                                        <input type="radio" name="gender" v-model="item.gender" id="Male" value="Male">Male
                                     </label>
                                     <label class="btn">
-                                        <input :disabled="readonly" type="radio" name="gender" v-model="item.gender" id="Other" value="Other">Other
+                                        <input type="radio" name="gender" v-model="item.gender" id="Other" value="Other">Other
                                     </label>
                                 </div>
                                 </div>
@@ -71,14 +71,14 @@ import { useAuthStore } from '@/store/auth.module';
                             <div class="row mb-3">
                                 <div class="form-group">
                                 <label class="fw-bold">Quanlification</label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="quanlification" v-model="item.quanlification"
+                                    <input type="text" class="form-control" name="quanlification" v-model="item.quanlification"
                                         placeholder="Enter quanlification" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Hospital</label>
-                                    <select :disabled="readonly" class="form-select" name="hospital_id"
+                                    <select class="form-select" name="hospital_id"
                                      v-model="item.hospital_id">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{item.name}}
@@ -88,25 +88,14 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Department</label>
-                                    <select :disabled="readonly" class="form-select" name="department_id"
-                                     v-model="item.department_id">
-                                        <option v-for="item in departmentItems" :key="item.id" :value="item.id">
-                                            {{item.name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="form-group">
                                     <label class="fw-bold">Job Specification</label>
-                                    <textarea :readonly="readonly" class="form-control" name="job_specification"
+                                    <textarea class="form-control" name="job_specification"
                                      v-model="item.job_specification" placeholder="Enter job specification"/>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
-                                    <button :disabled="readonly" class="btn btn-outline-primary">
+                                    <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
                                         Save
                                     </button>
@@ -133,8 +122,8 @@ import { useAuthStore } from '@/store/auth.module';
         data(){
             return{
                 auth: useAuthStore(),
+                edit_id: null,
                 loading: false,
-                readonly: false,
                 title: "Add Doctor",
                 first_name_error:"",
                 last_name_error:"",
@@ -151,8 +140,9 @@ import { useAuthStore } from '@/store/auth.module';
                     quanlification:"",
                     job_specification:"",
                     hospital_id: null,
-                    department_id: null,
-                    id: 0,
+                    id: null,
+                    id_guid: null,
+                    hospital_id_guid: null
                 },
                 apiUrl: `${enviroment.apiUrl}/Doctors`
             }
@@ -176,14 +166,11 @@ import { useAuthStore } from '@/store/auth.module';
                 else
                     this.email_error = "";
             },
-            async getItem(){
-                return await getItemById(`${this.apiUrl}/${this.item.id}`);
+            async getItem(id){
+                return await getItemById(`${this.apiUrl}/${id}`);
             },
             async getHospitalItems(){
                 return await getItems(`${enviroment.apiUrl}/Hospitals`);
-            },
-            async getDepartmentItems(){
-                return await getItems(`${enviroment.apiUrl}/Departments`);
             },
             async save(){
                 this.validFirstName();
@@ -193,7 +180,11 @@ import { useAuthStore } from '@/store/auth.module';
                     !this.last_name_error &&
                     !this.email_error
                 ){
-                    if (this.item.id == 0){
+                    if (enviroment.mongo_db){
+                        this.item.hospital_id_guid = this.item.hospital_id;
+                        this.item.hospital_id = null;
+                    }
+                    if (!this.edit_id){
                         
                         await post(`${this.apiUrl}/Add`, this.item).then(response=>{
                             if (response.valid){
@@ -204,8 +195,10 @@ import { useAuthStore } from '@/store/auth.module';
                         });
                     }
                     else{
-                        console.log(this.item);
-                        await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
+                        if (enviroment.mongo_db){
+                            this.item.id_guid = this.edit_id;
+                        }
+                        await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item).then(response=>{
                             if (response.valid){
                                 this.$router.push("/Doctor");
                             }
@@ -217,27 +210,37 @@ import { useAuthStore } from '@/store/auth.module';
             }
         },
         async mounted(){
-            this.item.id = this.$route.params["id"] || 0;
-            var currentPath = this.$route.path;
-            if (this.item.id > 0){
+            var id = this.$route.params["id"];
+            if (id){
+                this.edit_id = id;
                 this.title = "Edit Doctor";
-                if (currentPath.indexOf("View") != -1){
-                    this.title = "View Doctor";
-                    this.readonly = true;
-                }
-                var data = await this.getItem();
+                var data = await this.getItem(id);
                 this.item = data.data;
+
+                this.item.hospital_id = (enviroment.mongo_db) ? this.item.hospital_id_guid : this.item.hospital_id;
                 this.item.gender = (this.item.gender) ? this.item.gender : "Female";
             }
 
-            var categories = await this.getDepartmentItems();
-            this.departmentItems = categories.data;
-            categories = await this.getHospitalItems();
-            this.hospitalItems = categories.data;
+            var categories = await this.getHospitalItems();
+            var hospitals = categories.data;
+
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.hospitalItems = this.hospitalItems.filter(li=> li.id == hospital_id);
-                this.departmentItems = this.departmentItems.filter(li=> li.hospital_id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    hospitals = hospitals.filter(li => li.id_guid == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    hospitals = hospitals.filter(li => li.id == hospital_id);
+                }
+            }
+            for(var i = 0; i < hospitals.length; i++){
+                this.hospitalItems.push(
+                    {
+                        id: (enviroment.mongo_db) ? hospitals[i].hospital_id_guid : hospitals[i].id,
+                        name: hospitals[i].name
+                    }
+                );
             }
         }
     }

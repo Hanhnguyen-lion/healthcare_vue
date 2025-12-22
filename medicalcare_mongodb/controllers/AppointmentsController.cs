@@ -7,16 +7,16 @@ namespace medicalcare_mongodb.controllers
 {
     [ApiController]
     [Route("Medicalcare/api/[controller]")]    
-    public class MedicinesController: BaseController
+    public class AppointmentsController: BaseController
     {
 
-        public MedicinesController(MedicalcareDbContext context): base(context)
+        public AppointmentsController(MedicalcareDbContext context): base(context)
         {
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> Add(Medicine data)
+        public async Task<IActionResult> Add(Appointment data)
         {
 
             // Validate the incoming model.
@@ -26,46 +26,47 @@ namespace medicalcare_mongodb.controllers
             }
             if (data != null)
             {
-                var newItem = new Medicine{
-                    category_id = (string.IsNullOrEmpty(data?.category_id_guid)) ? null: new ObjectId(data.category_id_guid),
-                    name = data?.name,
-                    type = data?.type,
-                    price = data?.price
-                };
+                data.doctor_id = (string.IsNullOrEmpty(data.doctor_id_guid)) ?
+                    null: new ObjectId(data.doctor_id_guid);
+
+                data.patient_id = (string.IsNullOrEmpty(data.patient_id_guid)) ?
+                    null: new ObjectId(data.patient_id_guid);
 
                 await Task.Run(() =>
                 {
-                    this.context.m_medicine.Add(newItem);
+                    this.context.h_appointment.Add(data);
                     this.context.SaveChanges();
                 });
             }
-            return Ok(new { message = "Medicine add successfully." });
+            return Ok(new { message = "Appointment add successfully." });
         }        
 
         [HttpPut]
         [Route("Edit/{id}")]
-        public async Task<IActionResult> Edit(string id, Medicine dataInput)
+        public async Task<IActionResult> Edit(string id, Appointment dataInput)
         {
             dataInput.id = new ObjectId(id);
-            dataInput.category_id = (string.IsNullOrEmpty(dataInput.category_id_guid)) ? 
-                null : new ObjectId(dataInput.category_id_guid);
+            dataInput.doctor_id = (string.IsNullOrEmpty(dataInput.doctor_id_guid)) ? 
+                null : new ObjectId(dataInput.doctor_id_guid);
+            dataInput.patient_id = (string.IsNullOrEmpty(dataInput.patient_id_guid)) ? 
+                null : new ObjectId(dataInput.patient_id_guid);
             // Validate the incoming model.
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Medicine? item = await this.context.m_medicine.FirstOrDefaultAsync(
+            Appointment? item = await this.context.h_appointment.FirstOrDefaultAsync(
                     m => m.id == dataInput.id);
             if (item == null)
             {
-                return NotFound(new { message = "Medicine not found." });
+                return NotFound(new { message = "Appointment not found." });
             }
             else
             {
                 await Task.Run(() =>
                 {
-                    this.context.m_medicine.Entry(item).CurrentValues.SetValues(dataInput);
+                    this.context.h_appointment.Entry(item).CurrentValues.SetValues(dataInput);
                     this.context.SaveChanges();
                 });
 

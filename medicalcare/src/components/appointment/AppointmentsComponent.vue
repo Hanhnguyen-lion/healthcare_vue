@@ -89,11 +89,34 @@ export default{
     },
     mounted() {
         getItems(this.url)
-        .then(data =>{
-            this.items = data.data;
+        .then(response =>{
+            var appoitments = response.data;
+            if (appoitments){
+                for(var i = 0; i< appoitments.length; i++){
+                    var item = appoitments[i];
+                    var newItem = {
+                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
+                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
+                        appointment_date: item.appointment_date,
+                        reason_to_visit: item.reason_to_visit,
+                        status: item.status,
+                        times: item.times,
+                        doctor_name: item.doctor_name,
+                        patient_name: item.patient_name
+                    };
+                    this.items.push(newItem);
+                }
+            }
+
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.items = this.items.filter(li=> li.hospital_id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
+                }
             }
         });
     }

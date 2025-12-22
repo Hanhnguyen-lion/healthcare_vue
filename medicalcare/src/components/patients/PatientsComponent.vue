@@ -22,24 +22,26 @@ import { useAuthStore } from '@/store/auth.module';
                     <th>Last Name</th>
                     <th>Date Of Birth</th>
                     <th>Gender</th>
+                    <th>Hospital</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in patients" :key="item.id">
-                    <td>{{item.code}}</td>
-                    <td>{{item.first_name}}</td>
-                    <td>{{item.last_name}}</td>
-                    <td><div v-if="item.date_of_birth">{{formatDateToString(item.date_of_birth, 'DD/MM/YYYY')}}</div></td>
-                    <td>{{item.gender}}</td>
-                    <td>
-                        <button class="btn btn-outline-primary" 
-                            style="margin-left: 10px;" 
-                            @click="edit(item.id)" type="button">Edit</button>
-                        <button class="btn btn-outline-danger" 
-                            style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete</button>
-                    </td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.first_name}}</td>
+                        <td>{{item.last_name}}</td>
+                        <td><div v-if="item.date_of_birth">{{formatDateToString(item.date_of_birth, 'DD/MM/YYYY')}}</div></td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.hospital_name}}</td>
+                        <td>
+                            <button class="btn btn-outline-primary" 
+                                style="margin-left: 10px;" 
+                                @click="edit(item.id)" type="button">Edit</button>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.id)" type="button">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -97,10 +99,31 @@ export default{
         getItems(this.url)
         .then(response =>{
             if (response.valid){
-                this.patients = response.data;
+                var items = response.data;
+                for(var i = 0; i< items.length; i++){
+                    var item = items[i];
+                    var newItem = {
+                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
+                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
+                        hospital_name: (enviroment.mongo_db) ? item.hospital_name: "",
+                        code: item.code,
+                        first_name: item.first_name,
+                        last_name: item.last_name,
+                        date_of_birth: item.date_of_birth,
+                        gender: item.gender
+                    };
+                    this.patients.push(newItem);
+                }
+
                 if (!isSupperAdmin(this.auth.accountLogin)){
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.patients = this.patients.filter(li => li.hospital_id == hospital_id);
+                    if (enviroment.mongo_db){
+                        var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                        this.patients = this.patients.filter(li => li.hospital_id == hospital_id_guid);
+                    }
+                    else{
+                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                        this.patients = this.patients.filter(li => li.hospital_id == hospital_id);
+                    }
                 }
             }
         });

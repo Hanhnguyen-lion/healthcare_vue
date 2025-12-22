@@ -68,13 +68,13 @@
                                 <label class="fw-bold">Gender</label>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label class="btn">
-                                        <input :disabled="constant_item.readonly" type="radio" name="gender" v-model="item.gender" id="Female" value="Female" checked>Female
+                                        <input type="radio" name="gender" v-model="item.gender" id="Female" value="Female" checked>Female
                                     </label>
                                     <label class="btn">
-                                        <input :disabled="constant_item.readonly" type="radio" name="gender" v-model="item.gender" id="Male" value="Male">Male
+                                        <input type="radio" name="gender" v-model="item.gender" id="Male" value="Male">Male
                                     </label>
                                     <label class="btn">
-                                        <input :disabled="constant_item.readonly" type="radio" name="gender" v-model="item.gender" id="Order" value="Order">Order
+                                        <input type="radio" name="gender" v-model="item.gender" id="Order" value="Order">Order
                                     </label>
                                 </div>
                                 </div>
@@ -100,7 +100,7 @@
                         <div class="row mb-3">
                             <div class="form-group">
                                 <label class="fw-bold">Hospital</label>
-                                <select :disabled="readonly" class="form-select" name="hospital_id"
+                                <select class="form-select" name="hospital_id"
                                     v-model="item.hospital_id">
                                     <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                         {{item.name}}
@@ -195,7 +195,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
-                                <button type="submit" :disabled="constant_item.readonly" class="btn btn-outline-primary">
+                                <button type="submit" class="btn btn-outline-primary">
                                     <span v-if="constant_item.loading" class="spinner-border spinner-border-sm mr-1"></span>
                                     Save
                                 </button>
@@ -230,9 +230,8 @@ export default{
             constant_item:{
                 title : "Add Patient",
                 loading : false,
-                isView: false,
-                 id: 0,
-                 url: `${enviroment.apiUrl}/Patients`
+                id: null,
+                url: `${enviroment.apiUrl}/Patients`
             },
             item:{
                 code: "",
@@ -253,7 +252,10 @@ export default{
                 insurance_type: "",
                 insurance_info: "",
                 medical_history: "",
-                hospital_id: null
+                hospital_id: null,
+                id: null,
+                hospital_id_guid: null,
+                id_guid: null
             },
             item_error: {
                 codeError : "",
@@ -301,8 +303,8 @@ export default{
                 this.item_error.emailError = "";
             }
         },
-        async getItem(){
-            return await getItemById(`${this.constant_item.url}/${this.constant_item.id}`);
+        async getItem(id){
+            return await getItemById(`${this.constant_item.url}/${id}`);
         },
         async getHospitalItems(){
             return await getItems(`${enviroment.apiUrl}/Hospitals`);
@@ -318,13 +320,22 @@ export default{
                 !this.item_error.lastNameError &&
                 !this.item_error.emailError
             ){
+                if (enviroment.mongo_db){
+                    this.item.hospital_id_guid = this.item.hospital_id;
+                    this.item.hospital_id = null;
+                }
                 var url = `${this.constant_item.url}`;
                 this.item.date_of_birth = (this.item.date_of_birth) ? this.item.date_of_birth : null;
 
                 this.item.insurance_expire = (this.item.insurance_expire) ? this.item.insurance_expire : null;
-                if (this.constant_item.id > 0){
+                if (this.constant_item.id){
                     url = `${url}/Edit/${this.constant_item.id}`;
-                    this.item.id = this.constant_item.id;
+                    if (enviroment.mongo_db){
+                        this.item.id_guid = this.constant_item.id;
+                    }
+                    else{
+                        this.item.id = this.constant_item.id;
+                    }
                     await updateItem(url, this.item)
                     .then((response)=>{
                         if (response.valid){
@@ -350,21 +361,37 @@ export default{
         }
     },
     async mounted(){
-        this.constant_item.id = (this.$route.params.id) ? +this.$route.params.id : 0;
-        if (this.constant_item.id > 0) {
+        var id = this.$route.params.id;
+        if (id) {
             this.constant_item.title = "Edit Patient";
-            var data = await this.getItem();
+            this.constant_item.id = id;
+            var data = await this.getItem(id);
             this.item = data.data;
             var date_of_birth = this.item.date_of_birth;
             var insurance_expire = this.item.insurance_expire;
             this.item.date_of_birth = (date_of_birth) ? formatDateYYYYMMDD(date_of_birth):null;
             this.item.insurance_expire = (insurance_expire) ? formatDateYYYYMMDD(insurance_expire):null;
+            this.item.hospital_id = (enviroment.mongo_db) ? this.item.hospital_id_guid : this.item.hospital_id;
         }
         var categories = await this.getHospitalItems();
-        this.hospitalItems = categories.data;
+        var hospitals = categories.data;
         if (!isSupperAdmin(this.auth.accountLogin)){
-            var hospital_id = this.auth.accountLogin.hospital_id || 0;
-            this.hospitalItems = this.hospitalItems.filter(li=> li.id == hospital_id);
+            if (enviroment.mongo_db){
+                var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                hospitals = hospitals.filter(li => li.id_guid == hospital_id_guid);
+            }
+            else{
+                var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                hospitals = hospitals.filter(li => li.id == hospital_id);
+            }
+        }
+        for(var i = 0; i < hospitals.length; i++){
+            this.hospitalItems.push(
+                {
+                    id: (enviroment.mongo_db) ? hospitals[i].hospital_id_guid : hospitals[i].id,
+                    name: hospitals[i].name
+                }
+            );
         }
     }
 }    

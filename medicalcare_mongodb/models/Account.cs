@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
@@ -8,8 +9,8 @@ namespace medicalcare_mongodb.models
     public class Account
     {
         [Key]
-        public ObjectId id;
-        public ObjectId? hospital_id;
+        public ObjectId id{get;set;}
+        public ObjectId? hospital_id{get;set;}
 
         public string? password{get;set;}
 	    public string? first_name{get;set;}
@@ -32,12 +33,19 @@ namespace medicalcare_mongodb.models
             }
         }
         
+        public string? hospital_id_str{get;set;}
+        
         public string? hospital_id_guid
         {
             get
             {
                 return hospital_id.ToString();
             }
+        }
+
+        public static explicit operator Account(Task<IDictionary?> v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

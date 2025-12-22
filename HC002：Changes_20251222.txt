@@ -1,0 +1,34 @@
+2025.12.22
+Changes record
+
+〇 medicalcare_mongodb
+
+◇ Appointment.cs, AppointmentsController.cs
+- CRUD Appointment
+
+◇ Doctor.cs, DoctorsController.cs
+- CRUD Doctor
+
+◇ Medicine.cs, MedicinesController.cs
+- CRUD Medicine
+
+◇ Patient.cs, PatientsController.cs
+- CRUD Patient
+
+〇 Appointment menu
+
+◇ AppointmentsComponent.vue, AddAppointmentComponent.vue
+- connection on mongodb 
+
+◇ DoctorsComponent.vue, AddDoctorComponent.vue
+- connection on mongodb 
+
+◇ MedicinesComponent.vue, AddMedicineComponent.vue
+- connection on mongodb 
+
+◇ PatientsComponent.vue, AddPatientComponent.vue
+- connection on mongodb 
+
+
+
+

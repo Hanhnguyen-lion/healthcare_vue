@@ -83,7 +83,7 @@ import { enviroment } from '@/enviroments/enviroment';
                     name_en: "",
                     id: 0,
                 },
-                apiUrl: `${enviroment.apiUrl}/Medicines/Category`
+                apiUrl: `${enviroment.apiUrl}/MedicinesCategory`
             }
         },
         methods:{

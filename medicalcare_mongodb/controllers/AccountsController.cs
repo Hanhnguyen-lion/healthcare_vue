@@ -7,21 +7,10 @@ namespace medicalcare_mongodb.controllers
 {
     [ApiController]
     [Route("Medicalcare/api/[controller]")]    
-    public class AccountsController: ControllerBase
+    public class AccountsController: BaseController
     {
-        readonly MedicalcareDbContext context;
-
-        public AccountsController(MedicalcareDbContext context)
+        public AccountsController(MedicalcareDbContext context) : base(context)
         {
-            this.context = context;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAccounts()
-        {
-            var data = await this.context.m_account.ToListAsync();
-
-            return Ok(data);
         }
 
         [HttpPost]
@@ -48,7 +37,8 @@ namespace medicalcare_mongodb.controllers
                 first_name = account?.first_name,
                 last_name = account?.last_name,
                 password = account?.password,
-                account_type = account?.account_type
+                account_type = account?.account_type,
+                hospital_id = (account?.hospital_id_str == null) ? null : new ObjectId(account?.hospital_id_str)
             };
 
             await Task.Run(() =>
@@ -58,6 +48,36 @@ namespace medicalcare_mongodb.controllers
             });
             return Ok(new { message = "User registered successfully." });
         }        
+
+        [HttpPut]
+        [Route("Edit/{id}")]
+        public async Task<IActionResult> Edit(string id, Account dataInput)
+        {
+            dataInput.id = new ObjectId(id);
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Account? item = await this.context.m_account.FirstOrDefaultAsync(
+                    m => m.id == dataInput.id);
+            if (item == null)
+            {
+                return NotFound(new { message = "Account not found." });
+            }
+            else
+            {
+                await Task.Run(() =>
+                {
+                    this.context.m_account.Entry(item).CurrentValues.SetValues(dataInput);
+                    this.context.SaveChanges();
+                });
+
+                return Ok(item);
+            }
+        }
+
 
         [HttpPost]
         [Route("Authenticate")]

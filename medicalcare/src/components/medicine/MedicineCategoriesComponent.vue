@@ -47,7 +47,7 @@ import { enviroment } from '@/enviroments/enviroment';
         data:()=>{
             return {
                 data: [],
-                apiUrl:`${enviroment.apiUrl}/Medicines/Category`
+                apiUrl:`${enviroment.apiUrl}/MedicinesCategory`
             };
         },
         methods:{

@@ -23,6 +23,7 @@ import { isSupperAdmin } from '../helper/helper';
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Gender</th>
+                    <th>Hospital</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -34,6 +35,7 @@ import { isSupperAdmin } from '../helper/helper';
                     <td>{{item.phone}}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.gender}}</td>
+                    <td>{{item.hospital_name}}</td>
                     <td>
                         <RouterLink class="btn btn-outline-primary" 
                         :to="'/Doctor/Edit/' + item.id"
@@ -89,11 +91,34 @@ export default{
     },
     mounted() {
         getItems(this.url)
-        .then(data =>{
-            this.items = data.data;
+        .then(response =>{
+            var doctors = response.data;
+            if (doctors){
+                for(var i = 0; i< doctors.length; i++){
+                    var item = doctors[i];
+                    var newItem = {
+                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
+                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
+                        hospital_name: (enviroment.mongo_db) ? item.hospital_name: "",
+                        first_name: item.first_name,
+                        last_name: item.last_name,
+                        phone: item.phone,
+                        email: item.email,
+                        gender: item.gender
+                    };
+                    this.items.push(newItem);
+                }
+            }
+            
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.items = this.items.filter(li=>li.hospital_id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
+                }
             }
         });
     }

@@ -16,7 +16,7 @@ import { enviroment } from '@/enviroments/enviroment';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Name <span class="text-danger">*</span></label>
-                                    <input :readonly="readonly" type="text" class="form-control" name="name" v-model="item.name"
+                                    <input type="text" class="form-control" name="name" v-model="item.name"
                                         placeholder="Enter name" />
                                     <div v-if="name_error" class="invalid-feedback">
                                         <div>{{ name_error }}</div>
@@ -26,7 +26,7 @@ import { enviroment } from '@/enviroments/enviroment';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Type</label>
-                                    <select :disabled="readonly" class="form-select" name="category_id"
+                                    <select class="form-select" name="category_id"
                                      v-model="item.category_id">
                                         <option v-for="item in medicineTypeItems" :key="item.id" :value="item.id">
                                             {{item.name_en}}
@@ -37,13 +37,13 @@ import { enviroment } from '@/enviroments/enviroment';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Price</label>
-                                    <input :readonly="readonly" type="number" :min="0" class="form-control" name="price" v-model="item.price"
+                                    <input type="number" :min="0" class="form-control" name="price" v-model="item.price"
                                         placeholder="Enter price" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
-                                    <button :disabled="readonly" class="btn btn-outline-primary">
+                                    <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
                                         Save
                                     </button>
@@ -70,16 +70,17 @@ import { enviroment } from '@/enviroments/enviroment';
         data(){
             return{
                 loading: false,
-                readonly: false,
                 title: "Add Medicine",
                 name_error:"",
                 message_error:"",
-                medicineTypeItems: [],
+                medicineTypeItems:[],
                 item:{
                     name:"",
-                    category_id: 0,
+                    category_id: null,
                     price: 0,
-                    id: 0,
+                    id: null,
+                    id_guid: "",
+                    category_id_guid: ""
                 },
                 apiUrl: `${enviroment.apiUrl}/Medicines`
             }
@@ -91,16 +92,20 @@ import { enviroment } from '@/enviroments/enviroment';
                 else
                     this.name_error = "";
             },
-            async getItem(){
-                return await getItemById(`${this.apiUrl}/${this.item.id}`);
+            async getItem(id){
+                return await getItemById(`${this.apiUrl}/${id}`);
             },
             async getMedicineTypeItems(){
-                return await getItems(`${enviroment.apiUrl}/Prescriptions/MedicineTypes`);
+                return await getItems(`${enviroment.apiUrl}/MedicinesCategory`);
             },
             async save(){
                 this.validName();
                 if (!this.name_en_error){
-                    if (this.item.id == 0){
+                    if (enviroment.mongo_db){
+                        this.item.category_id_guid = this.item.category_id;
+                        this.item.category_id = null;
+                    }
+                    if (!this.item.id){
                         
                         await post(`${this.apiUrl}/Add`, this.item).then(response=>{
                             if (response.valid){
@@ -123,20 +128,22 @@ import { enviroment } from '@/enviroments/enviroment';
             }
         },
         async mounted(){
-            this.item.id = this.$route.params["id"] || 0;
-            var currentPath = this.$route.path;
-            if (this.item.id > 0){
+            var id = this.$route.params["id"];
+            if (id){
                 this.title = "Edit Medicine";
-                if (currentPath.indexOf("View") != -1){
-                    this.title = "View Medicine";
-                    this.readonly = true;
-                }
-                var data = await this.getItem();
+                var data = await this.getItem(id);
                 this.item = data.data;
+                this.item.id = id;
+                this.item.category_id = (enviroment.mongo_db) ? this.item.category_id_guid : this.item.category_id;
             }
 
             var categories = await this.getMedicineTypeItems();
-            this.medicineTypeItems = categories.data;
+            for(var i = 0; i < categories.data.length; i++){
+                this.medicineTypeItems.push({
+                    id: categories.data[i].id_guid,
+                    name_en: categories.data[i].name_en
+                });
+            }
         }
     }
 </script>
