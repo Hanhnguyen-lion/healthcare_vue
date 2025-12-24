@@ -1,0 +1,30 @@
+2025.12.23~2025.12.24
+Changes record
+
+〇 medicalcare_mongodb
+
+◇ BillingsController.cs
+- CRUD Billing
+
+◇ TreatmentsController.cs
+- CRUD Treatment
+
+◇ PrescriptionsController.cs
+- CRUD Prescription
+
+◇ MedicalCaresController.cs
+- View Medical Cares
+
+〇 Billing menu
+
+◇ AddBillingComponent.vue, BillingComponent.vue, BillingDetailComponent.vue
+- connection on mongodb 
+
+〇 MedicalCare menu
+
+◇ ViewMedicalCareComponent.vue
+- connection on mongodb 
+
+
+
+
