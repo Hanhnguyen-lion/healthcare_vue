@@ -301,9 +301,9 @@ export default{
                 office_address: ""
             },
             billingItem: {
-                admission_date: "",
                 discharge_date: "",
-                amount :0
+                admission_date: "",
+                amount:""
             },
             treatmemtItems: [],
             prescriptionItems: [],
@@ -318,11 +318,11 @@ export default{
                 if (data.valid){
                     this.patientItem = data.data;
                     var patient_id = this.patientItem.patient_id;
-                    if (patient_id > 0){
+                    if (patient_id){
                         this.prescriptionItems = this.patientItem.prescriptions;
                         this.treatmemtItems = this.patientItem.treatments;
                         this.appoitmentItems = this.patientItem.appointments;
-                        this.billingItem = this.patientItem.billing;
+                        this.billingItem = (this.patientItem.billing) ? this.patientItem.billing[0]:null;
                     }
                 }
             });
@@ -377,9 +377,8 @@ export default{
         }
     },
     mounted(){
-      var billing_id = (this.$route.params.id) ? +this.$route.params.id : 0;
+      var billing_id = this.$route.params.id||null;
       this.getBillingDetail(billing_id);
-
     }
 }    
 </script>

@@ -7,7 +7,7 @@ export async function getItemsWithParam(apiUrl, params){
     }).catch((error)=>{
         var message = "";
         if (error.response) {
-            message = error.response;
+            message = error.response.data;
         } else if (error.request) {
             message = error.request;
         } else if ( error.config) {
@@ -15,10 +15,9 @@ export async function getItemsWithParam(apiUrl, params){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('getItems finish:');
     });
 }
 
@@ -29,7 +28,7 @@ export async function getItems(apiUrl){
     }).catch((error)=>{
         var message = "";
         if (error.response) {
-            message = error.response.data.message;
+            message = error.response.data;
         } else if (error.request) {
             message = error.request;
         } else if ( error.config) {
@@ -37,10 +36,9 @@ export async function getItems(apiUrl){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('getItems finish:');
     });
 }
 
@@ -59,10 +57,9 @@ export async function deleteItem(apiUrl){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('deleteItem finish:');
     });
 }
 
@@ -73,7 +70,7 @@ export async function post(apiUrl, item){
     }).catch((error)=>{
         var message = "";
         if (error.response) {
-            message = error.response.data.message;
+            message = error.response.data;
         } else if (error.request) {
             message = error.request;
         } else if ( error.config) {
@@ -81,6 +78,7 @@ export async function post(apiUrl, item){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
     });
@@ -92,7 +90,7 @@ export async function updateItem(apiUrl, item){
     }).catch(error =>{
         var message = "";
         if (error.response) {
-            message = error.response.data.message;
+            message = error.response.data;
         } else if (error.request) {
             message = error.request;
         } else if ( error.config) {
@@ -100,10 +98,9 @@ export async function updateItem(apiUrl, item){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('updateItem finish:');
     });
 }
 
@@ -114,7 +111,7 @@ export async function getItemById(apiUrl){
     }).catch((error)=>{
         var message = "";
         if (error.response) {
-            message = error.response.data.message;
+            message = error.response.data;
         } else if (error.request) {
             message = error.request;
         } else if ( error.config) {
@@ -122,9 +119,8 @@ export async function getItemById(apiUrl){
         } else {
             message = error.message;
         }
+        message = message || error.message;
         console.log('Error:', message);
         return {valid: false, message};
-    }).finally(()=>{
-        console.log('getItemById finish:');
     });
 }

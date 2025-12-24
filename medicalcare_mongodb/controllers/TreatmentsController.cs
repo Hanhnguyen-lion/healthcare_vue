@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using medicalcare_mongodb.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,41 +8,41 @@ namespace medicalcare_mongodb.controllers
 {
     [ApiController]
     [Route("Medicalcare/api/[controller]")]    
-    public class TreatmentsController: ControllerBase
+    public class TreatmentsController: BaseController
     {
-        readonly MedicalcareDbContext context;
-
-        public TreatmentsController(MedicalcareDbContext context)
+        public TreatmentsController(MedicalcareDbContext context) : base(context)
         {
-            this.context = context;
         }
 
         [HttpGet]
-        [Route("Category")]
-        public async Task<IActionResult> GetCategories()
+        [Route("items/{billing_id}")]
+        public async Task<IActionResult> GetTreatments(string billing_id)
         {
-            var data = await this.context.m_treatment_category.ToListAsync();
+            
+            var treatments = await this.context.m_treatment.Where(li => li.billing_id == new ObjectId(billing_id)).ToListAsync();
+            var treatment_categories = await this.context.m_treatment_category.ToArrayAsync();
+            
+            var v_treatments = from t in treatments
+                        join tc in treatment_categories on t?.category_id_guid equals tc.id_guid into tcGroup
+                        from tcDefault in tcGroup.DefaultIfEmpty()
+                        select new
+                        {
+                            id = t?.id_guid,
+                            billing_id = billing_id,
+                            treatment_type = tcDefault?.name_en,
+                            treatment_date = t?.treatment_date,
+                            category_id = t?.category_id_guid,
+                            quantity = t?.quantity??0,
+                            amount = tcDefault?.price??0,
+                            total = Convert.ToDecimal((t?.quantity??0) * (tcDefault?.price??0))
+                        };
+            return Ok(v_treatments);
 
-            return Ok(data);
         }
-
-        [HttpGet]
-        [Route("Category/{id}")]
-        public async Task<IActionResult> GetCategoryById(string id)
-        {
-            TreatmentCategory? item = await this.context.m_treatment_category.FirstOrDefaultAsync(
-                    m => m.id == new ObjectId(id));
-            if (item == null)
-            {
-                return NotFound(new { message = "Medicine Category not found." });
-            }
-            return Ok(item);
-        }
-
 
         [HttpPost]
-        [Route("Category/Add")]
-        public async Task<IActionResult> AddCategory(TreatmentCategory item)
+        [Route("Add")]
+        public async Task<IActionResult> Add(Treatment item)
         {
             // Validate the incoming model.
             if (!ModelState.IsValid)
@@ -52,18 +53,25 @@ namespace medicalcare_mongodb.controllers
             {
                 await Task.Run(() =>
                 {
-                    this.context.m_treatment_category.Add(item);
+                    this.context.m_treatment.Add(item);
                     this.context.SaveChanges();
                 });
             }
-            return Ok(new { message = "Medicine Category add successfully." });
+            return Ok(new { message = "Treatment add successfully." });
         }        
 
         [HttpPut]
-        [Route("Category/Edit/{id}")]
-        public async Task<IActionResult> EditCategory(string id, TreatmentCategory item)
+        [Route("Edit/{id}")]
+        public async Task<IActionResult> Edit(string id, Treatment item)
         {
-            item.id = new ObjectId(id);
+            if (id != "0")
+                item.id = new ObjectId(id);
+
+            item.category_id = string.IsNullOrEmpty(item.category_id_guid) ?
+                null: new ObjectId(item.category_id_guid);
+
+            item.billing_id = string.IsNullOrEmpty(item.billing_id_guid) ? null: new ObjectId(item.billing_id_guid);
+
             // Validate the incoming model.
             if (!ModelState.IsValid)
             {
@@ -71,51 +79,32 @@ namespace medicalcare_mongodb.controllers
             }
 
             // Check if patient exists
-            TreatmentCategory? editItem = await this.context.m_treatment_category.FirstOrDefaultAsync(
+            Treatment? editItem = await this.context.m_treatment.FirstOrDefaultAsync(
                     m => m.id == item.id);
             if (editItem == null)
             {
-                return NotFound(new { message = "Medicine Category not found." });
+                if (!string.IsNullOrEmpty(item?.billing_id_guid))
+                {
+                    if (item != null)
+                    {
+                        this.context.m_treatment.Add(item);
+                        this.context.SaveChanges();
+                    }
+                    return Ok(item);
+                }
+                else
+                    return NotFound(new { message = "Treatment not found." });
             }
             else
             {
                 await Task.Run(() =>
                 {
-                    this.context.m_treatment_category.Entry(editItem).CurrentValues.SetValues(item);
+                    this.context.m_treatment.Entry(editItem).CurrentValues.SetValues(item);
                     this.context.SaveChanges();
                 });
 
                 return Ok(item);
             }
         }
- 
-        [HttpDelete]
-        [Route("Category/Delete/{id}")]
-        public async Task<IActionResult> DeleteCategory(string id)
-        {
-            // Validate the incoming model.
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Check if patient exists
-            TreatmentCategory? item = await this.context.m_treatment_category.FirstOrDefaultAsync(
-                    m => m.id == new ObjectId(id));
-            if (item == null)
-            {
-                return NotFound(new { message = "Medicine Category not found." });
-            }
-            else
-            {
-                await Task.Run(() =>
-                {
-                    this.context.m_treatment_category.Remove(item);
-                    this.context.SaveChanges();
-                });
-
-                return Ok(new {message = "Medicine Category deleted "});
-            }
-        }   
     }
 }

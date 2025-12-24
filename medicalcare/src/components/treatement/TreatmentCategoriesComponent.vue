@@ -50,7 +50,7 @@ import { enviroment } from '@/enviroments/enviroment';
         data(){
             return {
                 categories:[],
-                apiUrl: `${enviroment.apiUrl}/Treatments/Category`
+                apiUrl: `${enviroment.apiUrl}/TreatmentsCategory`
             };
         },
         methods:{

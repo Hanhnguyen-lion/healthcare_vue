@@ -138,16 +138,16 @@ export default {
     data() {
         return {
             title: "Add Prescription",
-            billing_id: 0,
-            prescription_id: 0,
-            new_prescription_id: 0,
+            billing_id: null,
+            prescription_id: null,
+            new_prescription_id: null,
             medicine_id_error: "",
             quantity_error: "",
             duration_error: "",
             prescription_date_error: "",
 
             output_data: {
-                medicine_id: 0,
+                medicine_id: null,
                 notes: "",
                 dosage: "",
                 duration_type: "day",
@@ -208,10 +208,12 @@ export default {
                 this.saveData = true;
                 var url = `${this.apiUrl}`;
                 var item = {
-                    billing_id: this.billing_id,
+                    billing_id: (enviroment.mongo_db) ? null: this.billing_id,
+                    billing_id_guid: this.billing_id || null,
                     id: this.prescription_id,
                     new_id: this.new_prescription_id,
-                    medicine_id: this.output_data.medicine_id,
+                    medicine_id: (enviroment.mongo_db) ? null: this.output_data.medicine_id,
+                    medicine_id_guid: this.output_data.medicine_id||null,
                     notes: this.output_data.notes,
                     dosage: this.output_data.dosage,
                     duration: this.output_data.duration,
@@ -220,8 +222,9 @@ export default {
                     quantity: this.output_data.quantity,
                     prescription_date: formatDateYYYYMMDD(this.output_data.prescription_date)
                 }
-                if (this.billing_id > 0) {
-                    url = `${url}/Edit/${item.id}`;
+                if (this.billing_id) {
+                    item.id = item.id||"0";
+                    url = `${url}/Edit/${item.id.toString()}`;
                     updateItem(url, item).then(response=>{
                         if (response.valid)
                             this.handleClose();
@@ -253,8 +256,15 @@ export default {
         var url = `${this.apiUrl}`;
 
         getItems(`${enviroment.apiUrl}/Medicines`).then(data => {
-            if (data.valid)
-                this.medicineItems = data.data;
+            if (data.valid){
+                for (let index = 0; index < data.data.length; index++) {
+                    const element = data.data[index];
+                    this.medicineItems.push({
+                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
+                        name: element.name
+                    });  
+                }
+            }
         });
         
         getItems(`${url}/DurationTypes`).then(data => {
@@ -262,22 +272,32 @@ export default {
                 this.durationItems = data.data;
         });
         
-        getItems(`${url}/MedicineTypes`).then(data => {
-            if (data.valid)
-                this.medicineTypeItems = data.data;
+        getItems(`${enviroment.apiUrl}/MedicinesCategory`).then(data => {
+            if (data.valid){
+                for (let index = 0; index < data.data.length; index++) {
+                    const element = data.data[index];
+                    this.medicineTypeItems.push({
+                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
+                        name_en: element.name_en
+                    });  
+                }
+            }
         });
 
-        if (this.prescription_id > 0) {
-            url = `${url}/item/${this.prescription_id}`;
+        if (this.prescription_id) {
+            this.title = "Edit Prescription";
+            url = `${url}/${this.prescription_id}`;
             getItemById(url).then(item => {
                 if (item.valid){
                     this.output_data = item.data;
                     this.output_data.prescription_date = formatDateYYYYMMDD(item.data.prescription_date);
+                    this.output_data.medicine_id = (enviroment.mongo_db) ? 
+                        item.data.medicine_id_guid : item.data.medicine_id
                 }
             });
         }
         else {
-            if (this.new_prescription_id > 0) {
+            if (this.new_prescription_id) {
                 this.title = "Edit Prescription";
                 this.output_data = {
                     medicine_id: this.input_data.prescriptionItemObs.medicine_id,

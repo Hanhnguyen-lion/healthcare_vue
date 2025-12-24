@@ -3,7 +3,7 @@
     import { enviroment } from '@/enviroments/enviroment';
     import { formatDateToString, isSupperAdmin } from '../helper/helper';
     import { deleteItem, getItems } from '@/services/baseServices';
-import { useAuthStore } from '@/store/auth.module';
+    import { useAuthStore } from '@/store/auth.module';
     var numberal = require("numeral");
 
 </script>
@@ -26,7 +26,7 @@ import { useAuthStore } from '@/store/auth.module';
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in items" :key="item.id">
+                    <tr v-for="(item, index) in items" :key="item.billing_id">
                     <td>{{ index + 1}}</td>
                     <td>{{formatDateToString(item.billing_date, 'DD/MM/YYYY')}}</td>
                     <td>{{item.patient_name}}</td>
@@ -79,7 +79,7 @@ export default{
                         deleteItem(apiUrl)
                         .then(response=>{
                             if (response.valid){
-                                const index = this.items.findIndex(p => p.id === id);
+                                const index = this.items.findIndex(p => p.billing_id === id);
                                 this.items.splice(index, 1)
                             }
                         })
@@ -90,11 +90,18 @@ export default{
     },
     mounted() {
         getItems(this.url)
-        .then(data =>{
-            this.items = data.data;
+        .then(response =>{
+            this.items = response.data;
+
             if (!isSupperAdmin(this.auth.accountLogin)){
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                this.items = this.items.filter(li=>li.hospital_id == hospital_id);
+                if (enviroment.mongo_db){
+                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
+                }
+                else{
+                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
+                }
             }
         });
     }

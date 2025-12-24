@@ -41,6 +41,15 @@ namespace medicalcare_mongodb.controllers
                 var data = await this.context.GetAppointments();
                 return Ok(data);
             }
+            else if (controllerName.IndexOf(MedicalcareDbContext.Billing, StringComparison.OrdinalIgnoreCase) != -1){
+                var data = await this.context.GetBillings();
+                return Ok(data);
+            }
+            else if (controllerName.IndexOf(MedicalcareDbContext.Prescription, StringComparison.OrdinalIgnoreCase) != -1)
+                return Ok( await this.context.h_prescription.ToListAsync());
+            else if (controllerName.IndexOf(MedicalcareDbContext.Treatment, StringComparison.OrdinalIgnoreCase) != -1)
+                return Ok( await this.context.m_treatment.ToListAsync());
+
             return Ok( await this.context.m_account.ToListAsync());
         }
 
@@ -73,6 +82,12 @@ namespace medicalcare_mongodb.controllers
                     item = (Doctor?) item;
                 else if (controllerName.IndexOf(MedicalcareDbContext.Appointment, StringComparison.OrdinalIgnoreCase) != -1)
                     item = (Appointment?) item;
+                else if (controllerName.IndexOf(MedicalcareDbContext.Billing, StringComparison.OrdinalIgnoreCase) != -1)
+                    item = (Billing?) item;
+                else if (controllerName.IndexOf(MedicalcareDbContext.Treatment, StringComparison.OrdinalIgnoreCase) != -1)
+                    item = (Treatment?) item;
+                else if (controllerName.IndexOf(MedicalcareDbContext.Prescription, StringComparison.OrdinalIgnoreCase) != -1)
+                    item = (Prescription?) item;
             }
             return Ok(item);
         }

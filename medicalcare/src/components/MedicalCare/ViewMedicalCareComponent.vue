@@ -248,7 +248,7 @@ import { useAuthStore } from '@/store/auth.module';
                         var item = data.data;
                         this.patientItem = item;
                         var patient_id = item.patient_id;
-                        if (patient_id > 0){
+                        if (patient_id){
                             this.medicalCares = item.medical;
                         }
                     }

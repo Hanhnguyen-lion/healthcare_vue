@@ -102,21 +102,19 @@ export default {
     data() {
         return {
             title: "Add Treatment",
-            billing_id: 0,
-            treatment_id: 0,
-            new_treatment_id: 0,
+            billing_id: null,
+            treatment_id: null,
+            new_treatment_id: null,
             quantity_error: "",
             treatment_type_error: "",
             treatment_date_error: "",
 
             output_data: {
-                category_id: 0,
+                category_id: null,
                 description: "",
                 quantity: 0,
                 treatment_date: formatDateYYYYMMDD(new Date()),
-                treatmentItemObs: {
-
-                }
+                treatmentItemObs: {}
             },
             saveData: false,
             categoryItems: [],
@@ -139,7 +137,7 @@ export default {
             }
         },
         validTreatmentDate(){
-            if (!this.output_data.category_id)
+            if (!this.output_data.treatment_date)
                 this.treatment_date_error = "Treatment date is required";
             else{
                 this.treatment_date_error = "";
@@ -156,15 +154,19 @@ export default {
                 this.saveData = true;
                 var url = `${this.apiUrl}`;
                 var item = {
-                    billing_id: this.billing_id,
+                    billing_id: (enviroment.mongo_db) ? null: (this.billing_id || null),
+                    billing_id_guid: this.billing_id || null,
                     id: this.treatment_id,
                     new_id: this.new_treatment_id,
-                    category_id: this.output_data.category_id,
+                    category_id: (enviroment.mongo_db) ? null: this.output_data.category_id,
+                    category_id_guid: this.output_data.category_id,
                     description: this.output_data.description,
                     treatment_date: this.output_data.treatment_date,
                     quantity: this.output_data.quantity
                 }
-                if (this.billing_id > 0) {
+
+                if (this.billing_id) {
+                    item.id = (item.id) ? item.id : "0";
                     url = `${url}/Edit/${item.id}`;
                     updateItem(url, item).then((data)=>{
                         if (data.valid)
@@ -174,9 +176,7 @@ export default {
                 else{
                     url = `${enviroment.apiUrl}/Billings/TreatmentItem`;
                     post(url, item).then(data=>{
-                        console.log("data:", data);
                         if (data.valid){
-                            console.log("data.data:", data.data);
                             var item = data.data;
                             this.output_data = item;
                             this.output_data.id = item.id;
@@ -198,22 +198,31 @@ export default {
         this.new_treatment_id = this.input_data.new_treatment_id;
         var url = `${this.apiUrl}`; 
         
-        getItems(`${url}/Category`).then(data => {
-            if (data.valid)
-                this.categoryItems = data.data;
+        getItems(`${enviroment.apiUrl}/TreatmentsCategory`).then(response => {
+            if (response.valid){
+                 for (let index = 0; index < response.data.length; index++) {
+                    const element = response.data[index];
+                    this.categoryItems.push({
+                        id: (enviroment.mongo_db) ? element.id_guid: element.id,
+                        name_en: element.name_en
+                    });
+                 }
+            }
         });
-
-        if (this.treatment_id > 0) {
-            url = `${url}/item/${this.treatment_id}`;
+        if (this.treatment_id) {
+            this.title = "Edit Treatment";
+            url = `${url}/${this.treatment_id}`;
             getItemById(url).then(item => {
                 if (item.valid){
                     this.output_data = item.data;
                     this.output_data.treatment_date = formatDateYYYYMMDD(item.data.treatment_date);
+                    this.output_data.category_id = (enviroment.mongo_db) ? 
+                        item.data.category_id_guid : item.data.category_id
                 }
             });
         }
         else {
-            if (this.new_treatment_id > 0) {
+            if (this.new_treatment_id) {
                 this.title = "Edit Treatment";
                 this.output_data = {
                     category_id: this.input_data.treatmentItemObs.category_id,

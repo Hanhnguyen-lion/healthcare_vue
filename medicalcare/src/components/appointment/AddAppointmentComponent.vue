@@ -221,7 +221,7 @@ import { useAuthStore } from '@/store/auth.module';
                 else{
                     var hospital_id = this.auth.accountLogin.hospital_id || 0;
                     doctors = doctors.filter(li => li.hospital_id == hospital_id);
-                    patients = patients.filter(li => li.hospital_id_guid == hospital_id_guid);
+                    patients = patients.filter(li => li.hospital_id == hospital_id);
                 }
             }
             for(var i = 0; i < doctors.length; i++){

@@ -90,7 +90,7 @@ import { enviroment } from '@/enviroments/enviroment';
                     price: 0,
                     id: 0,
                 },
-                apiUrl: `${enviroment.apiUrl}/Treatments/Category`
+                apiUrl: `${enviroment.apiUrl}/TreatmentsCategory`
             }
         },
         methods:{
