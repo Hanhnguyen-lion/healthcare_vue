@@ -4,6 +4,8 @@
     import { deleteItem, getItems } from '@/services/baseServices';
     import numeral from 'numeral';
 
+    import {utils, writeFile} from 'xlsx-js-style';
+
 </script>
 
 <template>
@@ -11,6 +13,9 @@
         <h2>Medicine List</h2>
         <div class="form-group mb-3">
             <RouterLink to="/Medicine/Add" class="btn btn-outline-primary" >Add Medicine</RouterLink>
+            <button class="btn btn-outline-primary" 
+                style="margin-left: 10px;" 
+                @click="exportToExcel()" type="button">Export to Excel</button>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -66,6 +71,50 @@ export default{
         }
     },
     methods: {
+        exportToExcel(){
+            var xlsx_data = [];
+            for (let index = 0; index < this.items.length; index++) {
+                const element = this.items[index];
+                xlsx_data.push(
+                    {
+                        id: element.id_guid,
+                        Type: element.medicine_type,
+                        Name: element.name,
+                        Price: element.price
+                    }
+                );
+            }    
+
+            const headerStyle = {
+                font: { bold: true }
+            };
+
+            const ws = utils.json_to_sheet(xlsx_data);
+            
+            // bold header
+            const range = utils.decode_range(ws['!ref']);
+            for (let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = utils.encode_cell({ r: range.s.r, c: col });
+                ws[cellAddress].s = headerStyle;
+            }
+            //format number    
+            for (let index = range.s.r + 1; index <= range.e.r; index++) {
+                const cellAddress = utils.encode_cell({
+                    r: index, c:3
+                });
+                const cell = ws[cellAddress];
+                if (cell && cell.t === 'n'){
+                    cell.s = {
+                        numFmt: "#,##0.00"};
+                }
+            }
+
+            const wb = utils.book_new()
+            utils.book_append_sheet(wb, ws, "medicines");
+
+
+            writeFile(wb, "medicine.xlsx");
+        },
         remove(id){
             this.$confirm(
             {

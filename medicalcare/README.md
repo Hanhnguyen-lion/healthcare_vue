@@ -39,6 +39,11 @@ npm i --save moment
 ```
 npm install pinia
 ```
+```
+## install xlsx-js-style
+```
+npm install xlsx-js-style
+```
 
 
 ```

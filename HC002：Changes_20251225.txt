@@ -1,0 +1,14 @@
+2025.12.24~2025.12.25
+Changes record
+
+- npm install xlsx-js-style: install export to excel
+
+〇 Medicine menu
+
+◇ MedicinesComponent.vue
+- Export medicines to Excel 
+
+
+
+
+
