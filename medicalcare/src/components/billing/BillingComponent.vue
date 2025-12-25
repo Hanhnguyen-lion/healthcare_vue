@@ -42,7 +42,9 @@
                         >View</RouterLink>
                         <button class="btn btn-outline-danger" 
                             style="margin-left: 10px;" 
-                            @click="remove(item.billing_id)" type="button">Delete</button>
+                            @click="remove(item.billing_id)" type="button">Delete
+                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        </button>
                     </td>
                     </tr>
                 </tbody>
@@ -58,6 +60,7 @@
 export default{
     data() {
         return {
+            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Billings`
@@ -65,6 +68,7 @@ export default{
     },
     methods: {
         remove(id){
+            this.loading = true;
             this.$confirm(
             {
                 title: 'Delete Billing',
@@ -73,37 +77,28 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         var apiUrl = `${this.url}/Delete/${id}`;
-                        deleteItem(apiUrl)
-                        .then(response=>{
-                            if (response.valid){
-                                const index = this.items.findIndex(p => p.billing_id === id);
-                                this.items.splice(index, 1)
-                            }
-                        })
+                        var deleted = await deleteItem(apiUrl);
+                        if (deleted.valid){
+                            this.loading = false;
+                            const index = this.items.findIndex(p => p.billing_id === id);
+                            this.items.splice(index, 1)
+                        }
                     }
                 }
             });
         }
     },
-    mounted() {
-        getItems(this.url)
-        .then(response =>{
-            this.items = response.data;
+    async mounted() {
+        var data = await getItems(this.url);
+        this.items = data.data;
 
-            if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
-                }
-            }
-        });
+        if (!isSupperAdmin(this.auth.accountLogin)){
+            var hospital_id = this.auth.accountLogin.hospital_id;
+            this.items = this.items.filter(li => li.hospital_id == hospital_id);
+        }
     }
 }
 

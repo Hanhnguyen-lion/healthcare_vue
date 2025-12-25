@@ -91,15 +91,23 @@ namespace medicalcare_mongodb.controllers
             string? email = account?.email?.ToLower();
             string? password = account?.password;
             // Check if the email already exists.
-            Account? item = await this.context.m_account.FirstOrDefaultAsync(
+            Account? data = await this.context.m_account.FirstOrDefaultAsync(
                     m => m.email == email &&
                     m.password == password);
-            if (item == null)
-            {
-                return NotFound(new { message = "Email or password is incorrect.", item = item } );
+            if (data == null)
+                return NotFound(new { message = "Email or password is incorrect.", item = data } );
+            else{
+                var item = new Dictionary<string, object>
+                {
+                    ["email"] = data?.email??"",
+                    ["hospital_id"] = data?.hospital_id_guid??"",
+                    ["first_name"] = data?.first_name??"",
+                    ["last_name"] = data?.last_name??"",
+                    ["account_type"] = data?.account_type??""
+                }; 
+                return Ok(new { message = "Login success." , item = item});
             }
 
-            return Ok(new { message = "Login success." , item = item});
         }   
     }
 }

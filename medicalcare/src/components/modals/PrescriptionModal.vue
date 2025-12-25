@@ -225,22 +225,20 @@ export default {
                 if (this.billing_id) {
                     item.id = item.id||"0";
                     url = `${url}/Edit/${item.id.toString()}`;
-                    updateItem(url, item).then(response=>{
-                        if (response.valid)
-                            this.handleClose();
-                    });
+                    var response = await updateItem(url, item);
+                    if (response.valid)
+                        this.handleClose();
                 }
                 else{
                     url = `${enviroment.apiUrl}/Billings/PrescriptionItem`;
-                    post(url, item).then(response=>{
-                        if (response.valid){
-                            var data = response.data;
-                            this.output_data = data;
-                            this.output_data.id = data.id;
-                            this.output_data.new_id = data.new_id;
-                            this.handleClose();
-                        }
-                    });
+                    response = await post(url, item);
+                    if (response.valid){
+                        var data = response.data;
+                        this.output_data = data;
+                        this.output_data.id = data.id;
+                        this.output_data.new_id = data.new_id;
+                        this.handleClose();
+                    }
                 }
             }
         },
@@ -248,53 +246,37 @@ export default {
             this.$emit("close", this.output_data, this.saveData);
         }
     },
-    mounted() {
+    async mounted() {
         this.billing_id = this.input_data.billing_id;
         this.prescription_id = this.input_data.prescription_id;
         this.new_prescription_id = this.input_data.new_prescription_id;
         
         var url = `${this.apiUrl}`;
 
-        getItems(`${enviroment.apiUrl}/Medicines`).then(data => {
-            if (data.valid){
-                for (let index = 0; index < data.data.length; index++) {
-                    const element = data.data[index];
-                    this.medicineItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
-                        name: element.name
-                    });  
-                }
-            }
-        });
+        var data = await getItems(`${enviroment.apiUrl}/Medicines`);
+        if (data.valid){
+            this.medicineItems = data.data;
+        }
         
-        getItems(`${url}/DurationTypes`).then(data => {
-            if (data.valid)
-                this.durationItems = data.data;
-        });
+        data = await getItems(`${url}/DurationTypes`);
+        if (data.valid)
+            this.durationItems = data.data;
         
-        getItems(`${enviroment.apiUrl}/MedicinesCategory`).then(data => {
-            if (data.valid){
-                for (let index = 0; index < data.data.length; index++) {
-                    const element = data.data[index];
-                    this.medicineTypeItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
-                        name_en: element.name_en
-                    });  
-                }
-            }
-        });
+        data = await getItems(`${enviroment.apiUrl}/MedicinesCategory`)
+        if (data.valid){
+            this.medicineTypeItems = data.data;
+        }
 
         if (this.prescription_id) {
             this.title = "Edit Prescription";
             url = `${url}/${this.prescription_id}`;
-            getItemById(url).then(item => {
-                if (item.valid){
-                    this.output_data = item.data;
-                    this.output_data.prescription_date = formatDateYYYYMMDD(item.data.prescription_date);
-                    this.output_data.medicine_id = (enviroment.mongo_db) ? 
-                        item.data.medicine_id_guid : item.data.medicine_id
-                }
-            });
+            var item = await getItemById(url);
+            if (item.valid){
+                this.output_data = item.data;
+                this.output_data.prescription_date = formatDateYYYYMMDD(item.data.prescription_date);
+                this.output_data.medicine_id = (enviroment.mongo_db) ? 
+                    item.data.medicine_id_guid : item.data.medicine_id
+            }
         }
         else {
             if (this.new_prescription_id) {

@@ -26,8 +26,7 @@ namespace medicalcare_mongodb.controllers
             if (data != null)
             {
                 var newItem = new Department{
-                    hospital_id = (data?.hospital_id_str == null) ? null: new ObjectId(data.hospital_id_str),
-                    doctor_id = (data?.doctor_id_str == null) ? null : new ObjectId(data.doctor_id_str),
+                    hospital_id = (data?.hospital_id_guid == null) ? null: new ObjectId(data.hospital_id_guid),
                     name = data?.name,
                     phone = data?.phone
                 };
@@ -46,6 +45,8 @@ namespace medicalcare_mongodb.controllers
         public async Task<IActionResult> Edit(string id, Department dataInput)
         {
             dataInput.id = new ObjectId(id);
+            dataInput.hospital_id = string.IsNullOrEmpty(dataInput.hospital_id_guid) ?
+            null: new ObjectId(dataInput.hospital_id_guid);
             // Validate the incoming model.
             if (!ModelState.IsValid)
             {

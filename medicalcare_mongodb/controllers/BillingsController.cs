@@ -167,8 +167,8 @@ namespace medicalcare_mongodb.controllers
                 null : new ObjectId(dataInput.doctor_id_guid);
             dataInput.patient_id = (string.IsNullOrEmpty(dataInput.patient_id_guid)) ? 
                 null : new ObjectId(dataInput.patient_id_guid);
-            dataInput.appointment_id = (string.IsNullOrEmpty(dataInput.appointment_id_guid)) ? 
-                null : new ObjectId(dataInput.appointment_id_guid);
+            // dataInput.appointment_id = (string.IsNullOrEmpty(dataInput.appointment_id_guid)) ? 
+            //     null : new ObjectId(dataInput.appointment_id_guid);
             dataInput.department_id = (string.IsNullOrEmpty(dataInput.department_id_guid)) ? 
                 null : new ObjectId(dataInput.department_id_guid);
 

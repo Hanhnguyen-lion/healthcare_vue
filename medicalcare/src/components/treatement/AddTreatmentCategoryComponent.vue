@@ -79,6 +79,7 @@ import { enviroment } from '@/enviroments/enviroment';
         data(){
             return{
                 loading: false,
+                edit_id: null,
                 title: "Add Treatment Category",
                 name_en_error:"",
                 message_error:"",
@@ -88,7 +89,8 @@ import { enviroment } from '@/enviroments/enviroment';
                     name_vn: "",
                     name_en: "",
                     price: 0,
-                    id: 0,
+                    id: null,
+                    id_guid: null
                 },
                 apiUrl: `${enviroment.apiUrl}/TreatmentsCategory`
             }
@@ -101,31 +103,22 @@ import { enviroment } from '@/enviroments/enviroment';
                     this.name_en_error = "";
             },
             async getItem(){
-                var url = (enviroment.mongo_db) ? `${this.apiUrl}/${this.item.id_guid}` : `${this.apiUrl}/${this.item.id}`;
-                return await getItemById(url);
+                return await getItemById(`${this.apiUrl}/${this.edit_id}`);
             },
             async save(){
                 this.validName();
                 if (!this.name_en_error){
-                    if (this.item.id == 0){
-                        
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Treatement/Category");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
-                    }
+                    this.loading = true;
+                    var updated;
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    if (updated.valid)
+                        this.$router.push("/Treatement/Category");
                     else{
-                        var url = (enviroment.mongo_db) ? `${this.apiUrl}/Edit/${this.item.id_guid}` : `${this.apiUrl}/Edit/${this.item.id}`;
-                        await updateItem(url, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Treatement/Category");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false; 
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -133,21 +126,10 @@ import { enviroment } from '@/enviroments/enviroment';
         async mounted(){
             var id = this.$route.params["id"];
             if (id){
-                if (enviroment.mongo_db){
-                    this.item.id_guid = id;
-                } 
-                else{
-                    this.item.id = id;
-                }
+                this.edit_id = id;
                 this.title = "Edit Treatment Category";
                 var data = await this.getItem();
                 this.item = data.data;
-            }
-            else{
-                if (enviroment.mongo_db)
-                    this.item.id_guid = "";
-                else
-                    this.item.id = 0
             }
         }
     }

@@ -320,6 +320,8 @@ export default{
                 !this.item_error.lastNameError &&
                 !this.item_error.emailError
             ){
+                this.loading = true;
+                var updated;
                 if (enviroment.mongo_db){
                     this.item.hospital_id_guid = this.item.hospital_id;
                     this.item.hospital_id = null;
@@ -330,32 +332,18 @@ export default{
                 this.item.insurance_expire = (this.item.insurance_expire) ? this.item.insurance_expire : null;
                 if (this.constant_item.id){
                     url = `${url}/Edit/${this.constant_item.id}`;
-                    if (enviroment.mongo_db){
-                        this.item.id_guid = this.constant_item.id;
-                    }
-                    else{
-                        this.item.id = this.constant_item.id;
-                    }
-                    await updateItem(url, this.item)
-                    .then((response)=>{
-                        if (response.valid){
-                            this.$router.push("/Patient");
-                        }
-                        else{
-                            this.item_error.error = response.message;
-                        }
-                    });
+                    updated = await updateItem(url, this.item);
                 }
                 else{
                     url = `${url}/Add`;
-                    await post(url, this.item).then(response=>{
-                        if (response.valid){
-                            this.$router.push("/Patient");
-                        }
-                        else{
-                            this.item_error.error = response.message;
-                        }
-                    });
+                    updated = await post(url, this.item);
+                }
+                if (updated.valid){
+                    this.$router.push("/Patient");
+                }
+                else{
+                    this.loading = false;
+                    this.item_error.error = updated.message;
                 }
             }
         }
@@ -371,27 +359,12 @@ export default{
             var insurance_expire = this.item.insurance_expire;
             this.item.date_of_birth = (date_of_birth) ? formatDateYYYYMMDD(date_of_birth):null;
             this.item.insurance_expire = (insurance_expire) ? formatDateYYYYMMDD(insurance_expire):null;
-            this.item.hospital_id = (enviroment.mongo_db) ? this.item.hospital_id_guid : this.item.hospital_id;
         }
         var categories = await this.getHospitalItems();
-        var hospitals = categories.data;
+        this.hospitalItems = categories.data;
         if (!isSupperAdmin(this.auth.accountLogin)){
-            if (enviroment.mongo_db){
-                var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                hospitals = hospitals.filter(li => li.id_guid == hospital_id_guid);
-            }
-            else{
-                var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                hospitals = hospitals.filter(li => li.id == hospital_id);
-            }
-        }
-        for(var i = 0; i < hospitals.length; i++){
-            this.hospitalItems.push(
-                {
-                    id: (enviroment.mongo_db) ? hospitals[i].hospital_id_guid : hospitals[i].id,
-                    name: hospitals[i].name
-                }
-            );
+            var hospital_id = this.auth.accountLogin.hospital_id;
+            this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
         }
     }
 }    

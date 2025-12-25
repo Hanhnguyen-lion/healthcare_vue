@@ -43,7 +43,9 @@ import { isSupperAdmin } from '../helper/helper';
                         >Edit</RouterLink>
                         <button class="btn btn-outline-danger" 
                             style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete</button>
+                            @click="remove(item.id)" type="button">Delete
+                            <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        </button>
                     </td>
                     </tr>
                 </tbody>
@@ -59,6 +61,7 @@ import { isSupperAdmin } from '../helper/helper';
 export default{
     data() {
         return {
+            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Doctors`
@@ -66,6 +69,7 @@ export default{
     },
     methods: {
         remove(id){
+            this.loading = true;
             this.$confirm(
             {
                 title: 'Delete Doctor',
@@ -74,53 +78,28 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         var apiUrl = `${this.url}/Delete/${id}`;
-                        deleteItem(apiUrl)
-                        .then(response=>{
-                            if (response.valid){
-                                const index = this.items.findIndex(p => p.id === id);
-                                this.items.splice(index, 1)
-                            }
-                        })
+                        var deleted = await deleteItem(apiUrl);
+                        if (deleted.valid){
+                            this.loading = false;
+                            const index = this.items.findIndex(p => p.id === id);
+                            this.items.splice(index, 1)
+                        }
                     }
                 }
             });
         }
     },
-    mounted() {
-        getItems(this.url)
-        .then(response =>{
-            var doctors = response.data;
-            if (doctors){
-                for(var i = 0; i< doctors.length; i++){
-                    var item = doctors[i];
-                    var newItem = {
-                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
-                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
-                        hospital_name: (enviroment.mongo_db) ? item.hospital_name: "",
-                        first_name: item.first_name,
-                        last_name: item.last_name,
-                        phone: item.phone,
-                        email: item.email,
-                        gender: item.gender
-                    };
-                    this.items.push(newItem);
-                }
-            }
+    async mounted() {
+        var data = await getItems(this.url)
+        this.items = data.data;
             
-            if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
-                }
-            }
-        });
+        if (!isSupperAdmin(this.auth.accountLogin)){
+            var hospital_id = this.auth.accountLogin.hospital_id;
+            this.items = this.items.filter(li => li.hospital_id == hospital_id);
+        }
     }
 }
 

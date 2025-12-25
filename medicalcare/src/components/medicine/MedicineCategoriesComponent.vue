@@ -23,17 +23,15 @@ import { enviroment } from '@/enviroments/enviroment';
                 </thead>
                 <tbody>
                 <tr v-for="item in data" :key="item.id">
-                <td>{{item.name_en}}</td>
-                <td>{{item.name_vn}}</td>
-                <td>{{item.name_jp}}</td>
-                <td v-if="enviroment.mongo_db">
-                    <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Medicine/Category/Edit/'+item.id_guid">Edit</RouterLink>
-                    <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id_guid)" type="button">Delete</button>
-                </td>
-                <td v-else>
-                    <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Medicine/Category/Edit/'+item.id">Edit</RouterLink>
-                    <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id)" type="button">Delete</button>
-                </td>
+                    <td>{{item.name_en}}</td>
+                    <td>{{item.name_vn}}</td>
+                    <td>{{item.name_jp}}</td>
+                    <td>
+                        <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Medicine/Category/Edit/'+item.id">Edit</RouterLink>
+                        <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id)" type="button">Delete
+                            <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -46,12 +44,14 @@ import { enviroment } from '@/enviroments/enviroment';
     export default{
         data:()=>{
             return {
+                loading: false,
                 data: [],
                 apiUrl:`${enviroment.apiUrl}/MedicinesCategory`
             };
         },
         methods:{
-            remove(id){
+            async remove(id){
+                this.loading = true;
                 this.$confirm(
                 {
                     title: 'Delete Medicine Category',
@@ -60,29 +60,26 @@ import { enviroment } from '@/enviroments/enviroment';
                         no: 'No',
                         yes: 'Yes'
                     },
-                    callback: confirm => {
+                    callback: async confirm => {
                         if (confirm) {
-                            deleteItem(`${this.apiUrl}/Delete/${id}`)
-                            .then(response=>{
-                                if (response.valid){
-                                    if (this.data){
-                                        const index = this.data.findIndex(p => p.id === id);
-                                        this.data.splice(index, 1)
-                                    }
+                            var deleted = await deleteItem(`${this.apiUrl}/Delete/${id}`);
+                            if (deleted.valid){
+                                this.loading = false;
+                                if (this.data){
+                                    const index = this.data.findIndex(p => p.id === id);
+                                    this.data.splice(index, 1)
                                 }
-                            })
+                            }
                         }
                     }
                 });
             },
         },
-        mounted(){
-            getItems(this.apiUrl)
-            .then(response =>{
-                if (response.valid){
-                    this.data = response.data;
-                }
-            });
+        async mounted(){
+            var response = await getItems(this.apiUrl);
+            if (response.valid){
+                this.data = response.data;
+            }
         }
     }
 </script>

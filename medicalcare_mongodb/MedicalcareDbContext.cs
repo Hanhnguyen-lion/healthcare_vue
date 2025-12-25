@@ -221,13 +221,11 @@ namespace medicalcare_mongodb
             from cDefault in categoryGroup.DefaultIfEmpty()
             select new
             {
-                category_id = m.category_id,
-                category_id_guid = m.category_id_guid,
+                category_id = m.category_id_guid,
                 medicine_type = cDefault?.name_en,
                 name = m.name,
                 price = m.price,
-                id_guid = m.id_guid,
-                id = m.id
+                id = m.id_guid
             };
             return leftJoinResults;
         }
@@ -242,8 +240,7 @@ namespace medicalcare_mongodb
             from hDefault in hospitalGroup.DefaultIfEmpty()
             select new
             {
-                hospital_id = p.hospital_id,
-                hospital_id_guid = p.hospital_id_guid,
+                hospital_id = p.hospital_id_guid,
                 hospital_name = hDefault?.name,
                 code = p.code,
                 date_of_birth = p.date_of_birth,
@@ -263,10 +260,75 @@ namespace medicalcare_mongodb
                 insurance_expire = p.insurance_expire,
                 insurance_info = p.insurance_info,
                 medical_history = p.medical_history,
-                id_guid = p.id_guid,
-                id = p.id
+                id = p.id_guid
             };
             return leftJoinResults;
+        }
+
+        public async Task<IEnumerable> GettreatmentCategories()
+        {
+            var treatment_categories = await m_treatment_category.ToListAsync();
+
+            var results = from m in treatment_categories
+            select new
+            {
+                id = m.id_guid,
+                m.name_en,
+                m.name_vn,
+                m.name_jp,
+                m.description,
+                m.price
+            };
+            return results;
+        }
+
+        public async Task<IEnumerable> GetMedicineTypes()
+        {
+            var medicine_types = await m_medicine_type.ToListAsync();
+
+            var results = from m in medicine_types
+            select new
+            {
+                id = m.id_guid,
+                m.name_en,
+                m.name_vn,
+                m.name_jp,
+                m.description
+            };
+            return results;
+        }
+
+        public async Task<IEnumerable> GetDepartments()
+        {
+            var items = await m_department.ToListAsync();
+
+            var results = from m in items
+            select new
+            {
+                id = m.id_guid,
+                m.name,
+                m.phone,
+                hospital_id = m.hospital_id_guid
+            };
+            return results;
+        }
+
+        public async Task<IEnumerable> GetHospitals()
+        {
+            var medicine_types = await m_hospital.ToListAsync();
+
+            var results = from m in medicine_types
+            select new
+            {
+                id = m.hospital_id_guid,
+                m.name,
+                m.phone,
+                m.address,
+                m.email,
+                m.description,
+                m.country
+            };
+            return results;
         }
 
         public async Task<IEnumerable> GetDoctors()
@@ -279,8 +341,7 @@ namespace medicalcare_mongodb
             from hDefault in hospitalGroup.DefaultIfEmpty()
             select new
             {
-                hospital_id = d.hospital_id,
-                hospital_id_guid = d.hospital_id_guid,
+                hospital_id = d.hospital_id_guid,
                 hospital_name = hDefault?.name,
                 first_name = d.first_name,
                 last_name = d.last_name,
@@ -289,8 +350,7 @@ namespace medicalcare_mongodb
                 email = d.email,
                 quanlification =  d.quanlification,
                 job_specification =  d.job_specification,
-                id_guid = d.id_guid,
-                id = d.id 
+                id = d.id_guid 
             };
             return leftJoinResults;
         }
@@ -308,32 +368,18 @@ namespace medicalcare_mongodb
                              from pDefault in patientGroup.DefaultIfEmpty()
                              select new
                              {
-                                id = a.id,
-                                id_guid = a.id_guid,
-                                doctor_id = a.doctor_id,
-                                doctor_id_guid = a.doctor_id_guid,
-                                patient_id = a.patient_id,
-                                patient_id_guid = a.patient_id_guid,
+                                id = a.id_guid,
+                                doctor_id = a.doctor_id_guid,
+                                patient_id = a.patient_id_guid,
                                 appointment_date = a.appointment_date,
                                 reason_to_visit = a.reason_to_visit,
                                 status = a.status,
                                 times = (a.hour == null) ? "" : $"{a.hour}:{a?.minute?.ToString().PadLeft(2, '0')}",
                                 doctor_name = $"{cDefault?.last_name} {cDefault?.first_name}"  ?? "",
                                 patient_name = $"{pDefault?.last_name} {pDefault?.first_name}"  ?? "",
-                                hospital_id_guid = pDefault?.hospital_id_guid  ?? null,
-                                hospital_id = pDefault?.hospital_id  ?? null
+                                hospital_id = pDefault?.hospital_id_guid  ?? null
                              };
             return leftJoinResult;
-        }
-
-        public string CodePatient
-        {
-            get
-            {
-                var count = (m_patient == null) ? 1: m_patient.Count() + 1;
-                var today = DateTime.Today.ToString("yyyyMMdd");
-                return $"{today}_{count}";
-            }
         }
 
         public async Task<Object?> GetItem(string id, string controllerName)

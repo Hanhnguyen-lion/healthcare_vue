@@ -29,13 +29,11 @@ import { enviroment } from '@/enviroments/enviroment';
                     <td>{{item.name_vn}}</td>
                     <td>{{item.name_jp}}</td>
                     <td>{{numberal(item.price).format("0,0.00")}}</td>
-                    <td v-if="enviroment.mongo_db">
-                        <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Treatement/Category/Edit/'+item.id_guid">Edit</RouterLink>
-                        <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id_guid)" type="button">Delete</button>
-                    </td>
-                    <td v-else>
+                    <td>
                         <RouterLink class="btn btn-outline-primary" style="margin-left: 10px;" :to="'/Treatement/Category/Edit/'+item.id">Edit</RouterLink>
-                        <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id)" type="button">Delete</button>
+                        <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(item.id)" type="button">
+                            <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            Delete</button>
                     </td>
                 </tr>
                 </tbody>
@@ -49,12 +47,14 @@ import { enviroment } from '@/enviroments/enviroment';
     export default{
         data(){
             return {
+                loading: false,
                 categories:[],
                 apiUrl: `${enviroment.apiUrl}/TreatmentsCategory`
             };
         },
         methods:{
             remove(id){
+                this.loading = true;
                 this.$confirm(
                 {
                     title: 'Delete Treatement Category',
@@ -63,26 +63,23 @@ import { enviroment } from '@/enviroments/enviroment';
                         no: 'No',
                         yes: 'Yes'
                     },
-                    callback: confirm => {
+                    callback: async confirm => {
                         if (confirm) {
-                            deleteItem(`${this.apiUrl}/Delete/${id}`)
-                            .then(response=>{
-                                if (response.valid){
-                                    const index = this.categories.findIndex(p => p.id === id);
-                                    this.categories.splice(index, 1)
-                                }
-                            })
+                            var deleteed = await deleteItem(`${this.apiUrl}/Delete/${id}`);
+                            if (deleteed.valid){
+                                this.loading = false;
+                                const index = this.categories.findIndex(p => p.id === id);
+                                this.categories.splice(index, 1)
+                            }
                         }
                     }
                 })
             }
         },
-        mounted() {
-            getItems(this.apiUrl)
-            .then(response =>{
-                if (response.valid)
-                    this.categories = response.data;
-            });
+        async mounted() {
+            var data = await getItems(this.apiUrl);
+            if (data.valid)
+                this.categories = data.data;
         }
     }
 </script>

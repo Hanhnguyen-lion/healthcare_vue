@@ -70,6 +70,7 @@ import { enviroment } from '@/enviroments/enviroment';
         data(){
             return{
                 loading: false,
+                edit_id: null,
                 title: "Add Medicine",
                 name_error:"",
                 message_error:"",
@@ -100,29 +101,22 @@ import { enviroment } from '@/enviroments/enviroment';
             },
             async save(){
                 this.validName();
+                var updated;
                 if (!this.name_en_error){
+                    this.loading = true;
                     if (enviroment.mongo_db){
                         this.item.category_id_guid = this.item.category_id;
                         this.item.category_id = null;
                     }
-                    if (!this.item.id){
-                        
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Medicine");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
-                    }
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    if (updated.valid)
+                        this.$router.push("/Medicine");
                     else{
-                        await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Medicine");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false;
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -130,19 +124,15 @@ import { enviroment } from '@/enviroments/enviroment';
         async mounted(){
             var id = this.$route.params["id"];
             if (id){
+                this.edit_id = id;
                 this.title = "Edit Medicine";
                 var data = await this.getItem(id);
                 this.item = data.data;
-                this.item.id = id;
-                this.item.category_id = (enviroment.mongo_db) ? this.item.category_id_guid : this.item.category_id;
             }
 
             var categories = await this.getMedicineTypeItems();
-            for(var i = 0; i < categories.data.length; i++){
-                this.medicineTypeItems.push({
-                    id: categories.data[i].id_guid,
-                    name_en: categories.data[i].name_en
-                });
+            if (categories.valid){
+                this.medicineTypeItems = categories.data;
             }
         }
     }

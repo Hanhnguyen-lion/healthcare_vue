@@ -40,7 +40,9 @@ import { useAuthStore } from '@/store/auth.module';
                                 @click="edit(item.id)" type="button">Edit</button>
                             <button class="btn btn-outline-danger" 
                                 style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">Delete</button>
+                                @click="remove(item.id)" type="button">Delete
+                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -56,6 +58,7 @@ import { useAuthStore } from '@/store/auth.module';
 export default{
     data() {
         return {
+            loading: false,
             auth: useAuthStore(),
             patients: [],
             url: `${enviroment.apiUrl}/Patients`
@@ -63,6 +66,7 @@ export default{
     },
     methods: {
         remove(id){
+            this.loading = true;
             this.$confirm(
             {
                 title: 'Delete Patient',
@@ -71,16 +75,15 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         var apiUrl = `${this.url}/Delete/${id}`;
-                        deleteItem(apiUrl)
-                        .then(response=>{
-                            if (response.valid){
-                                const index = this.patients.findIndex(p => p.id === id);
-                                this.patients.splice(index, 1)
-                            }
-                        })
+                        var deleted = await deleteItem(apiUrl);
+                        if (deleted.valid){
+                            this.loading = false;
+                            const index = this.patients.findIndex(p => p.id === id);
+                            this.patients.splice(index, 1)
+                        }
                     }
                 }
             })
@@ -90,44 +93,18 @@ export default{
         },
         edit(id){
             this.$router.push(`/Patient/Edit/${id}`);
-        },
-        view(id){
-            this.$router.push(`/Patient/View/${id}`);
         }
     },
-    mounted() {
-        getItems(this.url)
-        .then(response =>{
-            if (response.valid){
-                var items = response.data;
-                for(var i = 0; i< items.length; i++){
-                    var item = items[i];
-                    var newItem = {
-                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
-                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
-                        hospital_name: (enviroment.mongo_db) ? item.hospital_name: "",
-                        code: item.code,
-                        first_name: item.first_name,
-                        last_name: item.last_name,
-                        date_of_birth: item.date_of_birth,
-                        gender: item.gender
-                    };
-                    this.patients.push(newItem);
-                }
+    async mounted() {
+        var items = await getItems(this.url);
+        if (items.valid){
+            this.patients = items.data;
 
-                if (!isSupperAdmin(this.auth.accountLogin)){
-                    if (enviroment.mongo_db){
-                        var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                        this.patients = this.patients.filter(li => li.hospital_id == hospital_id_guid);
-                    }
-                    else{
-                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                        this.patients = this.patients.filter(li => li.hospital_id == hospital_id);
-                    }
-                }
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.patients = this.patients.filter(li => li.hospital_id == hospital_id);
             }
-        });
+        }
     }
 }
-
 </script>

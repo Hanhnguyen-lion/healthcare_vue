@@ -35,13 +35,7 @@ import { isSupperAdmin } from '../helper/helper';
                             <div class="row mb-3">
                                 <div class="form-group">
                                     <label class="fw-bold">Hospital</label>
-                                    <select v-if="enviroment.mongo_db" class="form-select" name="hospital_id"
-                                     v-model="item.hospital_id_str">
-                                        <option v-for="item in hospitalItems" :key="item.hospital_id_guid" :value="item.hospital_id_guid">
-                                            {{item.name}}
-                                        </option>
-                                    </select>
-                                    <select v-else class="form-select" name="hospital_id"
+                                    <select class="form-select" name="hospital_id"
                                      v-model="item.hospital_id">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{item.name}}
@@ -77,6 +71,7 @@ import { isSupperAdmin } from '../helper/helper';
     export default{
         data(){
             return{
+                edit_id: null,
                 auth: useAuthStore(),
                 loading: false,
                 title: "Add Department",
@@ -87,7 +82,8 @@ import { isSupperAdmin } from '../helper/helper';
                     name:"",
                     phone: "",
                     hospital_id: null,
-                    hospital_id_str: null,
+                    hospital_id_guid: null,
+                    doctor_id: null,
                     id: null,
                 },
                 apiUrl: `${enviroment.apiUrl}/Departments`
@@ -101,7 +97,7 @@ import { isSupperAdmin } from '../helper/helper';
                     this.name_error = "";
             },
             async getItem(){
-                return await getItemById(`${this.apiUrl}/${this.item.id}`);
+                return await getItemById(`${this.apiUrl}/${this.edit_id}`);
             },
             async getHospitalItems(){
                 return await getItems(`${enviroment.apiUrl}/Hospitals`);
@@ -109,23 +105,23 @@ import { isSupperAdmin } from '../helper/helper';
             async save(){
                 this.validName();
                 if (!this.name_en_error){
-                    if (!this.item.id){
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Department");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
-                    }
+                    this.loading = true;
+                    var updated;
+                    if (enviroment.mongo_db){
+                        this.item.hospital_id_guid = this.item.hospital_id;
+                        this.item.hospital_id = null;
+                        this.item.doctor_id = null;
+                    }    
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    
+                    if (updated.valid)
+                        this.$router.push("/Department");
                     else{
-                        await updateItem(`${this.apiUrl}/Edit/${this.item.id}`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Department");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false;
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -133,26 +129,16 @@ import { isSupperAdmin } from '../helper/helper';
         async mounted(){
             var id = this.$route.params["id"];
             if (id){
-                this.item.id = id;
+                this.edit_id = id;
                 this.title = "Edit Department";
                 var data = await this.getItem();
-                this.item.name = data.data.name;
-                this.item.phone = data.data.phone;
-                if (enviroment.mongo_db){
-                    this.item.hospital_id_str = data.data.hospital_id_guid;
-                }
+                this.item = data.data;
             }
             var categories = await this.getHospitalItems();
             this.hospitalItems = categories.data;
             if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    this.hospitalItems = this.hospitalItems.filter(li => li.hospital_id_guid == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
-                }
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
             }
         }
     }

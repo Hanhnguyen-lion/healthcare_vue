@@ -233,30 +233,28 @@ import { useAuthStore } from '@/store/auth.module';
                 }
                 this.years.sort();
             },
-            getPatients(){
-                return getItems(`${enviroment.apiUrl}/MedicalCares/Patients`);
+            async getPatients(){
+                return await getItems(`${enviroment.apiUrl}/MedicalCares/Patients`);
             },
             
-            onSearch(){
+            async onSearch(){
                 this.searchMedical = true;
                 this.medicalCares = [];
                 var url = `${enviroment.apiUrl}/MedicalCares/Search`
 
-                getItemsWithParam(url, this.input_data).
-                then(data=>{
-                    if (data.valid){
-                        var item = data.data;
-                        this.patientItem = item;
-                        var patient_id = item.patient_id;
-                        if (patient_id){
-                            this.medicalCares = item.medical;
-                        }
+                var data = await getItemsWithParam(url, this.input_data);
+                if (data.valid){
+                    var item = data.data;
+                    this.patientItem = item;
+                    var patient_id = item.patient_id;
+                    if (patient_id){
+                        this.medicalCares = item.medical;
                     }
-                    else{
-                        this.searchMedical = false;
-                        this.error_message = data.message;
-                    }
-                });
+                }
+                else{
+                    this.searchMedical = false;
+                    this.error_message = data.message;
+                }
             },
             onPrint() {
                 var printContents = document.getElementById('MedicalReports')?.innerHTML;
@@ -304,22 +302,15 @@ import { useAuthStore } from '@/store/auth.module';
                 }
             }             
         },
-        mounted(){
-            this.getPatients().then(data=>{
-                if (data.valid){
-                    this.patientItems = data.data;
-                    if (!isSupperAdmin(this.auth.accountLogin)){
-                        if (enviroment.mongo_db){
-                            var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                            this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id_guid);
-                        }
-                        else{
-                            var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                            this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id);
-                        }
-                    }
+        async mounted(){
+            var data = await this.getPatients();
+            if (data.valid){
+                this.patientItems = data.data;
+                if (!isSupperAdmin(this.auth.accountLogin)){
+                    var hospital_id = this.auth.accountLogin.hospital_id;
+                    this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id);
                 }
-            });
+            }
             this.setYears();
         }
     }

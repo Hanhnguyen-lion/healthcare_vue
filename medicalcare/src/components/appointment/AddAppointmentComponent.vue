@@ -46,7 +46,7 @@ import { useAuthStore } from '@/store/auth.module';
                                     <label class="fw-bold">Patient <span class="text-danger">*</span></label>
                                     <select class="form-select" name="patient_id"
                                      v-model="item.patient_id">
-                                        <option v-for="item in patientsItems" :key="item.id" :value="item.id">
+                                        <option v-for="item in patientItems" :key="item.id" :value="item.id">
                                             {{item.last_name}} {{item.first_name}}
                                         </option>
                                     </select>
@@ -165,32 +165,23 @@ import { useAuthStore } from '@/store/auth.module';
                 if (!this.patient_error &&
                     !this.appointment_date_error
                 ){
+                    this.loading = true;
+                    var updated;
                     if (enviroment.mongo_db){
                         this.item.doctor_id_guid = this.item.doctor_id;
                         this.item.doctor_id = null;
                         this.item.patient_id_guid = this.item.patient_id;
                         this.item.patient_id = null;
                     }
-                    if (!this.edit_id){
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Appointment");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
-                    }
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    if (updated.valid)
+                        this.$router.push("/Appointment");
                     else{
-                        if (enviroment.mongo_db){
-                            this.item.id_guid = this.edit_id;
-                        }
-                        await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Appointment");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false;
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -203,44 +194,19 @@ import { useAuthStore } from '@/store/auth.module';
                 var appointment_date = formatDateYYYYMMDD(data.data.appointment_date);
                 this.item = data.data;
                 this.item.appointment_date = formatDateYYYYMMDD(appointment_date);
-                this.item.doctor_id = (enviroment.mongo_db) ? this.item.doctor_id_guid : this.item.doctor_id;
-                this.item.patient_id = (enviroment.mongo_db) ? this.item.patient_id_guid : this.item.patient_id;
+                this.item.hour = (!this.item.hour || this.item.hour == 0) ? null: this.item.hour;
+                this.item.minute = (!this.item.hour || this.item.hour == 0) ? null: this.item.minute;
             }
 
             var categories = await this.getPatientItems();
-            var patients = categories.data;
+            this.patientItems = categories.data;
             categories = await this.getDoctorItems();
-            var doctors = categories.data;
+            this.doctorItems = categories.data;
 
             if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    doctors = doctors.filter(li => li.hospital_id_guid == hospital_id_guid);
-                    patients = patients.filter(li => li.hospital_id_guid == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    doctors = doctors.filter(li => li.hospital_id == hospital_id);
-                    patients = patients.filter(li => li.hospital_id == hospital_id);
-                }
-            }
-            for(var i = 0; i < doctors.length; i++){
-                this.doctorItems.push(
-                    {
-                        id: (enviroment.mongo_db) ? doctors[i].id_guid : doctors[i].id,
-                        first_name: doctors[i].first_name,
-                        last_name: doctors[i].last_name
-                    }
-                );
-            }
-            for(var j = 0; j < patients.length; j++){
-                this.patientsItems.push(
-                    {
-                        id: (enviroment.mongo_db) ? patients[j].id_guid : patients[j].id,
-                        first_name: patients[j].first_name,
-                        last_name: patients[j].last_name
-                    }
-                );
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.doctorItems = this.doctorItems.filter(li => li.hospital_id == hospital_id);
+                this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id);
             }
 
             this.setHours();

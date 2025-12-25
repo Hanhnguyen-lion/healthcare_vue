@@ -168,22 +168,21 @@ export default {
                 if (this.billing_id) {
                     item.id = (item.id) ? item.id : "0";
                     url = `${url}/Edit/${item.id}`;
-                    updateItem(url, item).then((data)=>{
-                        if (data.valid)
-                            this.handleClose();
-                    });
+                    var data = await updateItem(url, item);
+                    if (data.valid)
+                        this.handleClose();
                 }
                 else{
+                    console.log(item);
                     url = `${enviroment.apiUrl}/Billings/TreatmentItem`;
-                    post(url, item).then(data=>{
-                        if (data.valid){
-                            var item = data.data;
-                            this.output_data = item;
-                            this.output_data.id = item.id;
-                            this.output_data.new_id = item.new_id;
-                            this.handleClose();
-                        }
-                    })
+                    data = await post(url, item);
+                    if (data.valid){
+                        item = data.data;
+                        this.output_data = item;
+                        this.output_data.id = item.id;
+                        this.output_data.new_id = item.new_id;
+                        this.handleClose();
+                    }
                 }
             }
         },
@@ -191,35 +190,28 @@ export default {
             this.$emit("close", this.output_data, this.saveData);
         }
     },
-    mounted() {
+    async mounted() {
         
         this.billing_id = this.input_data.billing_id;
         this.treatment_id = this.input_data.treatment_id;
         this.new_treatment_id = this.input_data.new_treatment_id;
         var url = `${this.apiUrl}`; 
         
-        getItems(`${enviroment.apiUrl}/TreatmentsCategory`).then(response => {
-            if (response.valid){
-                 for (let index = 0; index < response.data.length; index++) {
-                    const element = response.data[index];
-                    this.categoryItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid: element.id,
-                        name_en: element.name_en
-                    });
-                 }
-            }
-        });
+        var response = await getItems(`${enviroment.apiUrl}/TreatmentsCategory`);
+        if (response.valid){
+            this.categoryItems = response.data;
+        }
+
         if (this.treatment_id) {
             this.title = "Edit Treatment";
             url = `${url}/${this.treatment_id}`;
-            getItemById(url).then(item => {
-                if (item.valid){
-                    this.output_data = item.data;
-                    this.output_data.treatment_date = formatDateYYYYMMDD(item.data.treatment_date);
-                    this.output_data.category_id = (enviroment.mongo_db) ? 
-                        item.data.category_id_guid : item.data.category_id
-                }
-            });
+            var item = await getItemById(url);
+            if (item.valid){
+                this.output_data = item.data;
+                this.output_data.treatment_date = formatDateYYYYMMDD(item.data.treatment_date);
+                this.output_data.category_id = (enviroment.mongo_db) ? 
+                    item.data.category_id_guid : item.data.category_id
+            }
         }
         else {
             if (this.new_treatment_id) {

@@ -25,7 +25,7 @@ import { useAuthStore } from '@/store/auth.module';
                                     <label class="fw-bold">Patient <span class="text-danger">*</span></label>
                                     <select class="form-select" name="patient_id" v-model="item.patient_id" placeholder="Enter Patient">
                                         <option v-for="item in patientItems" :key="item.id" :value="item.id">
-                                            {{item.first_name}} {{item.last_name}}
+                                            {{item.last_name}} {{item.first_name}}
                                         </option>
                                     </select>
                                     <div v-if="patient_id_error" class="invalid-feedback">
@@ -41,7 +41,7 @@ import { useAuthStore } from '@/store/auth.module';
                                     <select class="form-select" name="doctor_id"
                                      v-model="item.doctor_id" placeholder="Enter doctor">
                                         <option v-for="item in doctorItems" :key="item.id" :value="item.id">
-                                            {{item.first_name}} {{item.last_name}}
+                                            {{item.last_name}} {{item.first_name}}
                                         </option>
                                     </select>
                                     <div v-if="doctor_id_error" class="invalid-feedback">
@@ -248,7 +248,8 @@ export default{
                 department_id :null,
                 patient_id_guid :null,
                 doctor_id_guid :null,
-                department_id_guid :null,
+                appointment_id :null,
+                appointment_id_guid: null,
                 diagnostic :"",
                 notes :"",
                 discharge_date :formatDateYYYYMMDD(new Date()),
@@ -308,7 +309,7 @@ export default{
                 this.admission_date_error = "";
             }
         },
-        addOrEditItem(){
+        async addOrEditItem(){
             this.validPatient();
             this.validDepartment();
             this.validDoctor();
@@ -320,6 +321,7 @@ export default{
                 !this.admission_date_error &&
                 !this.discharge_date_error
             ){
+                this.loading = true;
                 var url = `${this.apiUrl}`;
                 if (enviroment.mongo_db){
                     this.item.doctor_id_guid = this.item.doctor_id;
@@ -328,67 +330,51 @@ export default{
                     this.item.patient_id = null;
                     this.item.department_id_guid = this.item.department_id;
                     this.item.department_id = null;
+                    this.item.appointment_id_guid = null;
+                    this.item.appointment_id = null;
                 }
                 if (this.billing_id){
                     this.item.id = this.billing_id;
                     url = `${url}/Edit/${this.billing_id}`
-                    updateItem(url, this.item);
+                    await updateItem(url, this.item);
                 }
                 else{
                     url = `${url}/Add`;
-                    post(url, this.item)
-                    .then(data=>{
-                        if (data.valid){
-                            var id = data.data;
-                            url = `${this.apiUrl}/Add/Treatement/${id}`;
+                    var data = await post(url, this.item);
+                    if (data.valid){
+                        var id = data.data;
+                        url = `${this.apiUrl}/Add/Treatement/${id}`;
 
-                            post(url, this.treatmentItems).then((data)=>{
-                                if (data.valid){
-                                    url = `${this.apiUrl}/Add/Prescription/${id}`;
-                                    post(url, this.prescriptionItems).then(()=>{});
-                                }
-                            });
+                        data = await post(url, this.treatmentItems);
+                        if (data.valid){
+                            url = `${this.apiUrl}/Add/Prescription/${id}`;
+                            await post(url, this.prescriptionItems);
                         }
-                    })
+                    }
                 }
                 this.$router.push("/Billing");
             }
         },
-        closeModal(data, saveData){
+        async closeModal(data, saveData){
             this.showModal = false;
             if (saveData){
                 if (this.billing_id){
-                    this.treatmentItems = [];
-                    var url = `${enviroment.apiUrl}/Treatments/items/${this.billing_id}`;
-                    getItems(url)
-                    .then(response=>{
-                        if (response.valid){
-                            for (let index = 0; index < response.data.length; index++) {
-                                const element = response.data[index];
-                                this.treatmentItems.push({
-                                    id: (enviroment.mongo_db) ? element.id_guid: element.id,
-                                    treatment_date: element.treatment_date,
-                                    treatment_type: element.treatment_type,
-                                    amount: element.amount,
-                                    quantity: element.quantity,
-                                    total: element.total
-                                });
-                            }
-                        }
-                    });
+                    var treatments = await this.loadTreatments();
+                    if (treatments.valid){
+                        this.treatmentItems = treatments.data;
+                    }
                 }
                 else{
                     this.treatmentItems = addItemToArray(this.treatmentItems, data, "new_id");
                 }
             }
         },
-        closePrescriptionModal(data, saveData){
+        async closePrescriptionModal(data, saveData){
             this.showPrescriptionModal = false;
             if (saveData){
                 if (this.billing_id){
-                    this.loadPrescriptions().then(data =>{
-                        this.prescriptionItems = data.data;
-                    });
+                    var prescriptions = await this.loadPrescriptions();
+                    this.prescriptionItems = prescriptions.data;
                 }
                 else{
                     this.prescriptionItems = addItemToArray(this.prescriptionItems, data, "new_id");
@@ -430,22 +416,19 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         if (id){
                             url = `${url}/Delete/${id}`;
-                            deleteItem(url).then(()=>{
-                                if (type == "Treatment"){
-                                    this.loadTreatments().then(data =>{
-                                        this.treatmentItems = data.data;
-                                    });
-                                }
-                                else{
-                                    this.loadPrescriptions().then(data=>{
-                                        this.prescriptionItems = data.data;
-                                    });
-                                }
-                            });
+                            await deleteItem(url);
+                            if (type == "Treatment"){
+                                var treatments = await this.loadTreatments();
+                                this.treatmentItems = treatments.data;
+                            }
+                            else{
+                                var prescriptions = await this.loadPrescriptions();
+                                this.prescriptionItems = prescriptions.data;
+                            }
                         }
                         else{
                             if (type == "Treatment"){
@@ -459,123 +442,66 @@ export default{
                 }
             });
         },
-        loadTreatments(){
-            return getItems(`${enviroment.apiUrl}/Treatments/items/${this.billing_id}`);
+        async loadTreatments(){
+            return await getItems(`${enviroment.apiUrl}/Treatments/items/${this.billing_id}`);
         },
-        loadPrescriptions(){
-            return getItems(`${enviroment.apiUrl}/Prescriptions/items/${this.billing_id}`);
+        async loadPrescriptions(){
+            return await getItems(`${enviroment.apiUrl}/Prescriptions/items/${this.billing_id}`);
         }
     },
-    mounted(){
+    async mounted(){
         this.billing_id = this.$route.params.id;
         this.title = (this.billing_id) ? "Edit Billing" : "Add Billing";
 
-        getItems(`${enviroment.apiUrl}/Patients`)
-        .then(response =>{
-            if (response.valid){
-                var patients = response.data;
-                
-                if (!isSupperAdmin(this.auth.accountLogin)){
-                    if (enviroment.mongo_db){
-                        var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                        patients = patients.filter(li => li.hospital_id_guid == hospital_id_guid);
-                    }
-                    else{
-                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                        patients = patients.filter(li => li.hospital_id == hospital_id);
-                    }
-                }
-                for (let index = 0; index < patients.length; index++) {
-                    const element = patients[index];
-                    this.patientItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
-                        first_name: element.first_name,
-                        last_name: element.last_name
-                    });
-                }
+        var data = await getItems(`${enviroment.apiUrl}/Patients`);
+        if (data.valid){
+            this.patientItems = data.data;
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id);
             }
-        });
+        }
 
-        getItems(`${enviroment.apiUrl}/Doctors`)
-        .then(response =>{
-            if (response.valid){
-                var doctors = response.data;
-                
-                if (!isSupperAdmin(this.auth.accountLogin)){
-                    if (enviroment.mongo_db){
-                        var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                        doctors = doctors.filter(li => li.hospital_id_guid == hospital_id_guid);
-                    }
-                    else{
-                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                        doctors = doctors.filter(li => li.hospital_id == hospital_id);
-                    }
-                }
-                for (let index = 0; index < doctors.length; index++) {
-                    const element = doctors[index];
-                    this.doctorItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
-                        first_name: element.first_name,
-                        last_name: element.last_name
-                    });
-                }
+        data = await getItems(`${enviroment.apiUrl}/Doctors`);
+        if (data.valid){
+            this.doctorItems = data.data;
+            
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                hospital_id = this.auth.accountLogin.hospital_id;
+                this.doctorItems = this.doctorItems.filter(li => li.hospital_id == hospital_id);
             }
-        });
+        }
 
-        getItems(`${enviroment.apiUrl}/Departments`)
-        .then(response =>{
-            if (response.valid){
-                var departments = response.data;
-                
-                if (!isSupperAdmin(this.auth.accountLogin)){
-                    if (enviroment.mongo_db){
-                        var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                        departments = departments.filter(li => li.hospital_id_guid == hospital_id_guid);
-                    }
-                    else{
-                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                        departments = departments.filter(li => li.hospital_id == hospital_id);
-                    }
-                }
-                for (let index = 0; index < departments.length; index++) {
-                    const element = departments[index];
-                    this.departmentItems.push({
-                        id: (enviroment.mongo_db) ? element.id_guid : element.id,
-                        name: element.name
-                    });
-                }
+        data = await getItems(`${enviroment.apiUrl}/Departments`);
+        if (data.valid){
+            this.departmentItems = data.data;
+            
+            if (!isSupperAdmin(this.auth.accountLogin)){
+                hospital_id = this.auth.accountLogin.hospital_id;
+                this.departmentItems = this.departmentItems.filter(li => li.hospital_id == hospital_id);
             }
-        });
+        }
 
         if (this.billing_id){
             var url = `${this.apiUrl}/${this.billing_id}`;
-            getItemById(url)
-            .then(data=>{
-                if (data.valid){
-                    this.item = data.data;
-                    if (enviroment.mongo_db){
-                        this.item.patient_id = this.item.patient_id_guid;
-                        this.item.doctor_id = this.item.doctor_id_guid;
-                        this.item.department_id = this.item.department_id_guid;
-                    }
-                    this.item.admission_date = formatDateToString(this.item.admission_date, "YYYY-MM-DD");
-                    this.item.discharge_date = formatDateToString(this.item.discharge_date, "YYYY-MM-DD");
-                }
-            });
+            data = await getItemById(url);
+            if (data.valid){
+                this.item = data.data;
+                console.log(this.item);
 
-            this.loadTreatments()
-            .then(response=>{
-                if (response.valid){
-                    this.treatmentItems = response.data;
-                }
-            });
+                this.item.admission_date = formatDateToString(this.item.admission_date, "YYYY-MM-DD");
+                this.item.discharge_date = formatDateToString(this.item.discharge_date, "YYYY-MM-DD");
+            }
 
-            this.loadPrescriptions()
-            .then(data=>{
-                if (data.valid){
-                    this.prescriptionItems = data.data;
-                }
-            });
+            data = await this.loadTreatments();
+            if (data.valid){
+                this.treatmentItems = data.data;
+            }
+
+            data = await this.loadPrescriptions();
+            if (data.valid){
+                this.prescriptionItems = data.data;
+            }
         }
     }
 }

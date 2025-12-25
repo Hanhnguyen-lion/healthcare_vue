@@ -180,31 +180,22 @@ import { useAuthStore } from '@/store/auth.module';
                     !this.last_name_error &&
                     !this.email_error
                 ){
+                    this.loading = true;
+                    var updated;
                     if (enviroment.mongo_db){
                         this.item.hospital_id_guid = this.item.hospital_id;
                         this.item.hospital_id = null;
                     }
-                    if (!this.edit_id){
-                        
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Doctor");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    if (updated.valid){
+                        this.$router.push("/Doctor");
                     }
                     else{
-                        if (enviroment.mongo_db){
-                            this.item.id_guid = this.edit_id;
-                        }
-                        await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Doctor");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false;
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -217,30 +208,14 @@ import { useAuthStore } from '@/store/auth.module';
                 var data = await this.getItem(id);
                 this.item = data.data;
 
-                this.item.hospital_id = (enviroment.mongo_db) ? this.item.hospital_id_guid : this.item.hospital_id;
                 this.item.gender = (this.item.gender) ? this.item.gender : "Female";
             }
 
             var categories = await this.getHospitalItems();
-            var hospitals = categories.data;
-
+            this.hospitalItems = categories.data;
             if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    hospitals = hospitals.filter(li => li.id_guid == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    hospitals = hospitals.filter(li => li.id == hospital_id);
-                }
-            }
-            for(var i = 0; i < hospitals.length; i++){
-                this.hospitalItems.push(
-                    {
-                        id: (enviroment.mongo_db) ? hospitals[i].hospital_id_guid : hospitals[i].id,
-                        name: hospitals[i].name
-                    }
-                );
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.hospitalItems = this.hospitalItems.filter(li => li.id == hospital_id);
             }
         }
     }

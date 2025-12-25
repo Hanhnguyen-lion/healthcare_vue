@@ -28,21 +28,23 @@ import { useAuthStore } from '@/store/auth.module';
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in items" :key="item.id">
-                    <td>{{ index + 1}}</td>
-                    <td>{{item.patient_name}}</td>
-                    <td>{{item.doctor_name}}</td>
-                    <td>{{formatDateToString(item.appointment_date, "DD/MM/YYYY")}}</td>
-                    <td>{{item.times}}</td>
-                    <td>{{item.reason_to_visit}}</td>
-                    <td>
-                        <RouterLink class="btn btn-outline-primary" 
-                        :to="'/Appointment/Edit/' + item.id"
-                        style="margin-left: 10px;" 
-                        >Edit</RouterLink>
-                        <button class="btn btn-outline-danger" 
+                        <td>{{ index + 1}}</td>
+                        <td>{{item.patient_name}}</td>
+                        <td>{{item.doctor_name}}</td>
+                        <td>{{formatDateToString(item.appointment_date, "DD/MM/YYYY")}}</td>
+                        <td>{{item.times}}</td>
+                        <td>{{item.reason_to_visit}}</td>
+                        <td>
+                            <RouterLink class="btn btn-outline-primary" 
+                            :to="'/Appointment/Edit/' + item.id"
                             style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete</button>
-                    </td>
+                            >Edit</RouterLink>
+                            <button class="btn btn-outline-danger" 
+                                style="margin-left: 10px;" 
+                                @click="remove(item.id)" type="button">Delete
+                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -57,6 +59,7 @@ import { useAuthStore } from '@/store/auth.module';
 export default{
     data() {
         return {
+            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Appointments`
@@ -64,6 +67,7 @@ export default{
     },
     methods: {
         remove(id){
+            this.loading = true;
             this.$confirm(
             {
                 title: 'Delete Appointment',
@@ -72,53 +76,31 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         var apiUrl = `${this.url}/Delete/${id}`;
-                        deleteItem(apiUrl)
-                        .then(response=>{
-                            if (response.valid){
-                                const index = this.items.findIndex(p => p.id === id);
-                                this.items.splice(index, 1)
-                            }
-                        })
+                        var deleted = await deleteItem(apiUrl)
+                        if (deleted.valid){
+                            this.loading = false;
+                            const index = this.items.findIndex(p => p.id === id);
+                            this.items.splice(index, 1)
+                        }
                     }
                 }
             });
         }
     },
-    mounted() {
-        getItems(this.url)
-        .then(response =>{
-            var appoitments = response.data;
-            if (appoitments){
-                for(var i = 0; i< appoitments.length; i++){
-                    var item = appoitments[i];
-                    var newItem = {
-                        id: (enviroment.mongo_db) ? item.id_guid : item.id,
-                        hospital_id: (enviroment.mongo_db) ? item.hospital_id_guid:item.hospital_id,
-                        appointment_date: item.appointment_date,
-                        reason_to_visit: item.reason_to_visit,
-                        status: item.status,
-                        times: item.times,
-                        doctor_name: item.doctor_name,
-                        patient_name: item.patient_name
-                    };
-                    this.items.push(newItem);
-                }
-            }
+    async mounted() {
+        var appoitments = await getItems(this.url);
+        
+        if (appoitments.valid){
+            this.items = appoitments.data;
+        }
 
-            if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
-                }
-            }
-        });
+        if (!isSupperAdmin(this.auth.accountLogin)){
+            var hospital_id = this.auth.accountLogin.hospital_id;
+            this.items = this.items.filter(li => li.hospital_id == hospital_id);
+        }
     }
 }
 

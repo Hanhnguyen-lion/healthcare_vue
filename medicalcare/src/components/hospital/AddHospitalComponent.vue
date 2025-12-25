@@ -88,6 +88,7 @@ import { validEmail } from '../helper/helper';
                 name_error:"",
                 email_error:"",
                 message_error:"",
+                edit_id:null,
                 item:{
                     name:"",
                     email: "",
@@ -95,7 +96,8 @@ import { validEmail } from '../helper/helper';
                     country: "",
                     address: "",
                     description: "",
-                    id: 0,
+                    id: null,
+                    id_guid: null
                 },
                 apiUrl: `${enviroment.apiUrl}/Hospitals`
             }
@@ -114,33 +116,25 @@ import { validEmail } from '../helper/helper';
                     this.email_error = "";
             },
             async getItem(){
-                var url = (enviroment.mongo_db) ? `${this.apiUrl}/${this.item.hospital_id_guid}` : `${this.apiUrl}/${this.item.id}`;
-                return await getItemById(url);
+                return await getItemById(`${this.apiUrl}/${this.edit_id}`);
             },
             async save(){
                 this.validName();
                 this.validEmail();
                 if (!this.name_en_error && 
                     !this.email_error){
-                    if (this.item.id == 0){
-                        
-                        await post(`${this.apiUrl}/Add`, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Hospital");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
-                    }
+                    this.loading = true;
+                    var updated;
+                    if (!this.edit_id)
+                        updated = await post(`${this.apiUrl}/Add`, this.item);
+                    else
+                        updated = await updateItem(`${this.apiUrl}/Edit/${this.edit_id}`, this.item);
+                    
+                    if (updated.valid)
+                        this.$router.push("/Hospital");
                     else{
-                        var url = (enviroment.mongo_db) ? `${this.apiUrl}/Edit/${this.item.hospital_id_guid}` : `${this.apiUrl}/Edit/${this.item.id}`;
-                        await updateItem(url, this.item).then(response=>{
-                            if (response.valid){
-                                this.$router.push("/Hospital");
-                            }
-                            else
-                                this.message_error = response.message;
-                        });
+                        this.loading = false;
+                        this.message_error = updated.message;
                     }
                 }
             }
@@ -148,12 +142,7 @@ import { validEmail } from '../helper/helper';
         async mounted(){
             var id = this.$route.params["id"];
             if (id){
-                if (enviroment.mongo_db){
-                    this.item.hospital_id_guid = id;
-                }
-                else{
-                    this.item.id = id;
-                }
+                this.edit_id = id;
                 this.title = "Edit Hospital";
                 var data = await this.getItem();
                 this.item = data.data;

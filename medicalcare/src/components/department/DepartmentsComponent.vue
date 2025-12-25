@@ -28,23 +28,16 @@ import { isSupperAdmin } from '../helper/helper';
                         <td>{{ index + 1}}</td>
                         <td>{{item.name}}</td>
                         <td>{{item.phone}}</td>
-                        <td v-if="enviroment.mongo_db">
-                            <RouterLink class="btn btn-outline-primary" 
-                            :to="'/Department/Edit/' + item.id_guid"
-                            style="margin-left: 10px;" 
-                            >Edit</RouterLink>
-                            <button class="btn btn-outline-danger" 
-                                style="margin-left: 10px;" 
-                                @click="remove(item.id_guid)" type="button">Delete</button>
-                        </td>
-                        <td v-else>
+                        <td>
                             <RouterLink class="btn btn-outline-primary" 
                             :to="'/Department/Edit/' + item.id"
                             style="margin-left: 10px;" 
                             >Edit</RouterLink>
                             <button class="btn btn-outline-danger" 
                                 style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">Delete</button>
+                                @click="remove(item.id)" type="button">Delete
+                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -60,6 +53,7 @@ import { isSupperAdmin } from '../helper/helper';
 export default{
     data() {
         return {
+            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Departments`
@@ -67,6 +61,7 @@ export default{
     },
     methods: {
         remove(id){
+            this.loading = true;
             this.$confirm(
             {
                 title: 'Delete Department',
@@ -75,37 +70,29 @@ export default{
                     no: 'No',
                     yes: 'Yes'
                 },
-                callback: confirm => {
+                callback: async confirm => {
                     if (confirm) {
                         var apiUrl = `${this.url}/Delete/${id}`;
-                        deleteItem(apiUrl)
-                        .then(response=>{
-                            if (response.valid){
-                                const index = (enviroment.mongo_db) ? this.items.findIndex(p => p.id_guid === id) : this.items.findIndex(p => p.id === id);
-                                this.items.splice(index, 1)
-                            }
-                        })
+                        var deleted = await deleteItem(apiUrl);
+                        if (deleted.valid){
+                            this.loading = false;
+                            const index = this.items.findIndex(p => p.id === id);
+                            this.items.splice(index, 1)
+                        }
                     }
                 }
             });
         }
     },
-    mounted() {
-        getItems(this.url)
-        .then(data =>{
+    async mounted() {
+        var data = await getItems(this.url);
+        if (data.valid){
             this.items = data.data;
             if (!isSupperAdmin(this.auth.accountLogin)){
-                if (enviroment.mongo_db){
-                    var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
-                    this.items = this.items.filter(li => li.hospital_id_guid == hospital_id_guid);
-                }
-                else{
-                    var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                    this.items = this.items.filter(li => li.hospital_id == hospital_id);
-                    
-                }
+                var hospital_id = this.auth.accountLogin.hospital_id;
+                this.items = this.items.filter(li => li.hospital_id == hospital_id);
             }
-        });
+        }
     }
 }
 
