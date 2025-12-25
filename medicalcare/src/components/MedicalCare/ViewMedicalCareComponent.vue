@@ -309,8 +309,14 @@ import { useAuthStore } from '@/store/auth.module';
                 if (data.valid){
                     this.patientItems = data.data;
                     if (!isSupperAdmin(this.auth.accountLogin)){
-                        var hospital_id = this.auth.accountLogin.hospital_id || 0;
-                        this.patientItems = this.patientItems.filter(li=>li.hospital_id == hospital_id);
+                        if (enviroment.mongo_db){
+                            var hospital_id_guid = this.auth.accountLogin.hospital_id_guid || "";
+                            this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id_guid);
+                        }
+                        else{
+                            var hospital_id = this.auth.accountLogin.hospital_id || 0;
+                            this.patientItems = this.patientItems.filter(li => li.hospital_id == hospital_id);
+                        }
                     }
                 }
             });
