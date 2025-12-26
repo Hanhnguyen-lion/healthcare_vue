@@ -1,10 +1,12 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { deleteItem, getItems } from '@/services/baseServices';
+    import { getItems } from '@/services/baseServices';
     import numeral from 'numeral';
 
     import {utils, writeFile} from 'xlsx-js-style';
+import AddButton from '../AddButton.vue';
+import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -12,7 +14,7 @@
     <div class="container">
         <h2>Medicine List</h2>
         <div class="form-group mb-3">
-            <RouterLink to="/Medicine/Add" class="btn btn-outline-primary" >Add Medicine</RouterLink>
+            <AddButton router-link-to="/Medicine/Add" title="Add Medicine" ></AddButton>
             <button class="btn btn-outline-primary" 
                 style="margin-left: 10px;" 
                 @click="exportToExcel()" type="button">Export to Excel</button>
@@ -35,16 +37,14 @@
                         <td>{{item.medicine_type}}</td>
                         <td>{{numeral(item.price).format("0,0.00")}}</td>
                         <td >
-                            <RouterLink class="btn btn-outline-primary" 
-                            :to="'/Medicine/Edit/' + item.id"
-                            style="margin-left: 10px;" 
-                            >Edit</RouterLink>
-                            <button class="btn btn-outline-danger" 
-                                style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">
-                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                Delete
-                            </button>
+                            <EditDeleteButtons 
+                                :id="item.id" 
+                                :apiUrlDelete="url"
+                                :items="items"
+                                titleDialog="Delete Medicine"
+                                routerLinkTo="/Medicine/Edit/"
+                                @removeItem="handleItemRemoval">
+                            </EditDeleteButtons>
                         </td>
                     </tr>
                 </tbody>
@@ -109,28 +109,8 @@ export default{
 
             writeFile(wb, "medicine.xlsx");
         },
-        remove(id){
-            this.loading = true;
-            this.$confirm(
-            {
-                title: 'Delete Medicine',
-                message: 'Are you sure to want delete this item?',
-                button: {
-                    no: 'No',
-                    yes: 'Yes'
-                },
-                callback: async confirm => {
-                    if (confirm) {
-                        var apiUrl = `${this.url}/Delete/${id}`;
-                        var response = await deleteItem(apiUrl);
-                        if (response.valid){
-                            this.loading = false;
-                            const index = this.items.findIndex(p => p.id === id);
-                            this.items.splice(index, 1)
-                        }
-                    }
-                }
-            });
+        handleItemRemoval(index){
+            this.items.splice(index, 1)
         }
     },
     async mounted() {

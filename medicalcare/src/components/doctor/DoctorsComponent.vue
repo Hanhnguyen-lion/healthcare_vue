@@ -1,9 +1,11 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { deleteItem, getItems } from '@/services/baseServices';
+    import { getItems } from '@/services/baseServices';
 import { useAuthStore } from '@/store/auth.module';
 import { isSupperAdmin } from '../helper/helper';
+import AddButton from '../AddButton.vue';
+import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -11,7 +13,7 @@ import { isSupperAdmin } from '../helper/helper';
     <div class="container">
         <h2>Doctor List</h2>
         <div class="form-group mb-3">
-            <RouterLink to="/Doctor/Add" class="btn btn-outline-primary" >Add Doctor</RouterLink>
+            <AddButton title="Add Doctor" router-link-to="/Doctor/Add"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -29,24 +31,23 @@ import { isSupperAdmin } from '../helper/helper';
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in items" :key="item.id">
-                    <td>{{ index + 1}}</td>
-                    <td>{{item.first_name}}</td>
-                    <td>{{item.last_name}}</td>
-                    <td>{{item.phone}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.gender}}</td>
-                    <td>{{item.hospital_name}}</td>
-                    <td>
-                        <RouterLink class="btn btn-outline-primary" 
-                        :to="'/Doctor/Edit/' + item.id"
-                        style="margin-left: 10px;" 
-                        >Edit</RouterLink>
-                        <button class="btn btn-outline-danger" 
-                            style="margin-left: 10px;" 
-                            @click="remove(item.id)" type="button">Delete
-                            <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                        </button>
-                    </td>
+                        <td>{{ index + 1}}</td>
+                        <td>{{item.first_name}}</td>
+                        <td>{{item.last_name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.hospital_name}}</td>
+                        <td>
+                            <EditDeleteButtons 
+                                :id="item.id" 
+                                :apiUrlDelete="url"
+                                :items="items"
+                                titleDialog="Delete Doctor"
+                                routerLinkTo="/Doctor/Edit/"
+                                @removeItem="handleItemRemoval">
+                            </EditDeleteButtons>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -61,35 +62,14 @@ import { isSupperAdmin } from '../helper/helper';
 export default{
     data() {
         return {
-            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Doctors`
         }
     },
     methods: {
-        remove(id){
-            this.loading = true;
-            this.$confirm(
-            {
-                title: 'Delete Doctor',
-                message: 'Are you sure to want delete this item?',
-                button: {
-                    no: 'No',
-                    yes: 'Yes'
-                },
-                callback: async confirm => {
-                    if (confirm) {
-                        var apiUrl = `${this.url}/Delete/${id}`;
-                        var deleted = await deleteItem(apiUrl);
-                        if (deleted.valid){
-                            this.loading = false;
-                            const index = this.items.findIndex(p => p.id === id);
-                            this.items.splice(index, 1)
-                        }
-                    }
-                }
-            });
+        handleItemRemoval(index){
+            this.items.splice(index, 1)
         }
     },
     async mounted() {

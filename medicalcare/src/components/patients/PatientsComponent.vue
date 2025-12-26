@@ -2,16 +2,17 @@
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
     import { formatDateToString, isSupperAdmin } from '../helper/helper';
-    import { deleteItem, getItems } from '@/services/baseServices';
+    import { getItems } from '@/services/baseServices';
 import { useAuthStore } from '@/store/auth.module';
+import AddButton from '../AddButton.vue';
+import EditDeleteButtons from '../EditDeleteButtons.vue';
 </script>
 
 <template>
     <div class="container">
         <h2>Patient List</h2>
         <div class="form-group mb-3">
-            <button class="btn btn-outline-primary" 
-            type="button" @click="add()">Add Patient</button>
+            <AddButton title="Add Patient" router-link-to="/Patient/Add"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -35,14 +36,14 @@ import { useAuthStore } from '@/store/auth.module';
                         <td>{{item.gender}}</td>
                         <td>{{item.hospital_name}}</td>
                         <td>
-                            <button class="btn btn-outline-primary" 
-                                style="margin-left: 10px;" 
-                                @click="edit(item.id)" type="button">Edit</button>
-                            <button class="btn btn-outline-danger" 
-                                style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">Delete
-                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                            </button>
+                            <EditDeleteButtons 
+                                :id="item.id" 
+                                :apiUrlDelete="url"
+                                :items="patients"
+                                titleDialog="Delete Patient"
+                                routerLinkTo="/Patient/Edit/"
+                                @removeItem="handleItemRemoval">
+                            </EditDeleteButtons>
                         </td>
                     </tr>
                 </tbody>
@@ -58,41 +59,14 @@ import { useAuthStore } from '@/store/auth.module';
 export default{
     data() {
         return {
-            loading: false,
             auth: useAuthStore(),
             patients: [],
             url: `${enviroment.apiUrl}/Patients`
         }
     },
     methods: {
-        remove(id){
-            this.loading = true;
-            this.$confirm(
-            {
-                title: 'Delete Patient',
-                message: 'Are you sure to want delete this item?',
-                button: {
-                    no: 'No',
-                    yes: 'Yes'
-                },
-                callback: async confirm => {
-                    if (confirm) {
-                        var apiUrl = `${this.url}/Delete/${id}`;
-                        var deleted = await deleteItem(apiUrl);
-                        if (deleted.valid){
-                            this.loading = false;
-                            const index = this.patients.findIndex(p => p.id === id);
-                            this.patients.splice(index, 1)
-                        }
-                    }
-                }
-            })
-        },
-        add(){
-            this.$router.push("/Patient/Add");
-        },
-        edit(id){
-            this.$router.push(`/Patient/Edit/${id}`);
+        handleItemRemoval(index){
+            this.patients.splice(index, 1)
         }
     },
     async mounted() {

@@ -1,7 +1,9 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { deleteItem, getItems } from '@/services/baseServices';
+    import { getItems } from '@/services/baseServices';
+import AddButton from '../AddButton.vue';
+import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -9,7 +11,7 @@
     <div class="container">
         <h2>Hospital List</h2>
         <div class="form-group mb-3">
-            <RouterLink to="/Hospital/Add" class="btn btn-outline-primary" >Add Hospital</RouterLink>
+            <AddButton title="Add Hospital" router-link-to="/Hospital/Add"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -31,15 +33,14 @@
                         <td>{{item.email}}</td>
                         <td>{{item.country}}</td>
                         <td>
-                            <RouterLink class="btn btn-outline-primary" 
-                            :to="'/Hospital/Edit/' + item.id"
-                            style="margin-left: 10px;" 
-                            >Edit</RouterLink>
-                            <button class="btn btn-outline-danger" 
-                                style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">Delete
-                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                            </button>
+                            <EditDeleteButtons 
+                                :id="item.id" 
+                                :apiUrlDelete="url"
+                                :items="items"
+                                titleDialog="Delete Hospital"
+                                routerLinkTo="/Hospital/Edit/"
+                                @removeItem="handleItemRemoval">
+                            </EditDeleteButtons>
                         </td>
                     </tr>
                 </tbody>
@@ -55,34 +56,13 @@
 export default{
     data() {
         return {
-            loading: false,
             items: [],
             url: `${enviroment.apiUrl}/Hospitals`
         }
     },
     methods: {
-        remove(id){
-            this.loading = true;
-            this.$confirm(
-            {
-                title: 'Delete Hospital',
-                message: 'Are you sure to want delete this item?',
-                button: {
-                    no: 'No',
-                    yes: 'Yes'
-                },
-                callback: async confirm => {
-                    if (confirm) {
-                        var apiUrl = `${this.url}/Delete/${id}`;
-                        var deleted = await deleteItem(apiUrl);
-                        if (deleted.valid){
-                            this.loading = false;
-                            var index = this.items.findIndex(p => p.id === id);
-                            this.items.splice(index, 1)
-                        }
-                    }
-                }
-            });
+        handleItemRemoval(index){
+            this.items.splice(index, 1)
         }
     },
     async mounted() {

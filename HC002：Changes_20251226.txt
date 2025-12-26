@@ -1,0 +1,19 @@
+2025.12.25~2025.12.26
+Changes record
+〇 medicalcare_mongodb
+- Change get these items: Medicine, Patients, Doctors,..
+
+◇ autoLogout.js
+- add session timeout on this site: 
+- auto logout when idle 15 mins 
+
+◇ AddButton.vue
+- Add the Add button: use all these components
+
+◇ EditDeleteButtons.vue
+- Add the Edit and Delete buttons: use all these components
+
+
+
+
+

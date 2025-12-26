@@ -121,7 +121,7 @@ import { validEmail } from '../helper/helper';
             async save(){
                 this.validName();
                 this.validEmail();
-                if (!this.name_en_error && 
+                if (!this.name_error && 
                     !this.email_error){
                     this.loading = true;
                     var updated;

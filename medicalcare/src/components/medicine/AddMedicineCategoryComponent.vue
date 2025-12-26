@@ -98,9 +98,9 @@ import { enviroment } from '@/enviroments/enviroment';
                 return await getItemById(`${this.apiUrl}/${this.edit_id}`);
             },
             async save(){
-                this.loading = true;
                 this.validName();
                 if (!this.name_en_error){
+                    this.loading = true;
                     var updated;
                     if (!this.edit_id)
                         updated = await post(`${this.apiUrl}/Add`, this.item);

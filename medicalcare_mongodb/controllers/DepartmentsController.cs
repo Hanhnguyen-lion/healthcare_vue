@@ -26,7 +26,7 @@ namespace medicalcare_mongodb.controllers
             if (data != null)
             {
                 var newItem = new Department{
-                    hospital_id = (data?.hospital_id_guid == null) ? null: new ObjectId(data.hospital_id_guid),
+                    hospital_id = (string.IsNullOrEmpty(data.hospital_id_guid)) ? null: new ObjectId(data.hospital_id_guid),
                     name = data?.name,
                     phone = data?.phone
                 };

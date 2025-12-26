@@ -101,9 +101,9 @@ import { enviroment } from '@/enviroments/enviroment';
             },
             async save(){
                 this.validName();
-                var updated;
-                if (!this.name_en_error){
+                if (!this.name_error){
                     this.loading = true;
+                    var updated;
                     if (enviroment.mongo_db){
                         this.item.category_id_guid = this.item.category_id;
                         this.item.category_id = null;

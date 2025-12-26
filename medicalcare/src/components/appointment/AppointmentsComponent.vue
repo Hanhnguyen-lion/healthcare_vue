@@ -1,9 +1,11 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { deleteItem, getItems } from '@/services/baseServices';
+    import { getItems } from '@/services/baseServices';
 import { formatDateToString, isSupperAdmin } from '../helper/helper';
 import { useAuthStore } from '@/store/auth.module';
+import AddButton from '../AddButton.vue';
+import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -11,7 +13,7 @@ import { useAuthStore } from '@/store/auth.module';
     <div class="container">
         <h2>Appointment List</h2>
         <div class="form-group mb-3">
-            <RouterLink to="/Appointment/Add" class="btn btn-outline-primary" >Add Appointment</RouterLink>
+            <AddButton router-link-to="/Appointment/Add" title="Add Appointment"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -35,15 +37,14 @@ import { useAuthStore } from '@/store/auth.module';
                         <td>{{item.times}}</td>
                         <td>{{item.reason_to_visit}}</td>
                         <td>
-                            <RouterLink class="btn btn-outline-primary" 
-                            :to="'/Appointment/Edit/' + item.id"
-                            style="margin-left: 10px;" 
-                            >Edit</RouterLink>
-                            <button class="btn btn-outline-danger" 
-                                style="margin-left: 10px;" 
-                                @click="remove(item.id)" type="button">Delete
-                                <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                            </button>
+                            <EditDeleteButtons 
+                                :id="item.id" 
+                                :apiUrlDelete="url"
+                                :items="items"
+                                titleDialog="Delete Appointment"
+                                routerLinkTo="/Appointment/Edit/"
+                                @removeItem="handleItemRemoval">
+                            </EditDeleteButtons>
                         </td>
                     </tr>
                 </tbody>
@@ -59,35 +60,14 @@ import { useAuthStore } from '@/store/auth.module';
 export default{
     data() {
         return {
-            loading: false,
             auth: useAuthStore(),
             items: [],
             url: `${enviroment.apiUrl}/Appointments`
         }
     },
     methods: {
-        remove(id){
-            this.loading = true;
-            this.$confirm(
-            {
-                title: 'Delete Appointment',
-                message: 'Are you sure to want delete this item?',
-                button: {
-                    no: 'No',
-                    yes: 'Yes'
-                },
-                callback: async confirm => {
-                    if (confirm) {
-                        var apiUrl = `${this.url}/Delete/${id}`;
-                        var deleted = await deleteItem(apiUrl)
-                        if (deleted.valid){
-                            this.loading = false;
-                            const index = this.items.findIndex(p => p.id === id);
-                            this.items.splice(index, 1)
-                        }
-                    }
-                }
-            });
+        handleItemRemoval(index){
+            this.items.splice(index, 1)
         }
     },
     async mounted() {

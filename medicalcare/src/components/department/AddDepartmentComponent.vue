@@ -82,9 +82,7 @@ import { isSupperAdmin } from '../helper/helper';
                     name:"",
                     phone: "",
                     hospital_id: null,
-                    hospital_id_guid: null,
-                    doctor_id: null,
-                    id: null,
+                    hospital_id_guid: null
                 },
                 apiUrl: `${enviroment.apiUrl}/Departments`
             }
@@ -104,13 +102,12 @@ import { isSupperAdmin } from '../helper/helper';
             },
             async save(){
                 this.validName();
-                if (!this.name_en_error){
+                if (!this.name_error){
                     this.loading = true;
                     var updated;
                     if (enviroment.mongo_db){
                         this.item.hospital_id_guid = this.item.hospital_id;
                         this.item.hospital_id = null;
-                        this.item.doctor_id = null;
                     }    
                     if (!this.edit_id)
                         updated = await post(`${this.apiUrl}/Add`, this.item);
