@@ -1,7 +1,10 @@
 2026.01/02
 Changes record
 〇 npm install vue-i18n@9
-- Add multi languages: English, Vietnamese, Japanese
+- Add multi languages
+
+◇ i18n.js
+- Add multi languages: English, Vietnamese, Japanese 
 
 ◇ locales/en.json
 - Add these text English 
@@ -11,6 +14,21 @@ Changes record
 
 ◇ locales/ja.json
 - Add these text Japanese 
+
+◇ main.js
+- Add i18n for application  
+
+◇ App.vue
+- Add selected languages
+- Change Text on Menu to selected language
+
+◇ Login.vue
+- Change Text to selected language
+
+◇ Register.vue
+- Change Text to selected language
+
+
 
 
 
