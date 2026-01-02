@@ -8,8 +8,8 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="carousel-item active">
             <img src="../../assets/images/1.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
-                <button class="btn btn-secondary btn-lng"><h2>Welcome to Hospital Management System</h2></button>
-                <button class="btn btn-success">Supports hospitals in managing medical records, the hospitalized process of patients, etc.</button>
+                <button class="btn btn-secondary btn-lng"><h2>{{$t("home.title_1")}}</h2></button>
+                <button class="btn btn-success">{{$t("home.title_2")}}</button>
             </div>
         </div>
     </div>
@@ -21,9 +21,9 @@ import FooterComponent from '../footer/FooterComponent.vue';
             <RouterLink to="/Patient" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     
-                    <h3 class="mb-0">Patient Management</h3>
+                    <h3 class="mb-0">{{$t("home.title_3")}}</h3>
                     
-                    <p class="card-text mb-auto">Patient Management module Hospital Management System is designed to manage everything related to Patient activities.</p>
+                    <p class="card-text mb-auto">{{$t("home.title_4")}}</p>
                     
                 </div>
             </RouterLink>
@@ -31,9 +31,9 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="col-md-6">
             <RouterLink to="/Doctor" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Doctor Management</h3>
+                    <h3 class="mb-0">{{$t("home.title_5")}}</h3>
                 
-                    <p class="card-text mb-auto">Doctor Management module Hospital Management System is designed to manage everything related to Doctor activities.</p>
+                    <p class="card-text mb-auto">{{$t("home.title_6")}}</p>
                 
                 </div>
             </RouterLink>
@@ -43,16 +43,16 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="col-md-6">
             <RouterLink to="/Hospital" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Hospital Management</h3>
-                    <p class="card-text mb-auto">Hospital Management module Hospital Management System is designed to manage everything related to Hospital activities.</p>
+                    <h3 class="mb-0">{{$t("home.title_7")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_8")}}</p>
                 </div>
             </RouterLink>
         </div>
         <div class="col-md-6">
             <RouterLink to="/Medicine" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Medicine Management</h3>
-                    <p class="card-text mb-auto">Medicine Management module Hospital Management System is designed to manage everything related to Medicine activities.</p>
+                    <h3 class="mb-0">{{$t("home.title_9")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_10")}}</p>
                 </div>
             </RouterLink>
         </div>
@@ -64,9 +64,9 @@ import FooterComponent from '../footer/FooterComponent.vue';
             <RouterLink to="/Department" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     
-                    <h3 class="mb-0">Department Management</h3>
+                    <h3 class="mb-0">{{$t("home.title_11")}}</h3>
                     
-                    <p class="card-text mb-auto">Department Management module Hospital Management System is designed to manage everything related to Department activities.</p>
+                    <p class="card-text mb-auto">{{$t("home.title_12")}}</p>
                     
                 </div>
             </RouterLink>
@@ -74,8 +74,8 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="col-md-6">
             <RouterLink to="/Medicine/Category" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Categories Management</h3>
-                    <p class="card-text mb-auto">Categories Management module Hospital Management System is designed to manage categories: medicine, treatment, etc...</p>
+                    <h3 class="mb-0">{{$t("home.title_13")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_14")}}</p>
                 </div>
             </RouterLink>
         </div>
@@ -84,16 +84,16 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="col-md-6">
             <RouterLink to="/Billing" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Billing Management</h3>
-                    <p class="card-text mb-auto">Billing of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.</p>
+                    <h3 class="mb-0">{{$t("home.title_15")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_16")}}</p>
                 </div>
             </RouterLink>
         </div>
         <div class="col-md-6">
             <RouterLink to="/MedicalCare/Print" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Medical Care Management</h3>
-                    <p class="card-text mb-auto">Medical Care of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.</p>
+                    <h3 class="mb-0">{{$t("home.title_17")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_18")}}</p>
                 </div>
             </RouterLink>
         </div>
@@ -102,16 +102,16 @@ import FooterComponent from '../footer/FooterComponent.vue';
         <div class="col-md-6">
             <RouterLink to="/Appointment" class="nav-link text-black row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Appointment Management</h3>
-                    <p class="card-text mb-auto">Appointment Management module Hospital Management System is designed to manage the effective appointments of patients for the doctors</p>
+                    <h3 class="mb-0">{{$t("home.title_19")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_20")}}</p>
                 </div>
             </RouterLink>
         </div>
         <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">Accounts Management</h3>
-                    <p class="card-text mb-auto">Accounts Management module of eHospital - Hospital Management System manages. Manages all hospitals, patients, doctors, billings, etc.</p>
+                    <h3 class="mb-0">{{$t("home.title_21")}}</h3>
+                    <p class="card-text mb-auto">{{$t("home.title_22")}}</p>
                 </div>
             </div>
         </div>

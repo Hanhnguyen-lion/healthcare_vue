@@ -42,5 +42,58 @@
             "hospital": "Hospital",
             "haveAccount": "Already have an account? Login"
         }
+    },
+    "home":{
+        "title_1": "Welcome to Hospital Management System",
+        "title_2": "Supports hospitals in managing medical records, the hospitalized process of patients, etc.",
+        "title_3": "Patient Management",
+        "title_4": "Patient Management module Hospital Management System is designed to manage everything related to Patient activities.",
+        "title_5": "Doctor Management",
+        "title_6": "Doctor Management module Hospital Management System is designed to manage everything related to Doctor activities.",
+        "title_7": "Hospital Management",
+        "title_8": "Hospital Management module Hospital Management System is designed to manage everything related to Hospital activities.",
+        "title_9": "Medicine Management",
+        "title_10": "Medicine Management module Hospital Management System is designed to manage everything related to Medicine activities.",
+        "title_11": "Department Management",
+        "title_12": "Department Management module Hospital Management System is designed to manage everything related to Department activities.",
+        "title_13": "Categories Management",
+        "title_14": "Categories Management module Hospital Management System is designed to manage categories: medicine, treatment, etc...",
+        "title_15": "Billing Management",
+        "title_16": "Billing of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.",
+        "title_17": "Medical Care Management",
+        "title_18": "Medical Care of all Patient consultancy and services with details of Patient Information, Consultation, Prescriptions, Treatment, etc.",
+        "title_19": "Appointment Management",
+        "title_20": "Appointment Management module Hospital Management System is designed to manage the effective appointments of patients for the doctors",
+        "title_21": "Accounts Management",
+        "title_22": "Accounts Management module of eHospital - Hospital Management System manages. Manages all hospitals, patients, doctors, billings, etc."
+    },
+    "category":{
+        "medicine":{
+
+        },
+        "treatment":{
+
+        }
+    },
+    "medicine":{
+
+    },
+    "departent":{
+
+    },
+    "appointment":{
+
+    },
+    "doctor":{
+
+    },
+    "patient":{
+
+    },
+    "billing":{
+
+    },
+    "medicaleCare":{
+
     }
 } 

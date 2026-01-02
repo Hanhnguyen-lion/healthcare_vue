@@ -43,5 +43,58 @@
             "hospital": "Bệnh viện",
             "haveAccount": "Bạn đã có tài khoản? Hãy đăng nhập"
         }
+    },
+    "home":{
+        "title_1": "Chào mừng bạn đến với Hệ thống Quản lý Bệnh việ",
+        "title_2": "Hỗ trợ các bệnh viện trong việc quản lý hồ sơ bệnh án, quy trình nhập viện của bệnh nhân, v.v.",
+        "title_3": "Quản lý bệnh nhân",
+        "title_4": "Mô-đun Quản lý bệnh nhân trong hệ thống quản lý bệnh viện được thiết kế để quản lý mọi thứ liên quan đến hoạt động của bệnh nhân.",
+        "title_5": "Quản lý bác sỹ",
+        "title_6": "Mô-đun Quản lý bác sỹ trong hệ thống quản lý bệnh viện được thiết kế để quản lý mọi thứ liên quan đến hoạt động của bác sỹ.",
+        "title_7": "Quản lý bệnh viện",
+        "title_8": "Mô-đun Quản lý Bệnh viện: hệ thống quản lý bệnh viện được thiết kế để quản lý mọi thứ liên quan đến các hoạt động của bệnh viện",
+        "title_9": "Quản lý thuốc",
+        "title_10": "Mô-đun Quản lý thuốc trong hệ thống quản lý Bệnh viện được thiết kế để quản lý mọi thứ liên quan đến các hoạt động y tế.",
+        "title_11": "Quản lý bộ phận",
+        "title_12": "Mô-đun Quản lý Khoa thuộc hệ thống quản lý Bệnh viện được thiết kế để quản lý mọi hoạt động liên quan đến các khoa.",
+        "title_13": "Quản lý danh mục",
+        "title_14": "Mô-đun Quản lý Danh mục trong hệ thống quản lý Bệnh viện được thiết kế để quản lý các danh mục: thuốc, điều trị, v.v...",
+        "title_15": "Quản lý thanh toán",
+        "title_16": "Lập hóa đơn cho tất cả các dịch vụ và tư vấn bệnh nhân, bao gồm chi tiết thông tin bệnh nhân, tư vấn, đơn thuốc, điều trị, v.v.",
+        "title_17": "Quản lý hồ sơ bệnh án",
+        "title_18": "Dịch vụ tư vấn và chăm sóc y tế toàn diện cho bệnh nhân, bao gồm thông tin chi tiết về bệnh nhân, tư vấn, đơn thuốc, điều trị, v.v.",
+        "title_19": "Quản lý đặt lịch hẹn",
+        "title_20": "Mô-đun Quản lý lịch hẹn của hệ thống quản lý bệnh viện được thiết kế để quản lý hiệu quả các cuộc hẹn khám bệnh của bệnh nhân cho các bác sĩ.",
+        "title_21": "Quản lý tài khoản",
+        "title_22": "Mô-đun Quản lý tài khoản của eHospital - hệ thống quản lý bệnh viện. Quản lý tất cả các bệnh viện, bệnh nhân, bác sĩ, hóa đơn, v.v."
+    },
+    "category":{
+        "medicine":{
+
+        },
+        "treatment":{
+
+        }
+    },
+    "medicine":{
+
+    },
+    "departent":{
+
+    },
+    "appointment":{
+
+    },
+    "doctor":{
+
+    },
+    "patient":{
+
+    },
+    "billing":{
+
+    },
+    "medicaleCare":{
+
     }
 } 
