@@ -34,6 +34,7 @@ export const useAuthStore = defineStore("auth",
         logout(){
             this.accountLogin = null,
             sessionStorage.removeItem("AccountLogin");
+            sessionStorage.removeItem("language_selected");
             router.push("/Account/Login");
         }
     }

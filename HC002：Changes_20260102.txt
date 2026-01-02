@@ -1,0 +1,18 @@
+2026.01/02
+Changes record
+〇 npm install vue-i18n@9
+- Add multi languages: English, Vietnamese, Japanese
+
+◇ locales/en.json
+- Add these text English 
+
+◇ locales/vn.json
+- Add these text Vietnamese
+
+◇ locales/ja.json
+- Add these text Japanese 
+
+
+
+
+

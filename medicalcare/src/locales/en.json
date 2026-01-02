@@ -1,0 +1,46 @@
+{
+    "menu":{
+        "home": "Home",
+        "logout": "Logout",
+        "language": "Language",
+        "category": "Category",
+        "medicine": "Medicine",
+        "treatment": "Treatment",
+        "appointment": "Appointment",
+        "hospital": "Hospital",
+        "department": "Department",
+        "medicalCare": "Medical Care",
+        "billing": "Billing",
+        "patient": "Patient",
+        "addBilling": "Add Billing",
+        "billingList": "Billing List",
+        "doctor": "Doctor"
+    },
+    "account":{
+        "login":{
+            "title": "Login",
+            "email": "Email",
+            "emailPlaceholder": "Enter your email",
+            "password": "Password",
+            "passwordPlaceholder": "Enter password",
+            "forgotPassword": "Forgot Password",
+            "noAccount": "Don't have an account? Register"
+        },
+        "register":{
+            "title": "Register",
+            "firstName": "First Name",
+            "firstNamePlaceholder": "Enter first name",
+            "lastName": "Last Name",
+            "lastNamePlaceholder": "Enter last name",
+            "email": "Email",
+            "emailPlaceholder": "Enter email",
+            "password": "Password",
+            "passwordPlaceholder": "Enter password",
+            "confirmPassword": "Confirm Password",
+            "confirmPasswordPlaceholder": "Enter confirm password",
+            "accountType": "Account Type",
+            "hospital": "Hospital",
+            "haveAccount": "Already have an account? Login"
+        }
+    }
+} 

@@ -1,0 +1,47 @@
+{
+    "menu":{
+        "home": "Trang chủ",
+        "logout": "Đăng xuất",
+        "language": "Ngôn ngữ",
+        "category": "Category",
+        "medicine": "Thuốc",
+        "treatment": "Điều trị",
+        "appointment": "Đặt lịch hẹn",
+        "hospital": "Bệnh viện",
+        "department": "Phòng ban",
+        "medicalCare": "Hồ sơ bệnh án",
+        "billing": "Hóa đơn",
+        "patient": "Bệnh nhân",
+        "addBilling": "Tạo mới hóa đơn",
+        "billingList": "Danh sách",
+        "doctor": "Bác sỹ"
+    },
+    "account":{
+        "login":{
+            "title": "Đăng nhập",
+            "email": "E-mail",
+            "emailPlaceholder": "Nhập E-mail",
+            "password": "Mật khẩu",
+            "passwordPlaceholder": "Nhập mật khẩu",
+            "forgotPassword": "Quên Mật khẩu",
+            "noAccount": "Bạn chưa có tài khoản? Hãy đăng ký"
+        },
+        "register":{
+            "title": "Đăng ký",
+            "firstName": "Tên",
+            "firstNamePlaceholder": "Nhập tên",
+            "lastName": "Họ",
+            "lastNamePlaceholder": "Nhập họ",
+            "email": "E-mail",
+            "emailPlaceholder": "Nhập E-mail",
+            "password": "Mật khẩu",
+            "passwordPlaceholder": "Nhập mật khẩu",
+            "forgotPassword": "Quên Mật khẩu",
+            "confirmPassword": "Xác nhận mật khẩu",
+            "confirmPasswordPlaceholder": "Nhập Xác nhận mật khẩu",
+            "accountType": "Loại tài khoản",
+            "hospital": "Bệnh viện",
+            "haveAccount": "Bạn đã có tài khoản? Hãy đăng nhập"
+        }
+    }
+} 

@@ -8,6 +8,7 @@ import Vue3ConfirmDialog from 'vue3-confirm-dialog';
 import 'vue3-confirm-dialog/style';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useAuthStore } from './store/auth.module';
+import i18n from './i18n';
 import setupTimers from './autoLogout';
 
 const app = createApp(App);
@@ -41,6 +42,7 @@ router.beforeEach((to)=>{
 app.use(createPinia());
 app.use(router);
 app.use(Vue3ConfirmDialog);
+app.use(i18n);
 app.use(setupTimers);
 app.component("vue3-confirm-dialog", Vue3ConfirmDialog.default);
 app.mount('#app');

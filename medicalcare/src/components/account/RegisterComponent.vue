@@ -4,50 +4,50 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
                     <div class="card">
-                        <h3 class="card-header">Register</h3>
+                        <h3 class="card-header">{{ $t('account.register.title') }}</h3>
                         <div class="card-body">
                             <form name="form" @submit.prevent="onSubmit()">
                                 <div class="form-row">
                                     <div class="form-group mb-3">
-                                        <label>First Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="first_name" v-model="accountItem.first_name" placeholder="Enter first name" class="form-control"/>
+                                        <label>{{ $t('account.register.firstName') }} <span class="text-danger">*</span></label>
+                                        <input type="text" name="first_name" v-model="accountItem.first_name" :placeholder="$t('account.register.firstNamePlaceholder')" class="form-control"/>
                                         <div v-if="error.first_name_error" class="invalid-feedback">
                                             <div>{{error.first_name_error}}</div>
                                         </div>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label>Last Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="last_name" v-model="accountItem.last_name" placeholder="Enter last name" class="form-control"/>
+                                        <label>{{ $t('account.register.lastName') }} <span class="text-danger">*</span></label>
+                                        <input type="text" name="last_name" v-model="accountItem.last_name" :placeholder="$t('account.register.lastNamePlaceholder')" class="form-control"/>
                                             <div v-if="error.last_name_error" class="invalid-feedback">
                                                 <div>{{error.last_name_error}}</div>
                                             </div>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Email <span class="text-danger">*</span></label>
-                                    <input type="text" name="email" v-model="accountItem.email" placeholder="Enter email" class="form-control"/>
+                                    <label>{{ $t('account.register.email') }} <span class="text-danger">*</span></label>
+                                    <input type="text" name="email" v-model="accountItem.email" :placeholder="$t('account.register.emailPlaceholder')" class="form-control"/>
                                         <div v-if="error.email_error" class="invalid-feedback">
                                             <div>{{error.email_error}}</div>
                                         </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group mb-3">
-                                        <label>Password <span class="text-danger">*</span></label>
-                                        <input type="password" name="password" v-model="accountItem.password" placeholder="Enter password" class="form-control"/>
+                                        <label>{{ $t('account.register.password') }} <span class="text-danger">*</span></label>
+                                        <input type="password" name="password" v-model="accountItem.password" :placeholder="$t('account.register.passwordPlaceholder')" class="form-control"/>
                                             <div v-if="error.password_error" class="invalid-feedback">
                                                 <div>{{error.password_error}}</div>
                                             </div>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label>Confirm Password <span class="text-danger">*</span></label>
-                                        <input type="password" name="confirmPassword" v-model="confirmPassword" placeholder="Enter confirm password" class="form-control"/>
+                                        <label>{{ $t('account.register.confirmPassword') }} <span class="text-danger">*</span></label>
+                                        <input type="password" name="confirmPassword" v-model="confirmPassword" :placeholder="$t('account.register.confirmPasswordPlaceholder')" class="form-control"/>
                                             <div v-if="error.confirmPassword_error" class="invalid-feedback">
                                                 <div>{{error.confirmPassword_error}}</div>
                                             </div>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Account Type <span class="text-danger">*</span></label>
+                                    <label>{{ $t('account.register.accountType') }} <span class="text-danger">*</span></label>
                                     <select name="account_type" v-model="accountItem.account_type" class="form-select" placeholder="Enter acount type">
                                         <option value=""></option>
                                         <option value="Super Admin">Super Admin</option>
@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Hospital</label>
+                                    <label>{{ $t('account.register.hospital') }}</label>
                                     <select name="hospital_id" v-model="accountItem.hospital_id" class="form-select">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{ item.name }}
@@ -69,11 +69,11 @@
                                 <div class="form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button :disabled="loading" class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Register
+                                        {{ $t('account.register.title') }}
                                     </button>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <RouterLink to="/Account/Login" class="btn btn-outline-secondary">Already have an account? Login</RouterLink>
+                                    <RouterLink to="/Account/Login" class="btn btn-outline-secondary">{{ $t('account.register.haveAccount') }}</RouterLink>
                                 </div>
                                 <div v-if="error.message_error" class="form-group mb-3">
                                     {{ error.message_error }}

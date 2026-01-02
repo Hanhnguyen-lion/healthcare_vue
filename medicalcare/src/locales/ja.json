@@ -1,0 +1,46 @@
+{
+    "menu":{
+        "home": "家",
+        "logout": "ログアウト",
+        "language": "言語",
+        "category": "カテゴリ",
+        "medicine": "薬",
+        "treatment": "処理",
+        "appointment": "予定",
+        "hospital": "病院",
+        "department": "部門",
+        "medicalCare": "医療",
+        "billing": "請求する",
+        "patient": "忍耐強い",
+        "addBilling": "請求の追加",
+        "billingList": "請求リスト",
+        "doctor": "医者"
+    },
+    "account":{
+        "login":{
+            "title": "ログイン",
+            "email": "電子メール",
+            "emailPlaceholder": "メールアドレスを入力してください",
+            "password": "パスワード",
+            "passwordPlaceholder": "パスワードを入力してください",
+            "forgotPassword": "パスワードをお忘れですか",
+            "noAccount": "アカウントをお持ちでないですか？登録"
+        },
+        "register":{
+            "title": "登録する",
+            "firstName": "ファーストネーム",
+            "firstNamePlaceholder": "名を入力してください",
+            "lastName": "苗字",
+            "lastNamePlaceholder": "姓を入力してください",
+            "email": "電子メール",
+            "emailPlaceholder": "メールアドレスを入力してください",
+            "password": "パスワード",
+            "passwordPlaceholder": "パスワードを入力してください",
+            "confirmPassword": "パスワードを認証する",
+            "confirmPasswordPlaceholder": "確認用のパスワードを入力してください",
+            "accountType": "アカウントの種類",
+            "hospital": "病院",
+            "haveAccount": "すでにアカウントをお持ちですか？ログイン"
+        }
+    }
+} 

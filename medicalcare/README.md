@@ -44,8 +44,10 @@ npm install pinia
 ```
 npm install xlsx-js-style
 ```
-
-
+## npm install vue-i18n@9
+```
+npm install vue-i18n@9
+```
 ```
 npm install
 ```
