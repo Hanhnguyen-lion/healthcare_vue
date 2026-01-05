@@ -105,7 +105,7 @@ import { getItems, post } from '@/services/baseServices';
                     email: "",
                     password : "",
                     account_type: "",
-                    hospital_id: 0
+                    hospital_id: null
                 },
                 error:{
                     first_name_error : "",
@@ -181,6 +181,12 @@ import { getItems, post } from '@/services/baseServices';
                     !this.error.confirmPassword_error
                 ){
                     this.loading = true;
+                    console.log(this.accountItem.hospital_id);
+                    if (enviroment.mongo_db){
+                        this.accountItem.hospital_id_str = this.accountItem.hospital_id;
+                        this.accountItem.hospital_id = null;
+                    }
+                    console.log("gagag :", this.accountItem);
                     var register = await post(this.apiUrl, this.accountItem);
                     if (register.valid){
                         this.$router.push("/Account/Login");
