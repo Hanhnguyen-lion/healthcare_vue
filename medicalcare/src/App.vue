@@ -1,10 +1,10 @@
 <template>
     <header>
-      <nav class="navbar navbar-expand-lg" style="background-color:rgb(35, 64, 196, 0.6);" data-bs-theme="light">
+      <nav class="navbar navbar-expand-lg" style="background-color:rgb(123, 140, 220); z-index: 1001;" data-bs-theme="light">
         <div class="container-fluid">
           <div class="navbar-collapse collapse">
             <RouterLink to="/" class="nav-link text-white">
-              <div style="padding-left:230px;">
+              <div>
                   <h1><b>HEALTH CARE</b></h1>
                   <h6>Hospital Management System</h6>
               </div>

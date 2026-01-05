@@ -78,13 +78,13 @@ footer {
   align-items: center
 }
 .sidebar {
-  background-color:rgb(35, 64, 196, 0.6);
+  background-color:rgb(123, 140, 220);
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 101; /* Behind the navbar */
-  padding: 110px 0 0; /* Height of navbar */
+  z-index: 10; /* Behind the navbar */
+  padding: 85px 0 0; /* Height of navbar */
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 .sidebar li .submenu {
