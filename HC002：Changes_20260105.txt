@@ -1,0 +1,16 @@
+2026.01.05
+Changes record
+
+◇ App.vue
+- Change the text Health Care Hospital Management System on the left position
+
+◇ styles.css
+- Change the text Health Care Hospital Management System on the left position
+
+
+
+
+
+
+
+
