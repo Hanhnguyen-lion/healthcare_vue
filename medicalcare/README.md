@@ -48,6 +48,10 @@ npm install xlsx-js-style
 ```
 npm install vue-i18n@9
 ```
+## npm install xlsx: import excel file
+```
+npm install xlsx
+```
 ```
 npm install
 ```

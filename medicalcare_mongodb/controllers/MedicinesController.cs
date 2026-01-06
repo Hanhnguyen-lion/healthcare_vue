@@ -42,6 +42,60 @@ namespace medicalcare_mongodb.controllers
             return Ok(new { message = "Medicine add successfully." });
         }        
 
+        [HttpPost]
+        [Route("Import")]
+        public async Task<IActionResult> Import(IList<IDictionary<string, object>> data)
+        {
+
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (data != null)
+            {
+                var categories = await context.m_medicine_type.ToListAsync();
+
+                await Task.Run(() =>
+                {
+                    foreach (var item in data)
+                    {
+                        var id_guid = item["id"].ToString();
+                        var name = item["Name"].ToString();
+                        var type = item["Type"].ToString();
+                        var price = Convert.ToDecimal(item["Price"].ToString());
+                        var categoryItem = categories.Where(li=> li.name_en == type).FirstOrDefault();
+                        var newItem = new Medicine{
+                            category_id = (string.IsNullOrEmpty(categoryItem?.id_guid)) ? null: new ObjectId(categoryItem?.id_guid),
+                            name = name,
+                            type = type,
+                            price = price
+                        };
+                        if (string.IsNullOrEmpty(id_guid))
+                        {
+                            this.context.m_medicine.Add(newItem);
+                        }
+                        else
+                        {
+                            Medicine? medicine = this.context.m_medicine.FirstOrDefault(m => m.id == new ObjectId(id_guid));
+                            if (medicine == null)
+                            {
+                                this.context.m_medicine.Add(newItem);
+                            }
+                            else
+                            {
+                                newItem.id = new ObjectId(id_guid);
+                                this.context.m_medicine.Entry(medicine).CurrentValues.SetValues(newItem);
+                            }
+                        }
+                    }
+                    this.context.SaveChanges();
+                });
+
+            }
+            return Ok(new { message = "Import successfully." });
+        }        
+
         [HttpPut]
         [Route("Edit/{id}")]
         public async Task<IActionResult> Edit(string id, Medicine dataInput)

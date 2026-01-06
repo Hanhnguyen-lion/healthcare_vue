@@ -1,0 +1,17 @@
+2026.01.06
+Changes record
+
+◇ medicine/MedicinesComponent.vue
+- Install npm install xlsx: import excel file and import to API
+- Add Upload file and Import to Excel button 
+
+◇ MedicinesController.cs
+- Import Excel to medicine
+
+
+
+
+
+
+
+

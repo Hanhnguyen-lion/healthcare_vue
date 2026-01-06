@@ -1,10 +1,11 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { getItems } from '@/services/baseServices';
+    import { getItems, post } from '@/services/baseServices';
     import numeral from 'numeral';
 
     import {utils, writeFile} from 'xlsx-js-style';
+    import * as XLSX from 'xlsx';
 import AddButton from '../AddButton.vue';
 import EditDeleteButtons from '../EditDeleteButtons.vue';
 
@@ -17,7 +18,13 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
             <AddButton router-link-to="/Medicine/Add" title="Add Medicine" ></AddButton>
             <button class="btn btn-outline-primary" 
                 style="margin-left: 10px;" 
-                @click="exportToExcel()" type="button">Export to Excel</button>
+                @click="exportToExcel" type="button">Export to Excel</button>
+            <input type="file" class="form-control" @change="handleFileUpload" accept=".xlsx, .xls" />
+            <button class="btn btn-outline-primary" 
+                @click="importToExcel" :disabled="!jsonData.length" type="button">Import to Excel</button>
+        </div>
+        <div class="form-group mb-3">
+            <div v-if="message_imported" class="form-group">{{ message_imported }}</div>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -61,11 +68,28 @@ export default{
     data() {
         return {
             loading: false,
+            message_imported: "",
             items: [],
+            jsonData: [],
             url: `${enviroment.apiUrl}/Medicines`
         }
     },
     methods: {
+        handleFileUpload(e){
+            const file = e.target.files[0];
+            if (!file)
+                return;
+            const reader = new FileReader();
+
+            reader.onload = (e)=>{
+                const wb = XLSX.read(e.target.result, {type: "binary"});
+                const sheetName = wb.SheetNames[0];
+                const ws = wb.Sheets[sheetName];
+                this.jsonData = XLSX.utils.sheet_to_json(ws, {header: 2});
+                console.log(this.jsonData);
+            };
+            reader.readAsArrayBuffer(file);
+        },
         exportToExcel(){
             var xlsx_data = [];
             for (let index = 0; index < this.items.length; index++) {
@@ -111,6 +135,18 @@ export default{
         },
         handleItemRemoval(index){
             this.items.splice(index, 1)
+        },
+        async importToExcel(){
+            var imported = await post(`${this.url}/Import`, this.jsonData);
+            if (imported.valid){
+                this.message_imported = "Imported success";
+                var data = await getItems(this.url);
+                if (data.valid)
+                    this.items = data.data;
+            }
+            else{
+                this.message_imported = imported.message;
+            }
         }
     },
     async mounted() {
