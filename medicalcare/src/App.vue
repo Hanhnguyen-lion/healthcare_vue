@@ -123,6 +123,7 @@ import { useAuthStore } from './store/auth.module';
     },
     mounted(){
       this.selected_language = this.getSelectedLanguage();
+      this.$i18n.locale = this.selected_language;
     }
   }
 </script>

@@ -3,7 +3,6 @@
     <button class="btn btn-outline-danger" style="margin-left: 10px;" @click="remove(id)" type="button">
     <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
     Delete</button>
-
 </template>
 <script>
 import { deleteItem } from '@/services/baseServices';

@@ -14,6 +14,62 @@ namespace medicalcare_mongodb.controllers
         }
 
         [HttpPost]
+        [Route("Import")]
+        public async Task<IActionResult> Import(IList<IDictionary<string, object>> data)
+        {
+
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (data != null)
+            {
+                await Task.Run(() =>
+                {
+                    foreach (var item in data)
+                    {
+                        var id_guid = item["id"].ToString();
+                        var name = item["name"].ToString();
+                        var address = item["address"].ToString();
+                        var email = item["email"].ToString();
+                        var phone = item["phone"].ToString();
+                        var description = item["description"].ToString();
+                        var country = item["country"].ToString();
+                        var newItem = new Hospital{
+                            name = name,
+                            address = address,
+                            email = email,
+                            phone = phone,
+                            country = country,
+                            description = description
+                        };
+                        if (string.IsNullOrEmpty(id_guid))
+                        {
+                            this.context.m_hospital.Add(newItem);
+                        }
+                        else
+                        {
+                            Hospital? medicine = this.context.m_hospital.FirstOrDefault(m => m.id == new ObjectId(id_guid));
+                            if (medicine == null)
+                            {
+                                this.context.m_hospital.Add(newItem);
+                            }
+                            else
+                            {
+                                newItem.id = new ObjectId(id_guid);
+                                this.context.m_hospital.Entry(medicine).CurrentValues.SetValues(newItem);
+                            }
+                        }
+                    }
+                    this.context.SaveChanges();
+                });
+
+            }
+            return Ok(new { message = "Import successfully." });
+        }        
+
+        [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> Add(Hospital patient)
         {

@@ -1,0 +1,31 @@
+2026.01.08
+Changes record
+〇 medicalcare_mongodb
+◇ DepartmentsController.cs, HospitalsController.cs, MedicinesCategoryController, TreatmentsCategoryController
+- Add Import
+
+〇 Category menu
+◇ MedicineCategoriesComponent.vue, TreatmentCategoriesComponent.vue
+- Install npm install xlsx: import excel file and import to API
+- Add Upload file and Import to Excel button 
+
+〇 Hospital menu
+◇ HospitalsComponent.vue
+- Install npm install xlsx: import excel file and import to API
+- Add Upload file and Import to Excel button 
+
+〇 Department menu
+◇ DepartmentsComponent.vue
+- Install npm install xlsx: import excel file and import to API
+- Add Upload file and Import to Excel button 
+
+◇ App.vue
+- Fixed set locale when selected language and timeout session 
+
+
+
+
+
+
+
+

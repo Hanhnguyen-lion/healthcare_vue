@@ -14,6 +14,60 @@ namespace medicalcare_mongodb.controllers
         }
 
         [HttpPost]
+        [Route("Import")]
+        public async Task<IActionResult> Import(IList<IDictionary<string, object>> data)
+        {
+
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (data != null)
+            {
+                await Task.Run(() =>
+                {
+                    foreach (var item in data)
+                    {
+                        var id_guid = item["id"].ToString();
+                        var name_en = item["name_en"].ToString();
+                        var name_vn = item["name_vn"].ToString();
+                        var name_jp = item["name_jp"].ToString();
+                        var description = item["description"].ToString();
+                        var price = Convert.ToDecimal(item["price"].ToString());
+                        var newItem = new TreatmentCategory{
+                            name_en = name_en,
+                            name_vn = name_vn,
+                            name_jp = name_jp,
+                            description = description,
+                            price = price
+                        };
+                        if (string.IsNullOrEmpty(id_guid))
+                        {
+                            this.context.m_treatment_category.Add(newItem);
+                        }
+                        else
+                        {
+                            TreatmentCategory? medicine = this.context.m_treatment_category.FirstOrDefault(m => m.id == new ObjectId(id_guid));
+                            if (medicine == null)
+                            {
+                                this.context.m_treatment_category.Add(newItem);
+                            }
+                            else
+                            {
+                                newItem.id = new ObjectId(id_guid);
+                                this.context.m_treatment_category.Entry(medicine).CurrentValues.SetValues(newItem);
+                            }
+                        }
+                    }
+                    this.context.SaveChanges();
+                });
+
+            }
+            return Ok(new { message = "Import successfully." });
+        }        
+
+        [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> AddCategory(TreatmentCategory item)
         {

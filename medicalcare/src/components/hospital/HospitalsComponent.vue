@@ -1,9 +1,11 @@
 <script setup>
     import FooterComponent from '../footer/FooterComponent.vue';
     import { enviroment } from '@/enviroments/enviroment';
-    import { getItems } from '@/services/baseServices';
-import AddButton from '../AddButton.vue';
-import EditDeleteButtons from '../EditDeleteButtons.vue';
+    import { getItems, post } from '@/services/baseServices';
+    import {utils, writeFile} from 'xlsx-js-style';
+    import * as XLSX from 'xlsx';
+    import AddButton from '../AddButton.vue';
+    import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -12,6 +14,15 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
         <h2>Hospital List</h2>
         <div class="form-group mb-3">
             <AddButton title="Add Hospital" router-link-to="/Hospital/Add"></AddButton>
+            <button class="btn btn-outline-primary" 
+                style="margin-left: 10px;" 
+                @click="exportToExcel" type="button">Export Hospital</button>
+            <input type="file" ref="fileInput" id="fileInput" class="form-control" style="display: none;" @change="handleFileUpload" accept=".xlsx, .xls" />
+            <button class="btn btn-outline-primary" style="margin-left: 10px;"  
+                @click="onImport" type="button">Import Hospital</button>
+        </div>
+        <div class="form-group mb-3">
+            <div v-if="message_imported" class="form-group fw-bold">{{ message_imported }}</div>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -57,10 +68,85 @@ export default{
     data() {
         return {
             items: [],
+            jsonData:[],
+            message_imported: "",
             url: `${enviroment.apiUrl}/Hospitals`
         }
     },
     methods: {
+        onImport(){
+            this.jsonData = [];
+            this.message_imported = "";
+            this.$refs.fileInput.click();
+        },
+        async handleFileUpload(e){
+            const file = e.target.files[0];
+            if (!file)
+                return;
+            const reader = new FileReader();
+
+            reader.onload = (e)=>{
+                const wb = XLSX.read(e.target.result, {type: "binary"});
+                const sheetName = wb.SheetNames[0];
+                const ws = wb.Sheets[sheetName];
+                this.jsonData = XLSX.utils.sheet_to_json(ws, {header: 2});
+                //console.log(this.jsonData);
+                if (this.jsonData){
+                    this.importToExcel();
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        },
+        exportToExcel(){
+            var xlsx_data = [];
+            for (let index = 0; index < this.items.length; index++) {
+                const element = this.items[index];
+                xlsx_data.push(
+                    {
+                        id: element.id,
+                        name: element.name,
+                        email: element.email,
+                        phone: element.phone,
+                        country: element.country,
+                        address: element.address,
+                        description: element.description
+                    }
+                );
+            }    
+
+            const headerStyle = {
+                font: { bold: true }
+            };
+
+            const ws = utils.json_to_sheet(xlsx_data);
+            
+            // bold header
+            const range = utils.decode_range(ws['!ref']);
+            for (let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = utils.encode_cell({ r: range.s.r, c: col });
+                ws[cellAddress].s = headerStyle;
+            }
+
+            const wb = utils.book_new()
+            utils.book_append_sheet(wb, ws, "hospital");
+
+            writeFile(wb, "hospital.xlsx");
+        },
+        async importToExcel(){
+            console.log("this.jsonData:", this.jsonData);
+            var imported = await post(`${this.url}/Import`, this.jsonData);
+            if (imported.valid){
+                this.jsonData = [];
+                this.message_imported = "Imported success";
+                var data = await getItems(this.url);
+                if (data.valid)
+                    this.items = data.data;
+            }
+            else{
+                this.jsonData = [];
+                this.message_imported = imported.message;
+            }
+        },
         handleItemRemoval(index){
             this.items.splice(index, 1)
         }

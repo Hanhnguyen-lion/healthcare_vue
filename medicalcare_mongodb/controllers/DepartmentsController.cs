@@ -15,6 +15,59 @@ namespace medicalcare_mongodb.controllers
         }
 
         [HttpPost]
+        [Route("Import")]
+        public async Task<IActionResult> Import(IList<IDictionary<string, object>> data)
+        {
+
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (data != null)
+            {
+                var hospitals = await context.m_hospital.ToListAsync();
+
+                await Task.Run(() =>
+                {
+                    foreach (var item in data)
+                    {
+                        var id_guid = item["id"].ToString();
+                        var name = item["name"].ToString();
+                        var phone = item["phone"].ToString();
+                        var hospital_name = item["hospital_name"].ToString();
+                        var hospitalItem = hospitals.Where(li=> li.name == hospital_name).FirstOrDefault();
+                        var newItem = new Department{
+                            hospital_id = (string.IsNullOrEmpty(hospitalItem?.hospital_id_guid)) ? null: new ObjectId(hospitalItem?.hospital_id_guid),
+                            name = name,
+                            phone = phone
+                        };
+                        if (string.IsNullOrEmpty(id_guid))
+                        {
+                            this.context.m_department.Add(newItem);
+                        }
+                        else
+                        {
+                            Department? medicine = this.context.m_department.FirstOrDefault(m => m.id == new ObjectId(id_guid));
+                            if (medicine == null)
+                            {
+                                this.context.m_department.Add(newItem);
+                            }
+                            else
+                            {
+                                newItem.id = new ObjectId(id_guid);
+                                this.context.m_department.Entry(medicine).CurrentValues.SetValues(newItem);
+                            }
+                        }
+                    }
+                    this.context.SaveChanges();
+                });
+
+            }
+            return Ok(new { message = "Import successfully." });
+        }        
+
+        [HttpPost]
         [Route("Add")]
         public async Task<IActionResult> Add(Department data)
         {

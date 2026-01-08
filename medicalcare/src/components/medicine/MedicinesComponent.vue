@@ -6,8 +6,8 @@
 
     import {utils, writeFile} from 'xlsx-js-style';
     import * as XLSX from 'xlsx';
-import AddButton from '../AddButton.vue';
-import EditDeleteButtons from '../EditDeleteButtons.vue';
+    import AddButton from '../AddButton.vue';
+    import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 </script>
 
@@ -18,13 +18,13 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
             <AddButton router-link-to="/Medicine/Add" title="Add Medicine" ></AddButton>
             <button class="btn btn-outline-primary" 
                 style="margin-left: 10px;" 
-                @click="exportToExcel" type="button">Export to Excel</button>
-            <input type="file" class="form-control" @change="handleFileUpload" accept=".xlsx, .xls" />
-            <button class="btn btn-outline-primary" 
-                @click="importToExcel" :disabled="!jsonData.length" type="button">Import to Excel</button>
+                @click="exportToExcel" type="button">Export Medicine</button>
+            <input type="file" ref="fileInput" id="fileInput" class="form-control" style="display: none;" @change="handleFileUpload" accept=".xlsx, .xls" />
+            <button class="btn btn-outline-primary" style="margin-left: 10px;"  
+                @click="onImport" type="button">Import Medicine</button>
         </div>
         <div class="form-group mb-3">
-            <div v-if="message_imported" class="form-group">{{ message_imported }}</div>
+            <div v-if="message_imported" class="form-group fw-bold">{{ message_imported }}</div>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -75,7 +75,12 @@ export default{
         }
     },
     methods: {
-        handleFileUpload(e){
+        onImport(){
+            this.jsonData = [];
+            this.message_imported = "";
+            this.$refs.fileInput.click();
+        },
+        async handleFileUpload(e){
             const file = e.target.files[0];
             if (!file)
                 return;
@@ -86,7 +91,10 @@ export default{
                 const sheetName = wb.SheetNames[0];
                 const ws = wb.Sheets[sheetName];
                 this.jsonData = XLSX.utils.sheet_to_json(ws, {header: 2});
-                console.log(this.jsonData);
+                //console.log(this.jsonData);
+                if (this.jsonData){
+                    this.importToExcel();
+                }
             };
             reader.readAsArrayBuffer(file);
         },
@@ -133,20 +141,22 @@ export default{
 
             writeFile(wb, "medicine.xlsx");
         },
-        handleItemRemoval(index){
-            this.items.splice(index, 1)
-        },
         async importToExcel(){
             var imported = await post(`${this.url}/Import`, this.jsonData);
             if (imported.valid){
+                this.jsonData = [];
                 this.message_imported = "Imported success";
                 var data = await getItems(this.url);
                 if (data.valid)
                     this.items = data.data;
             }
             else{
+                this.jsonData = [];
                 this.message_imported = imported.message;
             }
+        },
+        handleItemRemoval(index){
+            this.items.splice(index, 1)
         }
     },
     async mounted() {

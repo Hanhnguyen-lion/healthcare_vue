@@ -300,17 +300,22 @@ namespace medicalcare_mongodb
 
         public async Task<IEnumerable> GetDepartments()
         {
-            var items = await m_department.ToListAsync();
 
-            var results = from m in items
+            var departments = await m_department.ToListAsync();
+            var hospitals = await m_hospital.ToListAsync();
+
+            var leftJoinResults = from d in departments
+            join h in hospitals on d.hospital_id_guid equals h.hospital_id_guid into hospitalGroup
+            from hDefault in hospitalGroup.DefaultIfEmpty()
             select new
             {
-                id = m.id_guid,
-                m.name,
-                m.phone,
-                hospital_id = m.hospital_id_guid
+                hospital_id = d.hospital_id_guid,
+                hospital_name = hDefault?.name,
+                name = d.name,
+                phone = d.phone,
+                id = d.id_guid 
             };
-            return results;
+            return leftJoinResults;
         }
 
         public async Task<IEnumerable> GetHospitals()
