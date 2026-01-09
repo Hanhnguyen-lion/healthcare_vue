@@ -1,6 +1,7 @@
 {
     "menu":{
         "home": "家",
+        "account": "アカウント",
         "logout": "ログアウト",
         "language": "言語",
         "category": "カテゴリ",
@@ -39,6 +40,7 @@
             "confirmPassword": "パスワードを認証する",
             "confirmPasswordPlaceholder": "確認用のパスワードを入力してください",
             "accountType": "アカウントの種類",
+            "role": "A役割",
             "hospital": "病院",
             "haveAccount": "すでにアカウントをお持ちですか？ログイン"
         }
@@ -95,5 +97,9 @@
     },
     "medicaleCare":{
 
+    },
+    "buttons":{
+        "save" : "保存",
+        "cancel" : "キャンセル"
     }
 } 

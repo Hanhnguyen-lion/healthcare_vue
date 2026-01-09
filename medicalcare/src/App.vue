@@ -17,6 +17,10 @@
                 </RouterLink>
               </li>
               <li v-if="showMenu()" class="nav-item">
+                <RouterLink to="/Account" class="nav-link text-white fw-bold">{{ $t('menu.account') }}
+                </RouterLink>
+              </li>
+              <li v-if="showMenu()" class="nav-item">
                 <a @click="logout()" class="nav-link text-white fw-bold" href="">{{ $t('menu.logout') }}</a>
               </li>
               <li class="nav-item nav-link text-white fw-bold">{{ $t('menu.language') }}:

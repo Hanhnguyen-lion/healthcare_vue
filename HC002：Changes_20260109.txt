@@ -1,0 +1,22 @@
+2026.01.09
+Changes record
+〇 medicalcare_mongodb
+◇ AccountsController.cs
+- Add Edit
+- Rename Account Type to Role
+- Add Account Type: Free and Member
+
+〇 Account menu
+◇ AccountsComponent.vue
+- Add Account List, create, edit and delete
+◇ LoginComponent.vue
+- Remove Register Button
+
+
+
+
+
+
+
+
+

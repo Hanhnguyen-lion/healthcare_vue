@@ -1,6 +1,7 @@
 {
     "menu":{
         "home": "Trang chủ",
+        "account": "Tài khoản",
         "logout": "Đăng xuất",
         "language": "Ngôn ngữ",
         "category": "Category",
@@ -40,6 +41,7 @@
             "confirmPassword": "Xác nhận mật khẩu",
             "confirmPasswordPlaceholder": "Nhập Xác nhận mật khẩu",
             "accountType": "Loại tài khoản",
+            "role": "Phân quyền",
             "hospital": "Bệnh viện",
             "haveAccount": "Bạn đã có tài khoản? Hãy đăng nhập"
         }
@@ -96,5 +98,9 @@
     },
     "medicaleCare":{
 
+    },
+    "buttons":{
+        "save" : "Lưu",
+        "cancel" : "Hủy"
     }
 } 

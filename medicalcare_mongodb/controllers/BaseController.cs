@@ -57,8 +57,11 @@ namespace medicalcare_mongodb.controllers
                 return Ok( await this.context.h_prescription.ToListAsync());
             else if (controllerName.IndexOf(MedicalcareDbContext.Treatment, StringComparison.OrdinalIgnoreCase) != -1)
                 return Ok( await this.context.m_treatment.ToListAsync());
-
-            return Ok( await this.context.m_account.ToListAsync());
+            else
+            {
+                var data = await this.context.GetAccounts();
+                return Ok( data);
+            }
         }
 
         [HttpGet]
@@ -201,6 +204,24 @@ namespace medicalcare_mongodb.controllers
                         ["notes"] = data?.notes??"",
                         ["amount"] = data?.amount??0,
                         ["days"] = data?.days!,
+                    };
+                }
+                else if (controllerName.IndexOf(MedicalcareDbContext.Account, StringComparison.OrdinalIgnoreCase) != -1){
+                    var data = (Account?) item;
+                    item = new Dictionary<string, object>
+                    {
+                        ["id"] = data?.id_guid??"",
+                        ["hospital_id"] = data?.hospital_id_guid!,
+                        ["email"] = data?.email??"",
+                        ["password"] = data?.password??"",
+                        ["first_name"] = data?.first_name??"",
+                        ["dob"] = data?.dob??DateTime.Today,
+                        ["last_name"] = data?.last_name!,
+                        ["gender"] = data?.gender!,
+                        ["role"] = data?.role??"",
+                        ["account_type"] = data?.account_type??"",
+                        ["address"] = data?.address!,
+                        ["phone"] = data?.phone!
                     };
                 }
                 else if (controllerName.IndexOf(MedicalcareDbContext.Treatment, StringComparison.OrdinalIgnoreCase) != -1)

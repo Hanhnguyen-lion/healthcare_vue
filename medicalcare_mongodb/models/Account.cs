@@ -23,29 +23,30 @@ namespace medicalcare_mongodb.models
         public string? phone{get;set;}
         public string? email{get;set;}
         public string? account_type{get;set;}
+        public string? role{get;set;}
         public string? token{get;set;}
         
-        public string account_id_guid
+        public string id_guid
         {
             get
             {
                 return id.ToString();
             }
         }
-        
-        public string? hospital_id_str{get;set;}
-        
+
+        string? _hospital_id_guid;
         public string? hospital_id_guid
         {
             get
             {
+                if (_hospital_id_guid != null)
+                    return _hospital_id_guid;
                 return hospital_id.ToString();
             }
-        }
-
-        public static explicit operator Account(Task<IDictionary?> v)
-        {
-            throw new NotImplementedException();
+            set
+            {
+                _hospital_id_guid = value;
+            }
         }
     }
 }

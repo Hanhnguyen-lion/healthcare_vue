@@ -1,11 +1,11 @@
 import moment from "moment";
 
 export function formatDateToString(value, format) {
-    return moment(value).format(format);
+    return (value) ? moment(value).format(format) : "";
 }
 
 export function formatDateYYYYMMDD(value) {
-    return moment(value).format("YYYY-MM-DD");
+    return (value) ? moment(value).format("YYYY-MM-DD") : "";
 }
 
 export function addItemToArray(itemArr, item, key){
@@ -35,7 +35,7 @@ export function validEmail(email){
 }
 
 export function isSupperAdmin(accountItem){
-    if (accountItem && accountItem.account_type == "Super Admin")
+    if (accountItem && accountItem.role == "Super Admin")
         return true;
     return false;
 }

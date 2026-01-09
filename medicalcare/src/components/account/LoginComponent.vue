@@ -35,9 +35,6 @@
                                         <div v-if="inValid">{{ messageError }}</div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <RouterLink to="/Account/Register" class="btn btn-outline-secondary">{{ $t('account.login.noAccount') }}</RouterLink>
-                                </div>
                             </form>
                         </div>
                     </div>

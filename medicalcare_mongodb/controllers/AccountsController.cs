@@ -37,8 +37,9 @@ namespace medicalcare_mongodb.controllers
                 first_name = account?.first_name,
                 last_name = account?.last_name,
                 password = account?.password,
+                role = account?.role,
                 account_type = account?.account_type,
-                hospital_id = (account?.hospital_id_str == null) ? null : new ObjectId(account?.hospital_id_str)
+                hospital_id = (account?.hospital_id_guid == null) ? null : new ObjectId(account?.hospital_id_guid)
             };
 
             await Task.Run(() =>
@@ -54,6 +55,8 @@ namespace medicalcare_mongodb.controllers
         public async Task<IActionResult> Edit(string id, Account dataInput)
         {
             dataInput.id = new ObjectId(id);
+            dataInput.hospital_id = (string.IsNullOrEmpty(dataInput.hospital_id_guid)) ?
+                null: new ObjectId(dataInput.hospital_id_guid);
             // Validate the incoming model.
             if (!ModelState.IsValid)
             {
@@ -103,7 +106,8 @@ namespace medicalcare_mongodb.controllers
                     ["hospital_id"] = data?.hospital_id_guid??"",
                     ["first_name"] = data?.first_name??"",
                     ["last_name"] = data?.last_name??"",
-                    ["account_type"] = data?.account_type??""
+                    ["account_type"] = data?.account_type??"",
+                    ["role"] = data?.role??""
                 }; 
                 return Ok(new { message = "Login success." , item = item});
             }

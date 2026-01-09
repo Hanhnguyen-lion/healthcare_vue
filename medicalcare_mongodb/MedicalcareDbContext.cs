@@ -336,6 +336,29 @@ namespace medicalcare_mongodb
             return results;
         }
 
+        public async Task<IEnumerable> GetAccounts()
+        {
+            var items = await m_account.ToListAsync();
+
+            var results = from m in items
+            select new
+            {
+                id = m.id_guid,
+                hospital_id = m.hospital_id_guid,
+                m.email,
+                m.phone,
+                m.address,
+                m.gender,
+                m.first_name,
+                m.last_name,
+                m.role,
+                m.account_type,
+                m.password,
+                m.dob
+            };
+            return results;
+        }
+
         public async Task<IEnumerable> GetDoctors()
         {
             var doctors = await m_doctor.ToListAsync();

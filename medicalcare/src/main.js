@@ -16,7 +16,7 @@ const app = createApp(App);
 
 router.beforeEach((to)=>{
 
-    const publicPages = ['/Account/Login', '/Account/Register', '/Account/Forgotpassword'];
+    const publicPages = ['/Account/Login', '/Account/Forgotpassword'];
     const authRequired = !publicPages.includes(to.path);
     const auth = useAuthStore();
 

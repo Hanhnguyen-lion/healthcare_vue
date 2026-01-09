@@ -1,6 +1,7 @@
 {
     "menu":{
         "home": "Home",
+        "account": "Account",
         "logout": "Logout",
         "language": "Language",
         "category": "Category",
@@ -39,8 +40,10 @@
             "confirmPassword": "Confirm Password",
             "confirmPasswordPlaceholder": "Enter confirm password",
             "accountType": "Account Type",
+            "role": "Role",
             "hospital": "Hospital",
             "haveAccount": "Already have an account? Login"
+            
         }
     },
     "home":{
@@ -95,5 +98,9 @@
     },
     "medicaleCare":{
 
+    },
+    "buttons":{
+        "save" : "Save",
+        "cancel" : "Cancel"
     }
 } 

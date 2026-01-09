@@ -25,6 +25,7 @@ import DoctorsComponent from "@/components/doctor/DoctorsComponent.vue";
 import AddDoctorComponent from "@/components/doctor/AddDoctorComponent.vue";
 import AppointmentsComponent from "@/components/appointment/AppointmentsComponent.vue";
 import AddAppointmentComponent from "@/components/appointment/AddAppointmentComponent.vue";
+import AccountsComponent from "@/components/account/AccountsComponent.vue";
 
 
 const router = createRouter({
@@ -45,6 +46,14 @@ const router = createRouter({
         {
             path: "/Account/Register",
             component: RegisterComponent
+        },
+        {
+            path: "/Account/Register/Edit/:id",
+            component: RegisterComponent
+        },
+        {
+            path: "/Account",
+            component: AccountsComponent
         },
         {
             path: "/Treatement/Category",
