@@ -27,6 +27,19 @@
             "forgotPassword": "パスワードをお忘れですか",
             "noAccount": "アカウントをお持ちでないですか？登録"
         },
+        "accounts":{
+            "title": "Account List",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "phone": "Phone",
+            "email": "Email",
+            "gender": "Gender",
+            "dob": "Date of birth",
+            "role": "Role",
+            "accountType": "Account Type",
+            "createDate": "Create Date",
+            "action": ""
+        },
         "register":{
             "title": "登録する",
             "firstName": "ファーストネーム",
@@ -42,7 +55,13 @@
             "accountType": "アカウントの種類",
             "role": "A役割",
             "hospital": "病院",
-            "haveAccount": "すでにアカウントをお持ちですか？ログイン"
+            "dob": "Date of birth",
+            "dobPlaceholder": "Enter date of birth",
+            "gender": "Gender",
+            "phone": "Phone",
+            "phonePlaceholder": "Enter Phone",
+            "address": "Address",
+            "addressPlaceholder": "Enter adress"
         }
     },
     "home":{
@@ -100,6 +119,14 @@
     },
     "buttons":{
         "save" : "保存",
-        "cancel" : "キャンセル"
+        "cancel" : "キャンセル",
+        "add" : "Add",
+        "edit" : "Edit",
+        "delete" : "Delete",
+        "export" : "Export",
+        "import" : "Import",
+        "view" : "View",
+        "search" : "Search",
+        "print" : "Print"
     }
 } 

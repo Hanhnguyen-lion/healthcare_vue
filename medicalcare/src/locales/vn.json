@@ -27,6 +27,19 @@
             "forgotPassword": "Quên Mật khẩu",
             "noAccount": "Bạn chưa có tài khoản? Hãy đăng ký"
         },
+        "accounts":{
+            "title": "Danh sách tài khoản",
+            "firstName": "Tên",
+            "lastName": "Họ",
+            "phone": "Điện thoại",
+            "email": "E-mail",
+            "gender": "Giới tính",
+            "dob": "Ngày sinh",
+            "role": "Phân quyền",
+            "accountType": "Loại tài khoản",
+            "createDate": "Ngày tạo",
+            "action": ""
+        },
         "register":{
             "title": "Đăng ký",
             "firstName": "Tên",
@@ -43,7 +56,13 @@
             "accountType": "Loại tài khoản",
             "role": "Phân quyền",
             "hospital": "Bệnh viện",
-            "haveAccount": "Bạn đã có tài khoản? Hãy đăng nhập"
+            "dob": "Ngày sinh",
+            "dobPlaceholder": "Nhập ngày sinh",
+            "gender": "Giới tính",
+            "phone": "Điện thoại",
+            "phonePlaceholder": "Nhập điện thoại",
+            "address": "Địa chỉ",
+            "addressPlaceholder": "Nhập địa chỉ"
         }
     },
     "home":{
@@ -97,10 +116,19 @@
 
     },
     "medicaleCare":{
-
+        "title": "Hồ sơ bệnh án",
+        "patient": "Bệnh nhân"
     },
     "buttons":{
         "save" : "Lưu",
-        "cancel" : "Hủy"
+        "cancel" : "Hủy",
+        "add" : "Thêm mới",
+        "edit" : "Sửa",
+        "delete" : "Xóa",
+        "export" : "Xuất tài liệu",
+        "import" : "Nhập tài liệu",
+        "view" : "Xem",
+        "search" : "Tìm kiếm",
+        "print" : "In"
     }
 } 

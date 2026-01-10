@@ -27,6 +27,19 @@
             "forgotPassword": "Forgot Password",
             "noAccount": "Don't have an account? Register"
         },
+        "accounts":{
+            "title": "Account List",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "phone": "Phone",
+            "email": "Email",
+            "gender": "Gender",
+            "dob": "Date of birth",
+            "role": "Role",
+            "accountType": "Account Type",
+            "createDate": "Create Date",
+            "action": ""
+        },
         "register":{
             "title": "Register",
             "firstName": "First Name",
@@ -42,7 +55,13 @@
             "accountType": "Account Type",
             "role": "Role",
             "hospital": "Hospital",
-            "haveAccount": "Already have an account? Login"
+            "dob": "Date of birth",
+            "dobPlaceholder": "Enter date of birth",
+            "gender": "Gender",
+            "phone": "Phone",
+            "phonePlaceholder": "Enter Phone",
+            "address": "Address",
+            "addressPlaceholder": "Enter adress"
             
         }
     },
@@ -97,10 +116,21 @@
 
     },
     "medicaleCare":{
-
+        "title": "Medical records",
+        "patient": "Patient",
+        "monthAdmissionDate": "Month of admission date",
+        "yearAdmissionDate": "Year of admission date"
     },
     "buttons":{
         "save" : "Save",
-        "cancel" : "Cancel"
+        "cancel" : "Cancel",
+        "add" : "Add",
+        "edit" : "Edit",
+        "delete" : "Delete",
+        "export" : "Export",
+        "import" : "Import",
+        "view" : "View",
+        "search" : "Search",
+        "print" : "Print"
     }
 } 

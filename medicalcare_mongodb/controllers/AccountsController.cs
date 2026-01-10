@@ -9,8 +9,10 @@ namespace medicalcare_mongodb.controllers
     [Route("Medicalcare/api/[controller]")]    
     public class AccountsController: BaseController
     {
-        public AccountsController(MedicalcareDbContext context) : base(context)
+        private readonly IConfiguration _config;
+        public AccountsController(MedicalcareDbContext context, IConfiguration config) : base(context)
         {
+            this._config = config;
         }
 
         [HttpPost]
@@ -37,9 +39,14 @@ namespace medicalcare_mongodb.controllers
                 first_name = account?.first_name,
                 last_name = account?.last_name,
                 password = account?.password,
+                phone = account?.phone,
+                gender = account?.gender,
+                dob = account?.dob,
+                address = account?.address,
                 role = account?.role,
                 account_type = account?.account_type,
-                hospital_id = (account?.hospital_id_guid == null) ? null : new ObjectId(account?.hospital_id_guid)
+                hospital_id = (account?.hospital_id_guid == null) ? null : new ObjectId(account?.hospital_id_guid),
+                create_date = DateTime.Today
             };
 
             await Task.Run(() =>
@@ -71,6 +78,7 @@ namespace medicalcare_mongodb.controllers
             }
             else
             {
+                dataInput.create_date = (item.create_date == DateTime.MinValue) ? DateTime.Today : item.create_date;
                 await Task.Run(() =>
                 {
                     this.context.m_account.Entry(item).CurrentValues.SetValues(dataInput);
@@ -100,16 +108,26 @@ namespace medicalcare_mongodb.controllers
             if (data == null)
                 return NotFound(new { message = "Email or password is incorrect.", item = data } );
             else{
-                var item = new Dictionary<string, object>
+                var create_date = data.create_date;
+                var expireDay = Convert.ToInt32(this._config["ExpireDay"]);
+                if (context.ExpireDate(create_date, expireDay))
                 {
-                    ["email"] = data?.email??"",
-                    ["hospital_id"] = data?.hospital_id_guid??"",
-                    ["first_name"] = data?.first_name??"",
-                    ["last_name"] = data?.last_name??"",
-                    ["account_type"] = data?.account_type??"",
-                    ["role"] = data?.role??""
-                }; 
-                return Ok(new { message = "Login success." , item = item});
+                    return Conflict(new { message = "This Account is expire.", item = data } );
+                }
+                else
+                {
+                    var item = new Dictionary<string, object>
+                    {
+                        ["email"] = data?.email??"",
+                        ["hospital_id"] = data?.hospital_id_guid??"",
+                        ["first_name"] = data?.first_name??"",
+                        ["last_name"] = data?.last_name??"",
+                        ["account_type"] = data?.account_type??"",
+                        ["role"] = data?.role??"",
+                        ["create_date"] = data?.create_date??DateTime.Today
+                    }; 
+                    return Ok(new { message = "Login success." , item = item});
+                }
             }
 
         }   

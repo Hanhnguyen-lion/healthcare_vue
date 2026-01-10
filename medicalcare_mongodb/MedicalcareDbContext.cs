@@ -35,7 +35,6 @@ namespace medicalcare_mongodb
         public DbSet<DurationType> m_duration_type {get;init;}
         public MedicalcareDbContext(DbContextOptions options): base(options)
         {
-            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -54,6 +53,16 @@ namespace medicalcare_mongodb
             modelBuilder.Entity<Prescription>().HasKey(a=> a.id);
             modelBuilder.Entity<Billing>().HasKey(a=> a.id);
             modelBuilder.Entity<DurationType>().HasKey(a=> a.id);
+        }
+
+        public bool ExpireDate(DateTime expireDate, int expireDay)
+        {
+            DateTime today = DateTime.Now;
+
+            // Calculate the difference in days
+            TimeSpan timeRemaining = expireDate - today;
+            int daysUntilExpiration = (int)Math.Floor(timeRemaining.TotalDays);
+            return (daysUntilExpiration <= expireDay) ? false: true;
         }
 
         public async Task<IEnumerable> GetBillings()
@@ -354,7 +363,8 @@ namespace medicalcare_mongodb
                 m.role,
                 m.account_type,
                 m.password,
-                m.dob
+                m.dob,
+                m.create_date
             };
             return results;
         }

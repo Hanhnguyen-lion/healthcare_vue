@@ -15,13 +15,13 @@
     <div class="container">
         <h2>Medicine List</h2>
         <div class="form-group mb-3">
-            <AddButton router-link-to="/Medicine/Add" title="Add Medicine" ></AddButton>
+            <AddButton router-link-to="/Medicine/Add" :title="$t('buttons.add')"></AddButton>
             <button class="btn btn-outline-primary" 
                 style="margin-left: 10px;" 
-                @click="exportToExcel" type="button">Export Medicine</button>
+                @click="exportToExcel" type="button">{{$t('buttons.export')}}</button>
             <input type="file" ref="fileInput" id="fileInput" class="form-control" style="display: none;" @change="handleFileUpload" accept=".xlsx, .xls" />
             <button class="btn btn-outline-primary" style="margin-left: 10px;"  
-                @click="onImport" type="button">Import Medicine</button>
+                @click="onImport" type="button">{{$t('buttons.import')}}</button>
         </div>
         <div class="form-group mb-3">
             <div v-if="message_imported" class="form-group fw-bold">{{ message_imported }}</div>

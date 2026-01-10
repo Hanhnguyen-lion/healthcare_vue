@@ -13,7 +13,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
     <div class="container">
         <h2>Doctor List</h2>
         <div class="form-group mb-3">
-            <AddButton title="Add Doctor" router-link-to="/Doctor/Add"></AddButton>
+            <AddButton :title="$t('buttons.add')" router-link-to="/Doctor/Add"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">

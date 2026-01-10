@@ -25,6 +25,7 @@ namespace medicalcare_mongodb.models
         public string? account_type{get;set;}
         public string? role{get;set;}
         public string? token{get;set;}
+        public DateTime create_date{get;set;}
         
         public string id_guid
         {

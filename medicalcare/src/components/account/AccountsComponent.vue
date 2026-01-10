@@ -11,24 +11,25 @@ import { formatDateToString } from '../helper/helper';
 
 <template>
     <div class="container">
-        <h2>Account List</h2>
+        <h2>{{ $t('account.accounts.title') }}</h2>
         <div class="form-group mb-3">
-            <AddButton title="Add Account" router-link-to="/Account/Register"></AddButton>
+            <AddButton :title="$t('buttons.add')" router-link-to="/Account/Register"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
                 <thead class="table-header">
                 <tr>
                     <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Date of birth</th>
-                    <th>Role</th>
-                    <th>Account Type</th>
-                    <th>Action</th>
+                    <th>{{ $t('account.accounts.firstName') }}</th>
+                    <th>{{ $t('account.accounts.lastName') }}</th>
+                    <th>{{ $t('account.accounts.phone') }}</th>
+                    <th>{{ $t('account.accounts.email') }}</th>
+                    <th>{{ $t('account.accounts.gender') }}</th>
+                    <th>{{ $t('account.accounts.dob') }}</th>
+                    <th>{{ $t('account.accounts.role') }}</th>
+                    <th>{{ $t('account.accounts.accountType') }}</th>
+                    <th>{{ $t('account.accounts.createDate') }}</th>
+                    <th>{{ $t('account.accounts.action') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,7 @@ import { formatDateToString } from '../helper/helper';
                         <td>{{formatDateToString(item.dob, 'DD/MM/YYYY')}}</td>
                         <td>{{item.role}}</td>
                         <td>{{ item.account_type }}</td>
+                        <td>{{formatDateToString(item.create_date, 'DD/MM/YYYY')}}</td>
                         <td>
                             <EditDeleteButtons 
                                 :id="item.id" 

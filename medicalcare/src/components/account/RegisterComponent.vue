@@ -49,14 +49,14 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Phone</label>
+                                    <label class="fw-bold">{{ $t('account.register.phone') }}</label>
                                     <input  type="text" class="form-control" 
                                         name="phone" v-model="accountItem.phone" placeholder="Enter address">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.email') }} <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{ $t('account.register.email') }}<span class="text-danger">*</span></label>
                                     <input type="text" name="email" v-model="accountItem.email" :placeholder="$t('account.register.emailPlaceholder')" class="form-control"/>
                                         <div v-if="error.email_error" class="invalid-feedback">
                                             <div>{{error.email_error}}</div>
@@ -67,8 +67,8 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Gender</label>
-                                    <div class="form-control">
+                                    <label class="fw-bold">{{ $t('account.register.gender') }}</label>
+                                    <div class="form-control btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn">
                                             <input type="radio" name="gender" v-model="accountItem.gender" id="Female" value="Female" checked>Female
                                         </label>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Date of birth</label>
+                                    <label class="fw-bold">{{ $t('account.register.dob') }}</label>
                                     <input  type="date" class="form-control" 
                                         name="dob" v-model="accountItem.dob"
                                         placeholder="Enter date of birth">
@@ -93,7 +93,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Address</label>
+                                    <label class="fw-bold">{{ $t('account.register.address') }}</label>
                                     <input  type="text" class="form-control" 
                                         name="address" v-model="accountItem.address" placeholder="Enter address">
                                 </div>
@@ -184,7 +184,7 @@ import { getItemById, getItems, post, updateItem } from '@/services/baseServices
                     password : null,
                     account_type: null,
                     role: null,
-                    gender: null,
+                    gender: "Female",
                     address: null,
                     phone: null,
                     dob: formatDateToString(new Date(), "YYYY-MM-DD"),
@@ -311,7 +311,6 @@ import { getItemById, getItems, post, updateItem } from '@/services/baseServices
                     this.editItem.role = this.accountItem.role;
                     this.editItem.hospital_id = null;
                     this.editItem.hospital_id_guid = this.accountItem.hospital_id;
-
                     if (!this.edit_id){
                         updated = await post(this.apiUrl, this.editItem);
                     }

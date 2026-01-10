@@ -266,7 +266,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="form-group">
-                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onPrint()">Print</button>
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onPrint()">{{$t('buttons.print')}}</button>
                                         <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onBillingList()">Billing List</button>
                                     </div>
                                 </div>

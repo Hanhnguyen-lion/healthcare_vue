@@ -14,7 +14,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
     <div class="container">
         <h2>Billing List</h2>
         <div class="form-group mb-3">
-            <AddButton router-link-to="/Billing/Add" title="Add Billing"></AddButton>
+            <AddButton router-link-to="/Billing/Add" :title="$t('buttons.add')"></AddButton>
         </div>
         <div class="tableFixHead">
             <table class="table table-striped">
@@ -37,7 +37,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                             <RouterLink class="btn btn-outline-info" 
                             style="margin-left: 10px;" 
                             :to="'/Billing/View/' + item.billing_id"
-                            >View</RouterLink>
+                            >{{$t('buttons.view')}}</RouterLink>
                             <EditDeleteButtons 
                                 :id="item.billing_id" 
                                 :apiUrlDelete="url"

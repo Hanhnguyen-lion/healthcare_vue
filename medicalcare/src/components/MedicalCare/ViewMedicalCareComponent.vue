@@ -44,7 +44,7 @@ import { useAuthStore } from '@/store/auth.module';
                     </div>
                 </form>
                     <div class="input-group mb-3">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onSearch()">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onSearch()">{{$t('buttons.search')}}</button>
                     </div>
                     <div v-if="error_message" class="input-group mb-3">
                         {{ error_message }}
@@ -157,7 +157,7 @@ import { useAuthStore } from '@/store/auth.module';
                                     </div>
                                     <div class="row mt-3">
                                         <div class="form-group">
-                                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onPrint()">Print</button>
+                                            <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onPrint()">{{$t('buttons.print')}}</button>
                                         </div>
                                     </div>
                                 </div>
