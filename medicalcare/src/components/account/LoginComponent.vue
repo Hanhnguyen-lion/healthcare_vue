@@ -8,9 +8,9 @@
                         <div class="card-body">
                             <form name="form" @submit.prevent="handleLogin">
                                 <div class="form-group mb-3">
-                                    <label>{{ $t('account.login.email') }} <span class="text-danger">*</span></label>
+                                    <label>{{ $t('commonText.email') }} <span class="text-danger">*</span></label>
                                     <input type="text" required name="email" v-model="email" class="form-control"
-                                        :placeholder="$t('account.login.emailPlaceholder')" />
+                                        :placeholder="$t('commonText.enterEmail')" />
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>{{ $t('account.login.password') }} <span class="text-danger">*</span></label>
@@ -63,7 +63,7 @@ export default {
             var data = await useAuth.login(this.email, this.password);
             if (!data.valid){
                 this.inValid = true;
-                this.messageError = data.message;
+                this.messageError = data.message.message;
                 this.email = "";
                 this.password = "";
             }

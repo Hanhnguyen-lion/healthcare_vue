@@ -14,8 +14,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Medicine <span class="text-danger">*</span></label>
-                                            <select class="form-select" name="medicine_id" v-model="output_data.medicine_id" placeholder="Enter Medicine">
+                                            <label class="fw-bold">{{$t("billing.prescription.medicine")}} <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="medicine_id" v-model="output_data.medicine_id">
                                                 <option v-for="item in medicineItems" :key="item.id" :value="item.id">
                                                     {{item.name}}
                                                 </option>
@@ -27,10 +27,10 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Prescription Date <span class="text-danger">*</span></label>
+                                            <label class="fw-bold">{{$t("billing.prescription.prescriptionDate")}} <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control" name="prescription_date" 
                                                 v-model="output_data.prescription_date"   
-                                                placeholder="Enter prescription date">
+                                                :placeholder="$t('billing.prescription.enterPrescriptionDate')">
                                             <div v-if="prescription_date_error" class="invalid-feedback">
                                                 <div>{{ prescription_date_error }}</div>
                                             </div>
@@ -40,8 +40,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
-                                            <input type="number" min="0" class="form-control" name="quantity" v-model="output_data.quantity" placeholder="Enter quantity"/>
+                                            <label class="fw-bold">{{$t("billing.prescription.quantity")}} <span class="text-danger">*</span></label>
+                                            <input type="number" min="0" class="form-control" name="quantity" v-model="output_data.quantity" 
+                                                :placeholder="$t('billing.prescription.enterQuantity')"/>
                                             <div v-if="quantity_error" class="invalid-feedback">
                                                 <div>{{quantity_error}}</div>
                                             </div>
@@ -61,8 +62,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Duration <span class="text-danger">*</span></label>
-                                            <input type="number" min="0" class="form-control" name="duration" v-model="output_data.duration" placeholder="Enter duration"/>
+                                            <label class="fw-bold">{{$t("billing.prescription.duration")}} <span class="text-danger">*</span></label>
+                                            <input type="number" min="0" class="form-control" name="duration" v-model="output_data.duration" 
+                                                :placeholder="$t('billing.prescription.enterDuration')"/>
                                             <div v-if="duration_error" class="invalid-feedback">
                                                 <div>{{duration_error}}</div>
                                             </div>
@@ -82,16 +84,18 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="fw-bold">Dosage</label>
-                                            <textarea rows="3" class="form-control" name="dosage" v-model="output_data.dosage" placeholder="Enter dosage"/>
+                                            <label class="fw-bold">{{$t("billing.prescription.dosage")}}</label>
+                                            <textarea rows="3" class="form-control" name="dosage" v-model="output_data.dosage" 
+                                                :placeholder="$t('billing.prescription.enterDosage')"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="fw-bold">Notes</label>
-                                            <textarea rows="3" class="form-control" name="notes" v-model="output_data.notes" placeholder="Enter notes"/>
+                                            <label class="fw-bold">{{$t("billing.prescription.notes")}}</label>
+                                            <textarea rows="3" class="form-control" name="notes" v-model="output_data.notes" 
+                                                :placeholder="$t('billing.prescription.enterNotes')"/>
                                         </div>
                                     </div>
                                 </div>
@@ -99,8 +103,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
-                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
+                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">{{this.$t("buttons.cancel")}}</button>
+                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">{{this.$t("buttons.ok")}}</button>
                     </div>
                 </div>
             </div>
@@ -137,7 +141,7 @@ export default {
     props: ["input_data"],
     data() {
         return {
-            title: "Add Prescription",
+            title: this.$t("billing.prescription.addPrescription"),
             billing_id: null,
             prescription_id: null,
             new_prescription_id: null,
@@ -268,7 +272,7 @@ export default {
         }
 
         if (this.prescription_id) {
-            this.title = "Edit Prescription";
+            this.title = this.$t("billing.prescription.editPrescription");
             url = `${url}/${this.prescription_id}`;
             var item = await getItemById(url);
             if (item.valid){
@@ -280,7 +284,7 @@ export default {
         }
         else {
             if (this.new_prescription_id) {
-                this.title = "Edit Prescription";
+                this.title = this.$t("billing.prescription.editPrescription");
                 this.output_data = {
                     medicine_id: this.input_data.prescriptionItemObs.medicine_id,
                     notes: this.input_data.prescriptionItemObs.notes,

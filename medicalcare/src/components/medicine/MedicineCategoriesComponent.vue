@@ -11,7 +11,7 @@ import { utils, writeFile } from 'xlsx-js-style';
 
 <template>
     <div class="container">
-        <h2>Medicine Category List</h2>
+        <h2>{{$t("category.medicine.title")}}</h2>
         <div class="form-group mb-3">
             <AddButton :title="$t('buttons.add')" router-link-to="/Medicine/Category/Add"></AddButton>
             <button class="btn btn-outline-primary" 
@@ -28,10 +28,10 @@ import { utils, writeFile } from 'xlsx-js-style';
             <table class="table table-striped">
                 <thead class="table-header">
                 <tr>
-                    <th>Name EN</th>
-                    <th>Name VN</th>
-                    <th>Name JP</th>
-                    <th>Action</th>
+                    <th>{{$t("commonText.name")}} EN</th>
+                    <th>{{$t("commonText.name")}} VN</th>
+                    <th>{{$t("commonText.name")}} JP</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

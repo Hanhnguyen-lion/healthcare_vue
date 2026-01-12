@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-md-6">
+        <div class="col-md-6 col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h3>{{this.constant_item.title}}</h3>
@@ -9,10 +9,10 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Code <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t('patient.patients.code')}} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control"
                                         name="code" id="code" v-model="item.code" 
-                                        placeholder="Enter code">
+                                         :placeholder="$t('patient.addPatient.enterCode')">
                                         <div v-if="item_error.codeError" class="invalid-feedback">
                                             <div>{{item_error.codeError}}</div>
                                         </div>
@@ -20,20 +20,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Date of birth</label>
+                                    <label class="fw-bold">{{$t('patient.patients.dob')}}</label>
                                     <input  type="date" class="form-control" 
                                         name="date_of_birth" v-model="item.date_of_birth"
-                                        placeholder="Enter date of birth">
+                                        :placeholder="$t('patient.addPatient.enterDOB')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">First Name <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t('commonText.firstName')}} <span class="text-danger">*</span></label>
                                     <input  type="text" class="form-control"
                                         name="first_name" v-model="item.first_name" 
-                                        placeholder="Enter first name">
+                                        :placeholder="$t('commonText.enterFirstName')">
                                     <div v-if="item_error.firstNameError" class="invalid-feedback">
                                         <div>{{item_error.firstNameError}}</div>
                                     </div>
@@ -41,10 +41,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Last Name <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t('commonText.lastName')}} <span class="text-danger">*</span></label>
                                     <input  type="text" class="form-control"
                                         name="last_name" v-model="item.last_name" 
-                                        placeholder="Enter last name">
+                                        :placeholder="$t('commonText.enterLastName')">
                                     <div v-if="item_error.lastNameError" class="invalid-feedback">
                                         <div>{{item_error.lastNameError}}</div>
                                     </div>
@@ -54,10 +54,10 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Email</label>
+                                    <label class="fw-bold">{{$t('commonText.email')}}</label>
                                     <input  type="text" class="form-control" 
                                         name="email" v-model="item.email"
-                                        placeholder="Enter email">
+                                        :placeholder="$t('commonText.enterEmail')">
                                     <div v-if="item_error.emailError" class="invalid-feedback">
                                         <div>{{item_error.emailError}}</div>
                                     </div>
@@ -65,8 +65,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                <label class="fw-bold">Gender</label>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="fw-bold">{{$t('commonText.gender')}}</label>
+                                <div class="form-control btn-group btn-group-toggle" data-toggle="buttons">
                                     <label class="btn">
                                         <input type="radio" name="gender" v-model="item.gender" id="Female" value="Female" checked>Female
                                     </label>
@@ -83,23 +83,23 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Phone Number</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.phone')}}</label>
                                     <input  type="text" class="form-control" 
                                         name="phone_number" v-model="item.phone_number" 
-                                        placeholder="Enter phone number">
+                                        :placeholder="$t('patient.addPatient.enterPhoneNumber')">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Job</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.job')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="job" v-model="item.job" placeholder="Enter job">
+                                        name="job" v-model="item.job" :placeholder="$t('patient.addPatient.enterJob')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="form-group">
-                                <label class="fw-bold">Hospital</label>
+                                <label class="fw-bold">{{$t('commonText.hospital')}}</label>
                                 <select class="form-select" name="hospital_id"
                                     v-model="item.hospital_id">
                                     <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
@@ -111,85 +111,85 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Home Address</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.homeAddress')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="home_address" v-model="item.home_address" placeholder="Enter home address">
+                                        name="home_address" v-model="item.home_address" :placeholder="$t('patient.addPatient.enterHomeAddress')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Office Address</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.officeAddress')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="office_address" v-model="item.office_address" placeholder="Enter office address">
+                                        name="office_address" v-model="item.office_address" :placeholder="$t('patient.addPatient.enterOfficeAddress')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Emergency Contact Name</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.emergencyContactName')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="emergency_contact_name" v-model="item.emergency_contact_name" placeholder="Enter emergency contact name">
+                                        name="emergency_contact_name" v-model="item.emergency_contact_name" :placeholder="$t('patient.addPatient.enterEmergencyContactName')">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Emergency Contact Phone</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.emergencyContactPhone')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="emergency_contact_phone" v-model="item.emergency_contact_phone" placeholder="Enter emergency contact phone">
+                                        name="emergency_contact_phone" v-model="item.emergency_contact_phone" :placeholder="$t('patient.addPatient.enterEmergencyContactPhone')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Insurance Number</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.insuranceNumber')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="insurance_policy_number" v-model="item.insurance_policy_number" placeholder="Enter insurance number">
+                                        name="insurance_policy_number" v-model="item.insurance_policy_number" :placeholder="$t('patient.addPatient.enterInsuranceNumber')">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Insurance Expire</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.insuranceExpire')}}</label>
                                     <input type="date" class="form-control" name="insurance_expire" 
                                         v-model="item.insurance_expire"   
-                                         placeholder="Enter insurance expire">
+                                         :placeholder="$t('patient.addPatient.enterInsuranceExpire')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Insurance Provider</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.insuranceProvider')}}</label>
                                     <input  type="text" class="form-control" name="insurance_provider" 
-                                       v-model="item.insurance_provider" placeholder="Enter Insurance Provider">
+                                       v-model="item.insurance_provider" :placeholder="$t('patient.addPatient.enterInsuranceProvider')">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Insurance Type</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.insuranceType')}}</label>
                                     <input  type="text" class="form-control" 
-                                        name="insurance_type" v-model="item.insurance_type" placeholder="Enter Insurance Type">
+                                        name="insurance_type" v-model="item.insurance_type" :placeholder="$t('patient.addPatient.enterInsuranceType')">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Insurance Info</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.insuranceInfo')}}</label>
                                     <textarea  rows="3" class="form-control" 
-                                        name="insurance_info" v-model="item.insurance_info" placeholder="Enter insurance info"></textarea>
+                                        name="insurance_info" v-model="item.insurance_info" :placeholder="$t('patient.addPatient.enterInsuranceInfo')"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Medical History</label>
+                                    <label class="fw-bold">{{$t('patient.addPatient.medicalHistory')}}</label>
                                     <textarea rows="3" class="form-control" 
-                                        name="medical_history" v-model="item.medical_history" placeholder="Enter medical history"></textarea>
+                                        name="medical_history" v-model="item.medical_history" :placeholder="$t('patient.addPatient.enterMedicalHistory')"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -197,10 +197,10 @@
                             <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                 <button type="submit" class="btn btn-outline-primary">
                                     <span v-if="constant_item.loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Save
+                                    {{$t('buttons.save')}}
                                 </button>
 
-                                <router-link to="/Patient" class="btn btn-outline-secondary">Cancel</router-link>
+                                <router-link to="/Patient" class="btn btn-outline-secondary">{{$t('buttons.cancel')}}</router-link>
                             </div>
                         </div>
                         <div v-if="item_error.error" class="row mb-3 invalid-feedback fw-bold">
@@ -228,7 +228,7 @@ export default{
             auth: useAuthStore(),
             hospitalItems:[],
             constant_item:{
-                title : "Add Patient",
+                title : this.$t("patient.addPatient.addPatient"),
                 loading : false,
                 id: null,
                 url: `${enviroment.apiUrl}/Patients`
@@ -351,7 +351,7 @@ export default{
     async mounted(){
         var id = this.$route.params.id;
         if (id) {
-            this.constant_item.title = "Edit Patient";
+            this.constant_item.title = this.$t("patient.addPatient.editPatient");
             this.constant_item.id = id;
             var data = await this.getItem(id);
             this.item = data.data;

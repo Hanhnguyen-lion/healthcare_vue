@@ -20,16 +20,16 @@ import { formatDateToString } from '../helper/helper';
                 <thead class="table-header">
                 <tr>
                     <th>#</th>
-                    <th>{{ $t('account.accounts.firstName') }}</th>
-                    <th>{{ $t('account.accounts.lastName') }}</th>
-                    <th>{{ $t('account.accounts.phone') }}</th>
-                    <th>{{ $t('account.accounts.email') }}</th>
-                    <th>{{ $t('account.accounts.gender') }}</th>
+                    <th>{{ $t('commonText.firstName') }}</th>
+                    <th>{{ $t('commonText.lastName') }}</th>
+                    <th>{{ $t('commonText.phone') }}</th>
+                    <th>{{ $t('commonText.email') }}</th>
+                    <th>{{ $t('commonText.gender') }}</th>
                     <th>{{ $t('account.accounts.dob') }}</th>
                     <th>{{ $t('account.accounts.role') }}</th>
                     <th>{{ $t('account.accounts.accountType') }}</th>
                     <th>{{ $t('account.accounts.createDate') }}</th>
-                    <th>{{ $t('account.accounts.action') }}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

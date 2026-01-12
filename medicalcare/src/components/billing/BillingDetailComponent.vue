@@ -47,76 +47,76 @@
                     <div class="col-md-12">
                         <div class="tableFixHead">
                             <div class="container">
-                                <h2>Billing Detail</h2>
+                                <h2>{{$t('billing.billingDetail.title')}}</h2>
                                 <div id="MedicalReports">
                                     <table class="my-double-bordered-table">
                                         <tbody>
                                         <tr>
-                                            <td>Số thứ tự</td>
+                                            <td>{{$t('medicaleCare.order')}}</td>
                                             <td class="borderleft" colspan="3">{{patientItem.patient_code}}</td>
                                             <td>&nbsp;</td>
-                                            <td class="alnrleft borderleft-double">Số bảo hiểm</td>
+                                            <td class="alnrleft borderleft-double">{{$t('medicaleCare.insuranceNumber')}}</td>
                                             <td class="alncenter borderleft">{{patientItem.insurance_policy_number}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class=" bordertop">&nbsp;</td>
-                                            <td class="alnrleft borderleft-double bordertop">Hạn sử dụng bảo hiểm</td>
+                                            <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.insuranceValidDate')}}</td>
                                             <td class="alncenter borderleft bordertop">{{formatDateToString(patientItem.insurance_expire, 'DD/MM/YYYY')}}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td rowspan="4" class="bordertop-double">Người bệnh</td>
-                                            <td class="borderleft bordertop-double">Họ Tên</td>
+                                            <td rowspan="4" class="bordertop-double">{{$t('commonText.patient')}}</td>
+                                            <td class="borderleft bordertop-double">{{$t('medicaleCare.fullName')}}</td>
                                             <td class="borderleft bordertop-double">{{patientItem.patient_name}}
                                             </td>
                                             <td colspan="2" class="bordertop-double">&nbsp;</td>
-                                            <td class="alnrleft borderleft-double bordertop">Tên người có bảo hiểm</td>
+                                            <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.nameOfInsurance')}}</td>
                                             <td class="alncenter borderleft bordertop">{{patientItem.patient_name}}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="borderleft bordertop">Ngày sinh</td>
+                                            <td class="borderleft bordertop">{{$t('medicaleCare.dob')}}</td>
                                             <td class="borderleft bordertop">{{formatDateToString(patientItem.date_of_birth, 'DD/MM/YYYY')}}
                                             </td>
-                                            <td class="borderleft bordertop">Giới tính</td>
+                                            <td class="borderleft bordertop">{{$t('commonText.gender')}}</td>
                                             <td class="borderleft bordertop">{{patientItem.gender}}
                                             </td>
-                                            <td rowspan="2" class="alnrleft borderleft-double bordertop">Địa chỉ</td>
+                                            <td rowspan="2" class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.address')}}</td>
                                             <td rowspan="2" class="alncenter borderleft bordertop">{{patientItem.home_address}}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="borderleft bordertop">Địa chỉ</td>
+                                            <td class="borderleft bordertop">{{$t('medicaleCare.address')}}</td>
                                             <td class="borderleft bordertop">{{patientItem.home_address}}
                                             </td>
                                             <td class="bordertop" colspan="2">&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td class="borderleft bordertop">Công việc</td>
+                                            <td class="borderleft bordertop">{{$t('medicaleCare.job')}}</td>
                                             <td class="borderleft bordertop">{{patientItem?.job??""}}
                                             </td>
-                                            <td class="borderleft bordertop">Dạng bảo hiểm</td>
+                                            <td class="borderleft bordertop">{{$t('medicaleCare.insuranceType')}}</td>
                                             <td class="borderleft bordertop">{{patientItem.insurance_type}}
                                             </td>
-                                            <td class="alnrleft borderleft-double bordertop">Địa chỉ công ty</td>
+                                            <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.workAddress')}}</td>
                                             <td class="alncenter borderleft bordertop">{{patientItem.office_address}}
                                             </td>
                                         </tr>
                                         <tr class="borderleft bordertop-double">
-                                            <td class="alncenter" colspan="4">Tên bệnh</td>
-                                            <td class="alncenter borderleft">Bắt đầu</td>
-                                            <td class="alncenter borderleft">Kết thúc</td>
-                                            <td class="alncenter borderleft">Chuyển bệnh</td>
+                                            <td class="alncenter" colspan="4">{{$t('medicaleCare.treatmentName')}}</td>
+                                            <td class="alncenter borderleft">{{$t('medicaleCare.begin')}}</td>
+                                            <td class="alncenter borderleft">{{$t('medicaleCare.end')}}</td>
+                                            <td class="alncenter borderleft">{{$t('medicaleCare.diseaseTransfer')}}</td>
                                         </tr>
                                         <tr class="borderleft bordertop-double">
                                             <td colspan="7">
                                                 <table class="table">
                                                     <tbody>
                                                     <tr>
-                                                        <td>Admission Date: 
+                                                        <td>{{$t('billing.addBilling.admissionDate')}}: 
                                                             {{formatDateToString(billingItem.admission_date, "DD/MM/YYYY")}}
                                                         </td>
-                                                        <td>Discharge Date: 
+                                                        <td>{{$t('billing.addBilling.dischargeDate')}}: 
                                                             {{formatDateToString(billingItem.discharge_date, "DD/MM/YYYY")}}
                                                         </td>
                                                     </tr>
@@ -127,7 +127,7 @@
                                         <tr class="borderleft fw-bold">
                                             <td colspan="7">
                                                 <div class="row mb-3">
-                                                    <div class="col-md-12">Treatment
+                                                    <div class="col-md-12">{{$t('menu.treatment')}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -141,11 +141,11 @@
                                                                 <thead class="table-header">
                                                                     <tr>
                                                                         <th>#</th>
-                                                                        <th>Date</th>
-                                                                        <th>Type</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Amount</th>
-                                                                        <th>Sub Total</th>
+                                                                        <th>{{$t('billing.addBilling.date')}}</th>
+                                                                        <th>{{$t('billing.addBilling.type')}}</th>
+                                                                        <th>{{$t('billing.addBilling.quantity')}}</th>
+                                                                        <th>{{$t('billing.addBilling.amount')}}</th>
+                                                                        <th>{{$t('billing.addBilling.subTotal')}}</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -167,7 +167,7 @@
                                         <tr class="borderleft fw-bold">
                                             <td colspan="7">
                                                 <div class="row mb-3">
-                                                    <div class="col-md-12">Rescription
+                                                    <div class="col-md-12">{{$t('medicaleCare.prescription')}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -181,11 +181,11 @@
                                                                 <thead class="table-header">
                                                                     <tr>
                                                                         <th>#</th>
-                                                                        <th>Date</th>
-                                                                        <th>Medicine</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Amount</th>
-                                                                        <th>Sub Total</th>
+                                                                        <th>{{$t('billing.addBilling.date')}}</th>
+                                                                        <th>{{$t('menu.medicine')}}</th>
+                                                                        <th>{{$t('billing.addBilling.quantity')}}</th>
+                                                                        <th>{{$t('billing.addBilling.amount')}}</th>
+                                                                        <th>{{$t('billing.addBilling.subTotal')}}</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -207,7 +207,7 @@
                                         <tr class="borderleft fw-bold">
                                             <td colspan="7">
                                                 <div class="row mb-3">
-                                                    <div class="col-md-12">Appointment
+                                                    <div class="col-md-12">{{$t('menu.appointment')}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -221,10 +221,10 @@
                                                                 <thead class="table-header">
                                                                     <tr>
                                                                         <th>#</th>
-                                                                        <th>Date</th>
-                                                                        <th>Patient</th>
-                                                                        <th>Doctor</th>
-                                                                        <th>Reason</th>
+                                                                        <th>{{$t('billing.appointment.date')}}</th>
+                                                                        <th>{{$t('commonText.patient')}}</th>
+                                                                        <th>{{$t('commonText.doctor')}}</th>
+                                                                        <th>{{$t('billing.appointment.reason')}}</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -250,8 +250,10 @@
                                                             <table class="table table-striped">
                                                                 <thead class="table-header">
                                                                     <tr>
-                                                                        <th colspan="5">Total</th>
-                                                                        <th>{{numberal(billingItem.amount).format("0,0.00")}}</th>
+                                                                        <th colspan="5">{{$t('billing.billingDetail.total')}}</th>
+                                                                        <th>
+                                                                            {{numberal(billingItem.amount).format("0,0.00")}}
+                                                                        </th>
                                                                     </tr>
                                                                 </thead>
                                                             </table>
@@ -267,7 +269,7 @@
                                 <div class="row mt-3">
                                     <div class="form-group">
                                         <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onPrint()">{{$t('buttons.print')}}</button>
-                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onBillingList()">Billing List</button>
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="onBillingList()">{{$t('billing.billingDetail.billingList')}}</button>
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +324,9 @@ export default{
                         this.prescriptionItems = this.patientItem.prescriptions;
                         this.treatmemtItems = this.patientItem.treatments;
                         this.appoitmentItems = this.patientItem.appointments;
+                        console.log(this.patientItem.billing);
                         this.billingItem = (this.patientItem.billing) ? this.patientItem.billing[0]:null;
+                        console.log("this.billingItem:", this.billingItem);
                     }
                 }
             });

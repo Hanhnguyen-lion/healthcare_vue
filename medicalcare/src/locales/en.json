@@ -8,19 +8,15 @@
         "medicine": "Medicine",
         "treatment": "Treatment",
         "appointment": "Appointment",
-        "hospital": "Hospital",
         "department": "Department",
         "medicalCare": "Medical Care",
         "billing": "Billing",
-        "patient": "Patient",
         "addBilling": "Add Billing",
-        "billingList": "Billing List",
-        "doctor": "Doctor"
+        "billingList": "Billing List"
     },
     "account":{
         "login":{
             "title": "Login",
-            "email": "Email",
             "emailPlaceholder": "Enter your email",
             "password": "Password",
             "passwordPlaceholder": "Enter password",
@@ -29,11 +25,6 @@
         },
         "accounts":{
             "title": "Account List",
-            "firstName": "First Name",
-            "lastName": "Last Name",
-            "phone": "Phone",
-            "email": "Email",
-            "gender": "Gender",
             "dob": "Date of birth",
             "role": "Role",
             "accountType": "Account Type",
@@ -42,23 +33,14 @@
         },
         "register":{
             "title": "Register",
-            "firstName": "First Name",
-            "firstNamePlaceholder": "Enter first name",
-            "lastName": "Last Name",
-            "lastNamePlaceholder": "Enter last name",
-            "email": "Email",
-            "emailPlaceholder": "Enter email",
             "password": "Password",
             "passwordPlaceholder": "Enter password",
             "confirmPassword": "Confirm Password",
             "confirmPasswordPlaceholder": "Enter confirm password",
             "accountType": "Account Type",
             "role": "Role",
-            "hospital": "Hospital",
             "dob": "Date of birth",
             "dobPlaceholder": "Enter date of birth",
-            "gender": "Gender",
-            "phone": "Phone",
             "phonePlaceholder": "Enter Phone",
             "address": "Address",
             "addressPlaceholder": "Enter adress"
@@ -91,39 +73,212 @@
     },
     "category":{
         "medicine":{
-
+            "title": "Medicine Category List",
+            "addMedicineCategory": "Add Medicine Category",
+            "editMedicineCategory": "Edit Medicine Category",
+            "enterNameEN": "Enter name EN",
+            "enterNameVN": "Enter name VN",
+            "enterNameJP": "Enter name JP"
         },
         "treatment":{
-
+            "title": "Treatment Category List",
+            "addTreatmentCategory": "Add Treatment Category",
+            "editTreatmentCategory": "Edit Treatment Category",
+            "price": "Price",
+            "enterPrice": "Enter price",
+            "enterNameEN": "Enter name EN",
+            "enterNameVN": "Enter name VN",
+            "enterNameJP": "Enter name JP"
         }
     },
     "medicine":{
-
+        "medicines":{
+            "title": "Medicine List",
+            "type": "Type",
+            "price": "Price"
+        },
+        "addMedicine":{
+            "addMedicine": "Add Medicine",
+            "editMedicine": "Edit Medicine",
+            "enterPrice": "Enter price"
+        }
     },
-    "departent":{
-
+    "department":{
+        "departments":{
+            "title": "Department List"
+        },
+        "addDepartment":{
+            "addDepartment": "Add Department",
+            "editDepartment": "Edit Department"
+        }
     },
     "appointment":{
-
+        "appointments":{
+            "title": "Appointment List",
+            "appointmentDate": "Appointment Date",
+            "time": "Time",
+            "reason": "Reason"
+        },
+        "addAppointment":{
+            "addAppointment": "Add Appointment",
+            "editAppointment": "Edit Appointment",
+            "reasonToVisit": "Reason To Visit",
+            "enterAppointmentDate": "Enter appointment date",
+            "enterReasonToVisit": "Enter reason to visit"
+        }
+    },
+    "hospital":{
+        "hospitals":{
+            "title": "Hospital List",
+            "country": "Country"
+        },
+        "addHospital":{
+            "addHospital": "Add Hospital",
+            "editHospital": "Edit Hospital",
+            "enterAddress": "Enter address",
+            "enterCountry": "Enter country",
+            "address": "Address"
+        }
     },
     "doctor":{
-
+        "doctors":{
+            "title": "Doctor List"
+        },
+        "addDoctor":{
+            "addDoctor": "Add Doctor",
+            "editDoctor": "Edit Doctor",
+            "phone": "Phone Number",
+            "enterPhoneNumber": "Enter phone number",
+            "enterQuanlification": "Enter quanlification",
+            "enterJobSpecification": "Enter Job Specification",
+            "quanlification": "Quanlification",
+            "jobSpecification": "Job Specification"
+        }
     },
     "patient":{
-
+        "patients":{
+            "title": "Patient List",
+            "code": "Code",
+            "dob": "Date Of Birth"
+        },
+        "addPatient":{
+            "addPatient": "Add Patient",
+            "editPatient": "Edit Patient",
+            "enterCode": "Enter code",
+            "phone": "Phone Number",
+            "enterDOB": "Enter date of birth",
+            "enterPhoneNumber": "Enter phone number",
+            "enterJob": "Enter job",
+            "enterHomeAddress": "Enter home address",
+            "job": "Job",
+            "homeAddress": "Home Address",
+            "officeAddress": "Office Address",
+            "enterOfficeAddress": "Enter office address",
+            "emergencyContactName": "Emergency Contact Name",
+            "enterMedicalHistory": "Enter medical history",
+            "emergencyContactPhone": "Emergency Contact Phone",
+            "enterInsuranceInfo": "Enter insurance info",
+            "insuranceExpire": "Insurance Expire",
+            "enterInsuranceType": "Enter insurance type",
+            "insuranceNumber": "Insurance Number",
+            "enterInsuranceProvider": "Enter insurance provider",
+            "insuranceProvider": "Insurance Provider",
+            "enterInsuranceExpire": "Enter insurance expire",
+            "insuranceType": "Insurance Type",
+            "enterInsuranceNumber": "Enter insurance number",
+            "insuranceInfo": "Insurance Info",
+            "enterEmergencyContactPhone": "Enter emergency contact phone",
+            "medicalHistory": "Medical History",
+            "enterEmergencyContactName": "Enter emergency contact name"
+        }
     },
     "billing":{
-
+        "billingList":{
+            "title":"Billing List",
+            "billingDate":"Billing Date",
+            "total":"Total"
+        },
+        "addBilling":{
+            "addBilling":"Add Billing",
+            "editBilling":"Edit Billing",
+            "department":"Department",
+            "admissionDate":"Admission Date",
+            "enterAdmissionDate":"Enter Admission Date",
+            "dischargeDate":"Discharge Date",
+            "enterDischargeDate":"Enter Discharge Date",
+            "diagnostic":"Diagnostic",
+            "enterDiagnostic":"Enter Diagnostic",
+            "notes":"Notes",
+            "enterNotes": "Enter Notes",
+            "treatment":"Treatment",
+            "date":"Date",
+            "type":"Type",
+            "quantity":"Quantity",
+            "amount":"Amount",
+            "subTotal":"Sub Total",
+            "medicine":"Medicine",
+            "prescriptions":"Prescriptions"
+        },
+        "treatment":{
+            "addTreatment": "Add Treatment",
+            "editTreatment": "Edit Treatment",
+            "treatmentDate": "Treatment Date",
+            "enterTreatmentDate": "Enter treatment date",
+            "treatmentType": "Treatment Type",
+            "quantity": "Quantity",
+            "enterQuantity": "Enter quantity"
+        },
+        "prescription":{
+            "addPrescription": "Add Prescription",
+            "editPrescription": "Edit Prescription",
+            "medicine": "Medicine",
+            "prescriptionDate": "Prescription Date",
+            "enterPrescriptionDate": "Enter prescription date",
+            "quantity": "Quantity",
+            "enterQuantity": "Enter quantity",
+            "duration": "Duration",
+            "enterDuration": "Enter Duration",
+            "notes": "Notes",
+            "enterNotes": "Enter notes",
+            "dosage": "Dosage",
+            "enterDosage": "Enter dosage"
+        },
+        "billingDetail":{
+            "title": "Billing Detail",
+            "billingList":"Billing List",
+            "total": "Total"
+        },
+        "appointment":{
+            "date":"Date",
+            "reason":"Reason"
+        }
     },
     "medicaleCare":{
         "title": "Medical records",
-        "patient": "Patient",
         "monthAdmissionDate": "Month of admission date",
-        "yearAdmissionDate": "Year of admission date"
+        "yearAdmissionDate": "Year of admission date",
+        "order": "Number",
+        "insuranceNumber": "Insurance number",
+        "insuranceValidDate": "Insurance expiration date",
+        "nameOfInsurance": "Name of insured person",
+        "fullName": "Full name",
+        "dob": "Date of birth",
+        "address": "Address",
+        "job": "Job",
+        "insuranceType": "Type of insurance",
+        "workAddress": "Work Address",
+        "treatmentName": "Disease name",
+        "begin": "Begin",
+        "end": "End",
+        "treatmentHistory": "Disease history - The healing process",
+        "treatmentPrescription": "Prescription - Surgery - Therapy",
+        "prescription": "Prescription",
+        "diseaseTransfer": "Disease transfer"
     },
     "buttons":{
         "save" : "Save",
         "cancel" : "Cancel",
+        "ok" : "OK",
         "add" : "Add",
         "edit" : "Edit",
         "delete" : "Delete",
@@ -132,5 +287,30 @@
         "view" : "View",
         "search" : "Search",
         "print" : "Print"
+    },
+    "messages":{
+        "treatmentTypeRequired": "Treatment type is required",
+        "quantityRequired": "Quantity is required"
+    },
+    "commonText":{
+        "female": "Female",
+        "male": "Male",
+        "order": "Order",
+        "email": "Email",
+        "gender": "Gender",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phone": "Phone",
+        "hospital": "Hospital",
+        "name": "Name",
+        "enterFirstName": "Enter first name",
+        "enterLastName": "Enter last name",
+        "enterEmail": "Enter email",
+        "enterPhone": "Enter phone",
+        "enterName": "Enter name",
+        "patient": "Patient",
+        "doctor": "Doctor",
+        "description": "Description",
+        "enterDescription": "Enter description"
     }
 } 

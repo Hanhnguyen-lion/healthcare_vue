@@ -12,7 +12,7 @@
 
 <template>
     <div class="container">
-        <h2>Treatment Category List</h2>
+        <h2>{{$t("category.treatment.title")}}</h2>
         <div class="form-group mb-3">
             <AddButton :title="$t('buttons.add')" router-link-to="/Treatement/Category/Add"></AddButton>
              <button class="btn btn-outline-primary" 
@@ -29,11 +29,11 @@
             <table class="table table-striped">
                 <thead class="table-header">
                 <tr>
-                    <th>Name EN</th>
-                    <th>Name VN</th>
-                    <th>Name JP</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th>{{$t("commonText.name")}} EN</th>
+                    <th>{{$t("commonText.name")}} VN</th>
+                    <th>{{$t("commonText.name")}} JP</th>
+                    <th>{{$t("category.treatment.price")}}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

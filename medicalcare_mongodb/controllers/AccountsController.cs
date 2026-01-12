@@ -109,8 +109,19 @@ namespace medicalcare_mongodb.controllers
                 return NotFound(new { message = "Email or password is incorrect.", item = data } );
             else{
                 var create_date = data.create_date;
-                var expireDay = Convert.ToInt32(this._config["ExpireDay"]);
-                if (context.ExpireDate(create_date, expireDay))
+                var role = data.role;
+                var account_type = data.account_type;
+                var freeExpireDay = Convert.ToInt32(this._config["FreeExpireDay"]);
+                var memberExpireDay = Convert.ToInt32(this._config["MemberExpireDay"]);
+                var expire = false;
+                if (role != "Super Admin")
+                {
+                    if (account_type == "Free")
+                        expire = context.ExpireDate(create_date, freeExpireDay);
+                    else
+                        expire = context.ExpireDate(create_date, memberExpireDay);
+                }
+                if (expire)
                 {
                     return Conflict(new { message = "This Account is expire.", item = data } );
                 }
@@ -122,9 +133,9 @@ namespace medicalcare_mongodb.controllers
                         ["hospital_id"] = data?.hospital_id_guid??"",
                         ["first_name"] = data?.first_name??"",
                         ["last_name"] = data?.last_name??"",
-                        ["account_type"] = data?.account_type??"",
-                        ["role"] = data?.role??"",
-                        ["create_date"] = data?.create_date??DateTime.Today
+                        ["account_type"] = account_type??"",
+                        ["role"] = role??"",
+                        ["create_date"] = create_date
                     }; 
                     return Ok(new { message = "Login success." , item = item});
                 }

@@ -13,7 +13,7 @@ import { useAuthStore } from '@/store/auth.module';
             <div class="card-header">
                 <form name="form">
                     <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Patient</label>
+                        <label class="col-sm-4 col-form-label">{{$t('commonText.patient')}}</label>
                         <div class="col-sm-8">
                             <select class="form-select" name="patient_id" v-model="input_data.patient_id">
                                 <option v-for="item in patientItems" :key="item.patient_id" :value ="item.patient_id">
@@ -23,7 +23,7 @@ import { useAuthStore } from '@/store/auth.module';
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Month of admission date</label>
+                        <label class="col-sm-4 col-form-label">{{$t('medicaleCare.monthAdmissionDate')}}</label>
                         <div class="col-sm-8">
                             <select class="form-select" name="admission_month" v-model="input_data.admission_month">
                                 <option v-for="month in months" :key="month" :value ="month">
@@ -33,7 +33,7 @@ import { useAuthStore } from '@/store/auth.module';
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Year of admission date</label>
+                        <label class="col-sm-4 col-form-label">{{$t('medicaleCare.yearAdmissionDate')}}</label>
                         <div class="col-sm-8">
                             <select class="form-select" name="admission_year" v-model="input_data.admission_year">
                                 <option v-for="year in years" :key="year" :value="year">
@@ -53,57 +53,57 @@ import { useAuthStore } from '@/store/auth.module';
                         <div class="col-md-12">
                             <div class="tableFixHead">
                                 <div class="container">
-                                    <h2>Hồ sơ bệnh án</h2>
+                                    <h2>{{$t('medicaleCare.title')}}</h2>
                                     <div id="MedicalReports">
                                         <table class="my-double-bordered-table">
                                             <tbody>
                                             <tr>
-                                                <td>Số thứ tự</td>
+                                                <td>{{$t('medicaleCare.order')}}</td>
                                                 <td class="borderleft" colspan="3">{{patientItem.patient_code}}</td>
                                                 <td>&nbsp;</td>
-                                                <td class="alnrleft borderleft-double">Số bảo hiểm</td>
+                                                <td class="alnrleft borderleft-double">{{$t('medicaleCare.insuranceNumber')}}</td>
                                                 <td class="alncenter borderleft">{{patientItem.insurance_policy_number}}</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="5" class=" bordertop">&nbsp;</td>
-                                                <td class="alnrleft borderleft-double bordertop">Hạn sử dụng bảo hiểm</td>
+                                                <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.insuranceValidDate')}}</td>
                                                 <td class="alncenter borderleft bordertop">{{formatDateToString(patientItem.insurance_expire, 'DD/MM/YYYY')}}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="4" class="bordertop-double">Người bệnh</td>
-                                                <td class="borderleft bordertop-double">Họ Tên</td>
+                                                <td rowspan="4" class="bordertop-double">{{$t('medicaleCare.patient')}}</td>
+                                                <td class="borderleft bordertop-double">{{$t('medicaleCare.fullName')}}</td>
                                                 <td class="borderleft bordertop-double">{{patientItem.patient_name}}</td>
                                                 <td colspan="2" class="bordertop-double">&nbsp;</td>
-                                                <td class="alnrleft borderleft-double bordertop">Tên người có bảo hiểm</td>
+                                                <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.nameOfInsurance')}}</td>
                                                 <td class="alncenter borderleft bordertop">{{patientItem.patient_name}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="borderleft bordertop">Ngày sinh</td>
+                                                <td class="borderleft bordertop">{{$t('medicaleCare.dob')}}</td>
                                                 <td class="borderleft bordertop">{{formatDateToString(patientItem.date_of_birth, 'DD/MM/YYYY')}}</td>
-                                                <td class="borderleft bordertop">Giới tính</td>
+                                                <td class="borderleft bordertop">{{$t('commonText.gender')}}</td>
                                                 <td class="borderleft bordertop">{{patientItem.gender}}</td>
-                                                <td rowspan="2" class="alnrleft borderleft-double bordertop">Địa chỉ</td>
+                                                <td rowspan="2" class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.address')}}</td>
                                                 <td rowspan="2" class="alncenter borderleft bordertop">{{patientItem.home_address}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="borderleft bordertop">Địa chỉ</td>
+                                                <td class="borderleft bordertop">{{$t('medicaleCare.address')}}</td>
                                                 <td class="borderleft bordertop">{{patientItem.home_address}}</td>
                                                 <td class="bordertop" colspan="2">&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <td class="borderleft bordertop">Công việc</td>
+                                                <td class="borderleft bordertop">{{$t('medicaleCare.job')}}</td>
                                                 <td class="borderleft bordertop">{{patientItem.job}}</td>
-                                                <td class="borderleft bordertop">Dạng bảo hiểm</td>
+                                                <td class="borderleft bordertop">{{$t('medicaleCare.insuranceType')}}</td>
                                                 <td class="borderleft bordertop">{{patientItem.insurance_type}}</td>
-                                                <td class="alnrleft borderleft-double bordertop">Địa chỉ công ty</td>
+                                                <td class="alnrleft borderleft-double bordertop">{{$t('medicaleCare.workAddress')}}</td>
                                                 <td class="alncenter borderleft bordertop">{{patientItem.office_address}}</td>
                                             </tr>
                                             <tr class="borderleft bordertop-double">
-                                                <td class="alncenter" colspan="4">Tên bệnh</td>
-                                                <td class="alncenter borderleft">Bắt đầu</td>
-                                                <td class="alncenter borderleft">Kết thúc</td>
-                                                <td class="alncenter borderleft">Chuyển bệnh</td>
+                                                <td class="alncenter" colspan="4">{{$t('medicaleCare.treatmentName')}}</td>
+                                                <td class="alncenter borderleft">{{$t('medicaleCare.begin')}}</td>
+                                                <td class="alncenter borderleft">{{$t('medicaleCare.end')}}</td>
+                                                <td class="alncenter borderleft">{{$t('medicaleCare.diseaseTransfer')}}</td>
                                             </tr>
                                             <tr v-for="item in medicalCares" :key="item.id" class="borderleft bordertop">
                                                 <td class="alncenter" colspan="4">{{item.diagnostic}}</td>
@@ -116,8 +116,8 @@ import { useAuthStore } from '@/store/auth.module';
                                                 <td class="alncenter borderleft"></td>
                                             </tr>
                                             <tr class="borderleft bordertop-double borderbottom">
-                                                <td class="alncenter" colspan="4">Lịch sử bệnh - Quá trình chữa bệnh</td>
-                                                <td class="alncenter borderleft" colspan="3">Đơn thuốc - Phẫu thuật - Trị liệu</td>
+                                                <td class="alncenter" colspan="4">{{$t('medicaleCare.treatmentHistory')}}</td>
+                                                <td class="alncenter borderleft" colspan="3">{{$t('medicaleCare.treatmentPrescription')}}</td>
                                             </tr>
                                             <tr v-for="item in medicalCares" :key="item.id">
                                                 <td class="borderright" colspan="4">
@@ -139,7 +139,7 @@ import { useAuthStore } from '@/store/auth.module';
                                                     <table class="table">
                                                         <tbody v-for="prescriptionItem in item.prescriptions" :key="prescriptionItem.prescription_id">
                                                         <tr>
-                                                            <td colspan="2" class="ps-3">Đơn thuốc</td>
+                                                            <td colspan="2" class="ps-3">{{$t('medicaleCare.prescription')}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="ps-5">{{prescriptionItem.medicine_name}}</td>

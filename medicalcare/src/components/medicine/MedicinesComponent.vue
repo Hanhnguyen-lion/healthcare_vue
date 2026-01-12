@@ -13,7 +13,7 @@
 
 <template>
     <div class="container">
-        <h2>Medicine List</h2>
+        <h2>{{$t("medicine.medicines.title")}}</h2>
         <div class="form-group mb-3">
             <AddButton router-link-to="/Medicine/Add" :title="$t('buttons.add')"></AddButton>
             <button class="btn btn-outline-primary" 
@@ -31,10 +31,10 @@
                 <thead class="table-header">
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th>{{$t("commonText.name")}}</th>
+                    <th>{{$t("medicine.medicines.type")}}</th>
+                    <th>{{$t("medicine.medicines.price")}}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

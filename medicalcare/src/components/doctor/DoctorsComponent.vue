@@ -11,7 +11,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
 
 <template>
     <div class="container">
-        <h2>Doctor List</h2>
+        <h2>{{$t('doctor.doctors.title')}}</h2>
         <div class="form-group mb-3">
             <AddButton :title="$t('buttons.add')" router-link-to="/Doctor/Add"></AddButton>
         </div>
@@ -20,13 +20,13 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                 <thead class="table-header">
                 <tr>
                     <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Hospital</th>
-                    <th>Action</th>
+                    <th>{{$t('commonText.firstName')}}</th>
+                    <th>{{$t('commonText.lastName')}}</th>
+                    <th>{{$t('commonText.phone')}}</th>
+                    <th>{{$t('commonText.email')}}</th>
+                    <th>{{$t('commonText.gender')}}</th>
+                    <th>{{$t('commonText.hospital')}}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

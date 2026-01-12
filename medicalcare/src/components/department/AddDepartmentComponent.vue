@@ -17,9 +17,9 @@ import { isSupperAdmin } from '../helper/helper';
                         <form name="form" @submit.prevent="save()">
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Name <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t('commonText.name')}} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" v-model="item.name"
-                                        placeholder="Enter name" />
+                                        :placeholder="$t('commonText.enterName')" />
                                     <div v-if="name_error" class="invalid-feedback">
                                         <div>{{ name_error }}</div>
                                     </div>
@@ -27,14 +27,14 @@ import { isSupperAdmin } from '../helper/helper';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Phone</label>
+                                    <label class="fw-bold">{{$t('commonText.phone')}}</label>
                                     <input type="text" class="form-control" name="phone" v-model="item.phone"
-                                        placeholder="Enter phone" />
+                                        :placeholder="$t('commonText.enterPhone')" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Hospital</label>
+                                    <label class="fw-bold">{{$t('commonText.hospital')}}</label>
                                     <select class="form-select" name="hospital_id"
                                      v-model="item.hospital_id">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
@@ -47,10 +47,10 @@ import { isSupperAdmin } from '../helper/helper';
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Save
+                                        {{$t('buttons.save')}}
                                     </button>
                                     <RouterLink class="btn btn-outline-secondary"
-                                        to="/Department">Cancel</RouterLink>
+                                        to="/Department">{{$t('buttons.cancel')}}</RouterLink>
                                 </div>
                                 <div class="row mb-3">
                                     <div v-if="message_error" class="form-group">
@@ -74,7 +74,7 @@ import { isSupperAdmin } from '../helper/helper';
                 edit_id: null,
                 auth: useAuthStore(),
                 loading: false,
-                title: "Add Department",
+                title: this.$t('department.addDepartment.addDepartment'),
                 name_error:"",
                 message_error:"",
                 hospitalItems:[],
@@ -127,7 +127,7 @@ import { isSupperAdmin } from '../helper/helper';
             var id = this.$route.params["id"];
             if (id){
                 this.edit_id = id;
-                this.title = "Edit Department";
+                this.title = this.$t('department.addDepartment.editDepartment');
                 var data = await this.getItem();
                 this.item = data.data;
             }

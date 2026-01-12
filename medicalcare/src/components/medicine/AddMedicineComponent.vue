@@ -15,9 +15,9 @@ import { enviroment } from '@/enviroments/enviroment';
                         <form name="form" @submit.prevent="save()">
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Name <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("commonText.name")}} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" v-model="item.name"
-                                        placeholder="Enter name" />
+                                        :placeholder="$t('commonText.enterName')" />
                                     <div v-if="name_error" class="invalid-feedback">
                                         <div>{{ name_error }}</div>
                                     </div>
@@ -25,7 +25,7 @@ import { enviroment } from '@/enviroments/enviroment';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Type</label>
+                                    <label class="fw-bold">{{$t("medicine.medicines.type")}}</label>
                                     <select class="form-select" name="category_id"
                                      v-model="item.category_id">
                                         <option v-for="item in medicineTypeItems" :key="item.id" :value="item.id">
@@ -36,19 +36,19 @@ import { enviroment } from '@/enviroments/enviroment';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Price</label>
+                                    <label class="fw-bold">{{$t("medicine.medicines.price")}}</label>
                                     <input type="number" :min="0" class="form-control" name="price" v-model="item.price"
-                                        placeholder="Enter price" />
+                                        :placeholder="$t('medicine.addMedicine.enterPrice')" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Save
+                                        {{$t("buttons.save")}}
                                     </button>
                                     <RouterLink class="btn btn-outline-secondary"
-                                        to="/Medicine">Cancel</RouterLink>
+                                        to="/Medicine">{{$t("buttons.cancel")}}</RouterLink>
                                 </div>
                                 <div class="row mb-3">
                                     <div v-if="message_error" class="form-group">
@@ -71,7 +71,7 @@ import { enviroment } from '@/enviroments/enviroment';
             return{
                 loading: false,
                 edit_id: null,
-                title: "Add Medicine",
+                title: this.$t("medicine.addMedicine.addMedicine"),
                 name_error:"",
                 message_error:"",
                 medicineTypeItems:[],
@@ -125,7 +125,7 @@ import { enviroment } from '@/enviroments/enviroment';
             var id = this.$route.params["id"];
             if (id){
                 this.edit_id = id;
-                this.title = "Edit Medicine";
+                this.title = this.$t("medicine.addMedicine.editMedicine");
                 var data = await this.getItem(id);
                 this.item = data.data;
             }

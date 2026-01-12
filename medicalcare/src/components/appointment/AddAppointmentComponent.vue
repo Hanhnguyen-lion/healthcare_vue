@@ -9,16 +9,16 @@ import { useAuthStore } from '@/store/auth.module';
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-md-4">
+            <div class="col-md-6 col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <h3>{{ title }}</h3>
                         <form name="form" @submit.prevent="save()">
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Appointment Date <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("appointment.appointments.appointmentDate")}} <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="appointment_date" v-model="item.appointment_date"
-                                        placeholder="Enter first name" />
+                                        :placeholder="$t('appointment.addAppointment.enterAppointmentDate')" />
                                     <div v-if="appointment_date_error" class="invalid-feedback">
                                         <div>{{ appointment_date_error }}</div>
                                     </div>
@@ -26,7 +26,7 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Time</label>
+                                    <label class="fw-bold">{{$t("appointment.appointments.time")}}</label>
                                     <div class="input-group mb-2">
                                         <select class="form-select" name="hour" v-model="item.hour">
                                             <option v-for="hour in hours" :key="hour" :value="hour">
@@ -43,7 +43,7 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Patient <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("commonText.patient")}} <span class="text-danger">*</span></label>
                                     <select class="form-select" name="patient_id"
                                      v-model="item.patient_id">
                                         <option v-for="item in patientItems" :key="item.id" :value="item.id">
@@ -57,7 +57,7 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Doctor</label>
+                                    <label class="fw-bold">{{$t("commonText.doctor")}}</label>
                                     <select class="form-select" name="doctor_id"
                                      v-model="item.doctor_id">
                                         <option v-for="item in doctorItems" :key="item.id" :value="item.id">
@@ -68,19 +68,19 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Reason To Visit</label>
+                                    <label class="fw-bold">{{$t("appointment.addAppointment.reasonToVisit")}}</label>
                                     <textarea class="form-control" name="reason_to_visit"
-                                     v-model="item.reason_to_visit" placeholder="Enter reason to visit"/>
+                                     v-model="item.reason_to_visit" :placeholder="$t('appointment.addAppointment.enterReasonToVisit')"/>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Save
+                                        {{$t("buttons.save")}}
                                     </button>
                                     <RouterLink class="btn btn-outline-secondary"
-                                        to="/Appointment">Cancel</RouterLink>
+                                        to="/Appointment">{{$t("buttons.cancel")}}</RouterLink>
                                 </div>
                                 <div class="row mb-3">
                                     <div v-if="message_error" class="form-group">
@@ -103,7 +103,7 @@ import { useAuthStore } from '@/store/auth.module';
             return{
                 auth: useAuthStore(),
                 loading: false,
-                title: "Add Appointment",
+                title: this.$t("appointment.addAppointment.addAppointment"),
                 edit_id: null,
                 patient_error:"",
                 appointment_date_error:"",
@@ -189,7 +189,7 @@ import { useAuthStore } from '@/store/auth.module';
         async mounted(){
             this.edit_id = this.$route.params["id"];
             if (this.edit_id){
-                this.title = "Edit Appointment";
+                this.title = this.$t("appointment.addAppointment.editAppointment");
                 var data = await this.getItem(this.edit_id);
                 var appointment_date = formatDateYYYYMMDD(data.data.appointment_date);
                 this.item = data.data;

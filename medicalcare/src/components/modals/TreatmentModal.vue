@@ -14,10 +14,10 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="fw-bold">Treatment Date <span class="text-danger">*</span></label>
+                                            <label class="fw-bold">{{$t("billing.treatment.treatmentDate")}} <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control" name="treatment_date" 
                                                 v-model="output_data.treatment_date"   
-                                                placeholder="Enter treatment date">
+                                                placeholder="$t('billing.treatment.enterTreatmentDate')">
                                             <div v-if="treatment_date_error" class="invalid-feedback">
                                                 <div>{{ treatment_date_error }}</div>
                                             </div>
@@ -27,7 +27,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Treatment Type <span class="text-danger">*</span></label>
+                                            <label class="fw-bold">{{$t("billing.treatment.treatmentType")}} <span class="text-danger">*</span></label>
                                             <select class="form-select" name="category_id" v-model="output_data.category_id">
                                                 <option v-for="item in categoryItems" :key="item.id" :value="item.id">
                                                     {{ item.name_en }}
@@ -40,9 +40,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="fw-bold">Quantity <span class="text-danger">*</span></label>
+                                            <label class="fw-bold">{{$t("billing.treatment.quantity")}} <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="quantity"
-                                                v-model="output_data.quantity" min="0" placeholder="Enter quantity">
+                                                v-model="output_data.quantity" min="0" placeholder="$t('billing.treatment.enterQuantity')">
                                             <div v-if="quantity_error" class="invalid-feedback">
                                                 <div>{{ quantity_error }}</div>
                                             </div>
@@ -52,9 +52,9 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="fw-bold">Description</label>
+                                            <label class="fw-bold">{{$t("commonText.description")}}</label>
                                             <textarea rows="3" class="form-control" name="description"
-                                                v-model="output_data.description" placeholder="Enter description" />
+                                                v-model="output_data.description" :placeholder="$t('commonText.enterDescription')" />
                                         </div>
                                     </div>
                                 </div>
@@ -62,8 +62,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">Cancel</button>
-                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">OK</button>
+                        <button type="button" class="btn btn-outline-secondary" @click="handleClose()">{{$t('buttons.cancel')}}</button>
+                        <button type="button" class="btn btn-outline-primary" @click="handleSave()">{{$t('buttons.ok')}}</button>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@ export default {
     props: ["input_data"],
     data() {
         return {
-            title: "Add Treatment",
+            title: this.$t("billing.treatment.addTreatment"),
             billing_id: null,
             treatment_id: null,
             new_treatment_id: null,
@@ -203,7 +203,7 @@ export default {
         }
 
         if (this.treatment_id) {
-            this.title = "Edit Treatment";
+            this.title = this.$t("billing.treatment.editTreatment");
             url = `${url}/${this.treatment_id}`;
             var item = await getItemById(url);
             if (item.valid){
@@ -215,7 +215,7 @@ export default {
         }
         else {
             if (this.new_treatment_id) {
-                this.title = "Edit Treatment";
+                this.title = this.$t("billing.treatment.editTreatment");
                 this.output_data = {
                     category_id: this.input_data.treatmentItemObs.category_id,
                     description: this.input_data.treatmentItemObs.description,

@@ -11,7 +11,7 @@
 
 <template>
     <div class="container">
-        <h2>Hospital List</h2>
+        <h2>{{ $t('hospital.hospitals.title') }}</h2>
         <div class="form-group mb-3">
             <AddButton :title="$t('buttons.add')" router-link-to="/Hospital/Add"></AddButton>
             <button class="btn btn-outline-primary" 
@@ -29,11 +29,11 @@
                 <thead class="table-header">
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Country</th>
-                    <th>Action</th>
+                    <th>{{ $t('commonText.name') }}</th>
+                    <th>{{ $t('commonText.phone') }}</th>
+                    <th>{{ $t('commonText.email') }}</th>
+                    <th>{{ $t('hospital.hospitals.country') }}</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

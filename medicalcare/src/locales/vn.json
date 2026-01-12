@@ -4,18 +4,15 @@
         "account": "Tài khoản",
         "logout": "Đăng xuất",
         "language": "Ngôn ngữ",
-        "category": "Category",
+        "category": "Danh mục",
         "medicine": "Thuốc",
         "treatment": "Điều trị",
         "appointment": "Đặt lịch hẹn",
-        "hospital": "Bệnh viện",
         "department": "Phòng ban",
         "medicalCare": "Hồ sơ bệnh án",
         "billing": "Hóa đơn",
-        "patient": "Bệnh nhân",
-        "addBilling": "Tạo mới hóa đơn",
-        "billingList": "Danh sách",
-        "doctor": "Bác sỹ"
+        "addBilling": "Thêm mới hóa đơn",
+        "billingList": "Danh sách hóa đơn"
     },
     "account":{
         "login":{
@@ -29,11 +26,6 @@
         },
         "accounts":{
             "title": "Danh sách tài khoản",
-            "firstName": "Tên",
-            "lastName": "Họ",
-            "phone": "Điện thoại",
-            "email": "E-mail",
-            "gender": "Giới tính",
             "dob": "Ngày sinh",
             "role": "Phân quyền",
             "accountType": "Loại tài khoản",
@@ -42,12 +34,6 @@
         },
         "register":{
             "title": "Đăng ký",
-            "firstName": "Tên",
-            "firstNamePlaceholder": "Nhập tên",
-            "lastName": "Họ",
-            "lastNamePlaceholder": "Nhập họ",
-            "email": "E-mail",
-            "emailPlaceholder": "Nhập E-mail",
             "password": "Mật khẩu",
             "passwordPlaceholder": "Nhập mật khẩu",
             "forgotPassword": "Quên Mật khẩu",
@@ -55,11 +41,8 @@
             "confirmPasswordPlaceholder": "Nhập Xác nhận mật khẩu",
             "accountType": "Loại tài khoản",
             "role": "Phân quyền",
-            "hospital": "Bệnh viện",
             "dob": "Ngày sinh",
             "dobPlaceholder": "Nhập ngày sinh",
-            "gender": "Giới tính",
-            "phone": "Điện thoại",
             "phonePlaceholder": "Nhập điện thoại",
             "address": "Địa chỉ",
             "addressPlaceholder": "Nhập địa chỉ"
@@ -91,37 +74,210 @@
     },
     "category":{
         "medicine":{
-
+            "title": "Danh Sách Danh Mục Thuốc",
+            "addMedicineCategory": "Thêm Mới Danh Mục Thuốc",
+            "editMedicineCategory": "Sửa Danh Mục Thuốc",
+            "enterNameEN": "Nhập tên EN",
+            "enterNameVN": "Nhập tên VN",
+            "enterNameJP": "Nhập tên JP"
         },
         "treatment":{
-
+            "title": "Danh Sách Danh Mục Điều Trị",
+            "addTreatmentCategory": "Thêm Mới Danh Mục Điều Trị",
+            "editTreatmentCategory": "Sửa Danh Mục Điều Trị",
+            "price": "Đơn giá",
+            "enterPrice": "Nhập đơn giá",
+            "enterNameEN": "Nhập tên EN",
+            "enterNameVN": "Nhập tên VN",
+            "enterNameJP": "Nhập tên JP"
         }
     },
     "medicine":{
-
+        "medicines":{
+            "title": "Danh Sách Thuốc",
+            "type": "Loại",
+            "price": "Đơn giá"
+        },
+        "addMedicine":{
+            "addMedicine": "Thêm Mới Thuốc",
+            "editMedicine": "Sửa Thuốc",
+            "enterPrice": "Nhập đơn giá"
+        }
     },
-    "departent":{
-
+    "department":{
+        "departments":{
+            "title": "Danh Sách Phòng Ban"
+        },
+        "addDepartment":{
+            "addDepartment": "Thêm Mới Phòng Ban",
+            "editDepartment": "Sửa Phòng Ban"
+        }
     },
     "appointment":{
-
+        "appointments":{
+            "title": "Danh Sách Đặt Lịch Hẹn",
+            "appointmentDate": "Ngày đặt lịch hẹn",
+            "time": "Giờ",
+            "reason": "Lý do"
+        },
+        "addAppointment":{
+            "addAppointment": "Thêm Mới Đặt Lịch Hẹn",
+            "editAppointment": "Sửa Đặt Lịch Hẹn",
+            "reasonToVisit": "Lý do đặt lịch hẹn",
+            "enterAppointmentDate": "Nhập ngày đặt lịch hẹn",
+            "enterReasonToVisit": "Nhập đặt lịch hẹn"
+        }
+    },
+    "hospital":{
+        "hospitals":{
+            "title": "Danh Sách Bệnh Viện",
+            "country": "Quốc gia"
+        },
+        "addHospital":{
+            "addHospital": "Thêm Mới Bệnh Viện",
+            "editHospital": "Sửa Bệnh Viện",
+            "enterAddress": "Nhập địa chỉ",
+            "enterCountry": "Nhập Quốc gia",
+            "address": "Địa chỉ"
+        }
     },
     "doctor":{
-
+        "doctors":{
+            "title": "Danh Sách Bác Sỹ"
+        },
+        "addDoctor":{
+            "addDoctor": "Thêm Mới Bác Sỹ",
+            "editDoctor": "Sửa Bác Sỹ",
+            "enterPhoneNumber": "Nhập điện thoại",
+            "enterQuanlification": "Nhập chuyên môn",
+            "enterJobSpecification": "Nhập chức vụ",
+            "quanlification": "Chuyên môn",
+            "jobSpecification": "Chức vụ"
+        }
     },
     "patient":{
-
+        "patients":{
+            "title": "Danh Sách Bệnh Nhân",
+            "code": "Mã",
+            "dob": "Ngày sinh"
+        },
+        "addPatient":{
+            "addPatient": "Thêm Mới Bệnh Nhân",
+            "editPatient": "Sửa Bệnh Nhân",
+            "job": "Nghề nghiệp",
+            "homeAddress": "Địa chỉ nhà",
+            "officeAddress": "Địa chỉ công ty",
+            "emergencyContactName": "Tên người liên hệ khẩn cấp",
+            "emergencyContactPhone": "Điện thoại người liên hệ khẩn cấp",
+            "insuranceExpire": "Hạn sử dụng bảo hiểm",
+            "insuranceNumber": "Số bảo hiểm",
+            "insuranceProvider": "Công ty bảo hiểm",
+            "insuranceType": "Loại bảo hiểm",
+            "insuranceInfo": "Thông tin bảo hiểm",
+            "medicalHistory": "Lịch sử điều trị",
+            "enterCode": "Nhập mã",
+            "enterDOB": "Nhập ngày sinh",
+            "enterPhoneNumber": "Nhập điện thoại",
+            "enterJob": "Nhập nghề nghiệp",
+            "enterHomeAddress": "Nhập địa chỉ nhà",
+            "enterOfficeAddress": "Nhập địa chỉ công ty",
+            "enterMedicalHistory": "Nhập lịch sử điều trị",
+            "enterInsuranceInfo": "Nhập thông tin bảo hiểm",
+            "enterInsuranceType": "Nhập loại bảo hiểm",
+            "enterInsuranceProvider": "Nhập công ty bảo hiểm",
+            "enterInsuranceExpire": "Nhập hạn sử dụng bảo hiểm",
+            "enterInsuranceNumber": "Nhập số bảo hiểm",
+            "enterEmergencyContactPhone": "Nhập điện thoại người liên hệ khẩn cấp",
+            "enterEmergencyContactName": "Nhập tên người liên hệ khẩn cấp"
+        }
     },
     "billing":{
-
+        "billingList":{
+            "title":"Danh Sách Hóa Đơn",
+            "billingDate":"Ngày thanh toán",
+            "total":"Tổng cộng"
+        },
+        "addBilling":{
+            "addBilling":"Thêm Mới Hóa Đơn",
+            "editBilling":"Sửa Hóa Đơn",
+            "department":"Phòng ban",
+            "admissionDate":"Ngày Nhập Viện",
+            "enterAdmissionDate":"Nhập ngày nhập viện",
+            "dischargeDate":"Ngày Xuất Viện",
+            "enterDischargeDate":"Nhập ngày xuất viện",
+            "diagnostic":"Chẩn đoán",
+            "enterDiagnostic":"Nhập chẩn đoán",
+            "notes":"Ghi Chú",
+            "enterNotes": "Nhập ghi chú",
+            "treatment":"Điều trị",
+            "date":"Ngày",
+            "type":"Loại",
+            "quantity":"Số lượng",
+            "amount":"Đơn giá",
+            "subTotal":"Tổng tiền",
+            "medicine":"Thuốc",
+            "prescriptions":"Đơn thuốc"
+        },
+        "treatment":{
+            "addTreatment": "Thêm Mới Điều Trị",
+            "editTreatment": "Sửa Điều Trị",
+            "treatmentDate": "Ngày Điều Trị",
+            "enterTreatmentDate": "Nhập ngày điều trị",
+            "treatmentType": "Loại Điều Trị",
+            "quantity": "Số Lượng",
+            "enterQuantity": "Nhập số lượng"
+        },
+        "prescription":{
+            "addPrescription": "Thêm Mới Đơn Thuốc",
+            "editPrescription": "Sửa Đơn Thuốc",
+            "medicine": "Thuốc",
+            "prescriptionDate": "Ngày Kê Đơn",
+            "enterPrescriptionDate": "Nhập Ngày kê đơn",
+            "quantity": "Số Lượng",
+            "enterQuantity": "Nhập số lượng",
+            "duration": "Số Ngày",
+            "enterDuration": "Nhập số ngày",
+            "notes": "Ghi Chú",
+            "enterNotes": "Nhập ghi chú",
+            "dosage": "Liều Lượng",
+            "enterDosage": "Nhập liều lượng"
+        },
+        "billingDetail":{
+            "title": "Chi Tiết Hóa Đơn",
+            "billingList":"Danh Sách Hóa Đơn",
+            "total": "Tổng"
+        },
+        "appointment":{
+            "date":"Ngày",
+            "reason":"Lý do"
+        }
     },
     "medicaleCare":{
         "title": "Hồ sơ bệnh án",
-        "patient": "Bệnh nhân"
+        "monthAdmissionDate": "Tháng nhập viện",
+        "yearAdmissionDate": "Năm nhập viện",
+        "order": "Số thứ tự",
+        "insuranceNumber": "Số bảo hiểm",
+        "insuranceValidDate": "Hạn sử dụng bảo hiểm",
+        "nameOfInsurance": "Tên người có bảo hiểm",
+        "fullName": "Họ Tên",
+        "dob": "Ngày sinh",
+        "address": "Địa chỉ",
+        "job": "Công việc",
+        "insuranceType": "Dạng bảo hiểm",
+        "workAddress": "Địa chỉ công ty",
+        "treatmentName": "Tên bệnh",
+        "begin": "Bắt đầu",
+        "end": "Kết thúc",
+        "treatmentHistory": "Lịch sử bệnh - Quá trình chữa bệnh",
+        "treatmentPrescription": "Đơn thuốc - Phẫu thuật - Trị liệu",
+        "prescription": "Đơn thuốc",
+        "diseaseTransfer": "Chuyển bệnh"
     },
     "buttons":{
         "save" : "Lưu",
         "cancel" : "Hủy",
+        "ok" : "Chấp nhận",
         "add" : "Thêm mới",
         "edit" : "Sửa",
         "delete" : "Xóa",
@@ -130,5 +286,30 @@
         "view" : "Xem",
         "search" : "Tìm kiếm",
         "print" : "In"
+    },
+    "messages":{
+        "treatmentTypeRequired": "Treatment type is required",
+        "quantityRequired": "Quantity is required"
+    },
+    "commonText":{
+        "female": "Female",
+        "male": "Male",
+        "order": "Order",
+        "email": "E-mail",
+        "gender": "Giới tính",
+        "firstName": "Tên",
+        "lastName": "Họ",
+        "hospital": "Bệnh viện",
+        "phone": "Điện thoại",
+        "name": "Tên",
+        "enterFirstName": "Nhập tên",
+        "enterLastName": "Nhập họ",
+        "enterEmail": "Nhập E-mail",
+        "enterPhone": "Nhập điện thoại",
+        "enterName": "Nhập tên",
+        "patient": "Bệnh nhân",
+        "doctor": "Bác sỹ",
+        "description": "Miêu tả",
+        "enterDescription": "Nhập miêu tả"
     }
 } 

@@ -55,16 +55,16 @@
                   <RouterLink class="nav-link text-white fw-bold" to ="/Appointment">{{ $t('menu.appointment') }}</RouterLink>
                 </li>
                 <li v-if="superAdmin()" class="nav-item">
-                  <RouterLink class="nav-link text-white fw-bold" to ="/Hospital">{{ $t('menu.hospital') }}</RouterLink>
+                  <RouterLink class="nav-link text-white fw-bold" to ="/Hospital">{{ $t('commonText.hospital') }}</RouterLink>
                 </li>
                 <li class="nav-item">
                   <RouterLink class="nav-link text-white fw-bold" to ="/Department">{{ $t('menu.department') }}</RouterLink>
                 </li>
                 <li class="nav-item">
-                  <RouterLink class="nav-link text-white fw-bold" to ="/Doctor">{{ $t('menu.doctor') }}</RouterLink>
+                  <RouterLink class="nav-link text-white fw-bold" to ="/Doctor">{{ $t('commonText.doctor') }}</RouterLink>
                 </li>
                 <li class="nav-item">
-                  <RouterLink class="nav-link text-white fw-bold" to ="/Patient">{{ $t('menu.patient') }}</RouterLink>
+                  <RouterLink class="nav-link text-white fw-bold" to ="/Patient">{{ $t('commonText.patient') }}</RouterLink>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-white fw-bold" data-bs-toggle="collapse" data-bs-target="#sub_menu_1" href="#">{{ $t('menu.billing') }}<i class="bi small bi-caret-down-fill"></i> </a>

@@ -9,8 +9,8 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.firstName') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="first_name" v-model="accountItem.first_name" :placeholder="$t('account.register.firstNamePlaceholder')" class="form-control"/>
+                                    <label class="fw-bold">{{ $t('commonText.firstName') }} <span class="text-danger">*</span></label>
+                                    <input type="text" name="first_name" v-model="accountItem.first_name" :placeholder="$t('commonText.enterFirstName')" class="form-control"/>
                                     <div v-if="error.first_name_error" class="invalid-feedback">
                                         <div>{{error.first_name_error}}</div>
                                     </div>
@@ -18,8 +18,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.lastName') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="last_name" v-model="accountItem.last_name" :placeholder="$t('account.register.lastNamePlaceholder')" class="form-control"/>
+                                    <label class="fw-bold">{{ $t('commonText.lastName') }} <span class="text-danger">*</span></label>
+                                    <input type="text" name="last_name" v-model="accountItem.last_name" :placeholder="$t('commonText.enterLastName')" class="form-control"/>
                                         <div v-if="error.last_name_error" class="invalid-feedback">
                                             <div>{{error.last_name_error}}</div>
                                         </div>
@@ -49,15 +49,15 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.phone') }}</label>
+                                    <label class="fw-bold">{{ $t('commonText.phone') }}</label>
                                     <input  type="text" class="form-control" 
-                                        name="phone" v-model="accountItem.phone" placeholder="Enter address">
+                                        name="phone" v-model="accountItem.phone" :placeholder="$t('commonText.enterPhone')">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.email') }}<span class="text-danger">*</span></label>
-                                    <input type="text" name="email" v-model="accountItem.email" :placeholder="$t('account.register.emailPlaceholder')" class="form-control"/>
+                                    <label class="fw-bold">{{ $t('commonText.email') }}<span class="text-danger">*</span></label>
+                                    <input type="text" name="email" v-model="accountItem.email" :placeholder="$t('commonText.enterEmail')" class="form-control"/>
                                         <div v-if="error.email_error" class="invalid-feedback">
                                             <div>{{error.email_error}}</div>
                                         </div>
@@ -67,7 +67,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.gender') }}</label>
+                                    <label class="fw-bold">{{ $t('commonText.gender') }}</label>
                                     <div class="form-control btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn">
                                             <input type="radio" name="gender" v-model="accountItem.gender" id="Female" value="Female" checked>Female
@@ -103,7 +103,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="fw-bold">{{ $t('account.register.role') }} <span class="text-danger">*</span></label>
-                                    <select name="role" v-model="accountItem.role" class="form-select" placeholder="Enter acount type">
+                                    <select name="role" v-model="accountItem.role" class="form-select" @change="onChangeHandler($event)" placeholder="Enter acount type">
                                         <option value=""></option>
                                         <option value="Super Admin">Super Admin</option>
                                         <option value="Admin">Admin</option>
@@ -131,7 +131,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">{{ $t('account.register.hospital') }}</label>
+                                    <label class="fw-bold">{{ $t('commonText.hospital') }}</label>
                                     <select :disabled="accountItem.role == SuperAdmin" name="hospital_id" v-model="accountItem.hospital_id" class="form-select">
                                         <option v-for="item in hospitalItems" :key="item.id" :value="item.id">
                                             {{ item.name }}
@@ -218,6 +218,15 @@ import { getItemById, getItems, post, updateItem } from '@/services/baseServices
             }
         },
         methods:{
+            onChangeHandler(e){
+                if (e.target.value == this.SuperAdmin){
+                    this.accountItem.account_type = "Member";
+                }
+                else{
+                    if (!this.edit_id)
+                        this.accountItem.account_type = "";
+                }
+            },
             validLastName(){
                 if (!this.accountItem.last_name)
                     this.error.last_name_error = "Last name is required";
@@ -322,7 +331,7 @@ import { getItemById, getItems, post, updateItem } from '@/services/baseServices
                         this.$router.push("/Account");
                     else{
                         this.loading = false;
-                        this.error.message_error = updated.message;
+                        this.error.message_error = updated.message
                         console.log("Error:", updated.message);
                     }
                 }

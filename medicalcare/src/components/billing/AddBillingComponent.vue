@@ -22,8 +22,8 @@ import { useAuthStore } from '@/store/auth.module';
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Patient <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="patient_id" v-model="item.patient_id" placeholder="Enter Patient">
+                                    <label class="fw-bold">{{$t('commonText.patient')}} <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="patient_id" v-model="item.patient_id">
                                         <option v-for="item in patientItems" :key="item.id" :value="item.id">
                                             {{item.last_name}} {{item.first_name}}
                                         </option>
@@ -37,9 +37,9 @@ import { useAuthStore } from '@/store/auth.module';
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Doctor <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("commonText.doctor")}} <span class="text-danger">*</span></label>
                                     <select class="form-select" name="doctor_id"
-                                     v-model="item.doctor_id" placeholder="Enter doctor">
+                                     v-model="item.doctor_id">
                                         <option v-for="item in doctorItems" :key="item.id" :value="item.id">
                                             {{item.last_name}} {{item.first_name}}
                                         </option>
@@ -51,9 +51,9 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Department <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.department")}} <span class="text-danger">*</span></label>
                                     <select class="form-select" name="department_id" 
-                                        v-model="item.department_id" placeholder="Enter department">
+                                        v-model="item.department_id">
                                         <option v-for="item in departmentItems" :key="item.id" :value="item.id">
                                             {{item.name}}
                                         </option>
@@ -67,9 +67,9 @@ import { useAuthStore } from '@/store/auth.module';
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Admission Date <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.admissionDate")}} <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="admission_date" 
-                                        v-model="item.admission_date" placeholder="Enter admission date">
+                                        v-model="item.admission_date" :placeholder="$t('billing.addBilling.enterAdmissionDate')">
                                     <div v-if="admission_date_error" class="invalid-feedback">
                                         <div>{{admission_date_error}}</div>
                                     </div>
@@ -77,9 +77,9 @@ import { useAuthStore } from '@/store/auth.module';
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="fw-bold">Discharge Date <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.dischargeDate")}} <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="discharge_date" 
-                                    v-model="item.discharge_date" placeholder="Enter discharge date">
+                                    v-model="item.discharge_date" :placeholder="$t('billing.addBilling.enterDischargeDate')">
                                     <div v-if="discharge_date_error" class="invalid-feedback">
                                         <div>{{discharge_date_error}}</div>
                                     </div>
@@ -89,32 +89,32 @@ import { useAuthStore } from '@/store/auth.module';
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Diagnostic</label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.diagnostic")}}</label>
                                     <textarea rows="3" class="form-control" name="diagnostic" 
-                                    v-model="item.diagnostic" placeholder="Enter diagnostic"></textarea>
+                                    v-model="item.diagnostic" :placeholder="$t('billing.addBilling.enterDiagnostic')"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Notes</label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.notes")}}</label>
                                     <textarea rows="3" class="form-control" name="notes" 
-                                        v-model="item.notes" placeholder="Enter Notes"></textarea>
+                                        v-model="item.notes" :placeholder="$t('billing.addBilling.enterNotes')"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="fw-bold">Treatment:</label>
+                                    <label class="fw-bold">{{$t("billing.addBilling.treatment")}}:</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <button class="btn btn-outline-primary" type="button" 
-                                @click="addOrEditPrescription(null, null, 'Treatment')">Add</button>
+                                @click="addOrEditPrescription(null, null, 'Treatment')">{{$t('buttons.add')}}</button>
                             </div>
                         </div>
                         <transition name="treatmentModal">
@@ -129,12 +129,12 @@ import { useAuthStore } from '@/store/auth.module';
                                         <thead class="table-header">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Date</th>
-                                                <th>Type</th>
-                                                <th>Quantity</th>
-                                                <th>Amount</th>
-                                                <th>Sub Total</th>
-                                                <th>Action</th>
+                                                <th>{{$t("billing.addBilling.date")}}</th>
+                                                <th>{{$t("billing.addBilling.type")}}</th>
+                                                <th>{{$t("billing.addBilling.quantity")}}</th>
+                                                <th>{{$t("billing.addBilling.amount")}}</th>
+                                                <th>{{$t("billing.addBilling.subTotal")}}</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -147,9 +147,9 @@ import { useAuthStore } from '@/store/auth.module';
                                                 <td>{{numeral(item.total).format("0,0.00")}}</td>
                                                 <td>
                                                     <button class="btn btn-outline-primary" style="margin-left: 10px;" type="button"
-                                                    @click="addOrEditPrescription(item.id, item.new_id, 'Treatment')">Edit</button>
+                                                    @click="addOrEditPrescription(item.id, item.new_id, 'Treatment')">{{$t('buttons.edit')}}</button>
                                                     <button class="btn btn-outline-danger" style="margin-left: 10px;" type="button"
-                                                    @click="deletePrescription(item.id, item.new_id, 'Treatment')">Delete</button>
+                                                    @click="deletePrescription(item.id, item.new_id, 'Treatment')">{{$t('buttons.delete')}}</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -159,12 +159,12 @@ import { useAuthStore } from '@/store/auth.module';
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label class="fw-bold">Prescriptions:</label>
+                                <label class="fw-bold">{{$t("billing.addBilling.prescriptions")}}:</label>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <button class="btn btn-outline-primary" type="button" @click="addOrEditPrescription(null, null, 'Prescription')">Add</button>
+                                <button class="btn btn-outline-primary" type="button" @click="addOrEditPrescription(null, null, 'Prescription')">{{$t('buttons.add')}}</button>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -174,12 +174,12 @@ import { useAuthStore } from '@/store/auth.module';
                                         <thead class="table-header">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Date</th>
-                                                <th>Medicine</th>
-                                                <th>Quantity</th>
-                                                <th>Amount</th>
-                                                <th>Sub Total</th>
-                                                <th>Action</th>
+                                                <th>{{$t("billing.addBilling.date")}}</th>
+                                                <th>{{$t("billing.addBilling.medicine")}}</th>
+                                                <th>{{$t("billing.addBilling.quantity")}}</th>
+                                                <th>{{$t("billing.addBilling.amount")}}</th>
+                                                <th>{{$t("billing.addBilling.subTotal")}}</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -191,8 +191,8 @@ import { useAuthStore } from '@/store/auth.module';
                                                     <td>{{numeral(item.amount).format("0,0.00")}}</td>
                                                     <td>{{numeral(item.total).format("0,0.00")}}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-outline-primary" style="margin-left: 10px;" @click="addOrEditPrescription(item.id, item.new_id, 'Prescription')">Edit</button>
-                                                        <button type="button" class="btn btn-outline-danger" style="margin-left: 10px;" @click="deletePrescription(item.id, item.new_id, 'Prescription')">Delete</button>
+                                                        <button type="button" class="btn btn-outline-primary" style="margin-left: 10px;" @click="addOrEditPrescription(item.id, item.new_id, 'Prescription')">{{$t('buttons.edit')}}</button>
+                                                        <button type="button" class="btn btn-outline-danger" style="margin-left: 10px;" @click="deletePrescription(item.id, item.new_id, 'Prescription')">{{$t('buttons.delete')}}</button>
                                                     </td>
                                                 </tr>
                                         </tbody>
@@ -204,9 +204,9 @@ import { useAuthStore } from '@/store/auth.module';
                             <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                 <button type="button" :disabled="loading" class="btn btn-outline-primary" @click="addOrEditItem">
                                     <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Save
+                                        {{$t('buttons.save')}}
                                 </button>
-                                <RouterLink to="/Billing" class="btn btn-outline-secondary">Cancel</RouterLink>
+                                <RouterLink to="/Billing" class="btn btn-outline-secondary">{{$t('buttons.cancel')}}</RouterLink>
                             </div>
                         </div>
                     </form>
@@ -451,7 +451,7 @@ export default{
     },
     async mounted(){
         this.billing_id = this.$route.params.id;
-        this.title = (this.billing_id) ? "Edit Billing" : "Add Billing";
+        this.title = (this.billing_id) ? this.$t("billing.addBilling.editBilling") : this.$t("billing.addBilling.addBilling");
 
         var data = await getItems(`${enviroment.apiUrl}/Patients`);
         if (data.valid){

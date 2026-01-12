@@ -8,16 +8,16 @@ import { enviroment } from '@/enviroments/enviroment';
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-md-4">
+            <div class="col-md-6 col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <h3>{{ title }}</h3>
                         <form name="form" @submit.prevent="save()">
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Name EN <span class="text-danger">*</span></label>
+                                    <label class="fw-bold">{{$t("commonText.name")}} EN <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name_en" v-model="item.name_en"
-                                        placeholder="Enter name EN" />
+                                        :placeholder="$t('category.treatment.enterNameEN')" />
                                     <div v-if="name_en_error" class="invalid-feedback">
                                         <div>{{ name_en_error }}</div>
                                     </div>
@@ -25,33 +25,33 @@ import { enviroment } from '@/enviroments/enviroment';
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Name VN</label>
+                                    <label class="fw-bold">{{$t("commonText.name")}} VN</label>
                                     <input type="text" class="form-control" name="name_vn" v-model="item.name_vn"
-                                        placeholder="Enter name VN" />
+                                        :placeholder="$t('category.treatment.enterNameVN')" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Name JP</label>
+                                    <label class="fw-bold">{{$t("commonText.name")}} JP</label>
                                     <input type="text" class="form-control" name="name_jp" v-model="item.name_jp"
-                                        placeholder="Enter name JP" />
+                                        :placeholder="$t('category.treatment.enterNameJP')" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="form-group">
-                                    <label class="fw-bold">Description</label>
+                                    <label class="fw-bold">{{$t("commonText.description")}}</label>
                                     <textarea rows="3" class="form-control" name="description" v-model="item.description"
-                                        placeholder="Enter description" />
+                                        :placeholder="$t('commonText.enterDescription')" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col form-group mb-3 d-grid gap-2 d-md-flex">
                                     <button :disabled="loading" class="btn btn-outline-primary">
                                         <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Save
+                                        {{$t("buttons.save")}}
                                     </button>
                                     <RouterLink class="btn btn-outline-secondary"
-                                        to="/Medicine/Category">Cancel</RouterLink>
+                                        to="/Medicine/Category">{{$t("buttons.cancel")}}</RouterLink>
                                 </div>
                                 <div class="row mb-3">
                                     <div v-if="message_error" class="form-group">
@@ -73,7 +73,7 @@ import { enviroment } from '@/enviroments/enviroment';
         data(){
             return{
                 loading: false,
-                title: "Add Medicine Category",
+                title: this.$t("category.medicine.addMedicineCategory"),
                 name_en_error:"",
                 message_error:"",
                 edit_id:null,
@@ -120,7 +120,7 @@ import { enviroment } from '@/enviroments/enviroment';
             var id = this.$route.params["id"];
             if (id){
                 this.edit_id = id;
-                this.title = "Edit Medicine Category";
+                this.title = this.$t("category.medicine.editMedicineCategory");
                 var data = await this.getItem();
                 this.item = data.data;
             }
