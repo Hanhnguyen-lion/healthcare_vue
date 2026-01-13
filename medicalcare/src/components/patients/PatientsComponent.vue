@@ -40,7 +40,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                                 :id="item.id" 
                                 :apiUrlDelete="url"
                                 :items="patients"
-                                titleDialog="Delete Patient"
+                                :titleDialog="this.$t('messages.deletePatient')"
                                 routerLinkTo="/Patient/Edit/"
                                 @removeItem="handleItemRemoval">
                             </EditDeleteButtons>

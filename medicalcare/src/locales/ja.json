@@ -283,11 +283,34 @@
         "import" : "Import",
         "view" : "View",
         "search" : "Search",
-        "print" : "Print"
+        "print" : "Print",
+        "yes" : "Yes",
+        "no" : "No"
     },
     "messages":{
         "treatmentTypeRequired": "Treatment type is required",
-        "quantityRequired": "Quantity is required"
+        "quantityRequired": "Quantity is required",
+        "firstNameRequired": "First name is required",
+        "emailRequired": "Email is required",
+        "lastNameRequired": "Last name is required",
+        "emailInvalid": "Email is invalid",
+        "passwordRequired": "Password is required",
+        "confirmpasswordRequired": "Confirm Password is required",
+        "passwordMatch": "Passwords must match",
+        "accountTypeRequired": "Account Type is required",
+        "roleRequired": "Role is required",
+        "hospitalRequired": "Hospital is required",
+        "confirmDelete": "Are you sure to want delete this item?",
+        "deleteAccount": "Delete Account",
+        "deleteBilling": "Delete Billing",
+        "deleteTreatementCategory": "Delete Treatement Category",
+        "deletePatient": "Delete Patient",
+        "deleteMedicine": "Delete Medicine",
+        "deleteMedicineCategory": "Delete Medicine Category",
+        "deleteHospital": "Delete Hospital",
+        "deleteDoctor": "Delete Doctor",
+        "deleteDepartment": "Delete Department",
+        "deleteAppointment": "Delete Appointment"
     },
     "commonText":{
         "female": "Female",

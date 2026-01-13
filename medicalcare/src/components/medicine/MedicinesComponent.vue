@@ -48,7 +48,7 @@
                                 :id="item.id" 
                                 :apiUrlDelete="url"
                                 :items="items"
-                                titleDialog="Delete Medicine"
+                                :titleDialog="this.$t('messages.deleteMedicine')"
                                 routerLinkTo="/Medicine/Edit/"
                                 @removeItem="handleItemRemoval">
                             </EditDeleteButtons>

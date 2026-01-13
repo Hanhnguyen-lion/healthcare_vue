@@ -285,11 +285,34 @@
         "import" : "Nhập tài liệu",
         "view" : "Xem",
         "search" : "Tìm kiếm",
-        "print" : "In"
+        "print" : "In",
+        "yes" : "Có",
+        "no" : "Không"
     },
     "messages":{
-        "treatmentTypeRequired": "Treatment type is required",
-        "quantityRequired": "Quantity is required"
+        "treatmentTypeRequired": "Danh mục điều trị là bắt buộc",
+        "quantityRequired": "Số lượng là bắt buộc",
+        "firstNameRequired": "Tên là bắt buộc",
+        "emailRequired": "Địa chỉ email là bắt buộc",
+        "lastNameRequired": "Họ là bắt buộc",
+        "emailInvalid": "Địa chỉ email không chính xác",
+        "passwordRequired": "Mật khẩu là bắt buộc",
+        "confirmpasswordRequired": "Xác nhận mật khẩu là bắt buộc",
+        "passwordMatch": "Mật khẩu phải trùng khớp",
+        "accountTypeRequired": "Loại tài khoản là bắt buộc",
+        "roleRequired": "Phân quyền là bắt buộc",
+        "hospitalRequired": "Bệnh viện là bắt buộc",
+        "confirmDelete": "Bạn có chắc chắn muốn xóa mục này không?",
+        "deleteAccount": "Xóa tài khoản",
+        "deleteBilling": "Xóa hóa đơn",
+        "deleteTreatementCategory": "Xóa danh mục điều trị",
+        "deletePatient": "Xóa bệnh nhân",
+        "deleteMedicine": "Xóa thuốc",
+        "deleteMedicineCategory": "Xóa danh mục thuốc",
+        "deleteHospital": "Xóa bệnh viện",
+        "deleteDoctor": "Xóa bác sỹ",
+        "deleteDepartment": "Xóa phòng ban",
+        "deleteAppointment": "Xóa đặt lịch hẹn"
     },
     "commonText":{
         "female": "Female",

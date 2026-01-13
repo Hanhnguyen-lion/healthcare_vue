@@ -229,56 +229,56 @@ import { getItemById, getItems, post, updateItem } from '@/services/baseServices
             },
             validLastName(){
                 if (!this.accountItem.last_name)
-                    this.error.last_name_error = "Last name is required";
+                    this.error.last_name_error = this.$t("messages.lastNameRequired");
                 else
                     this.error.last_name_error = "";
             },
             validFirstName(){
                 if (!this.accountItem.first_name)
-                    this.error.first_name_error = "First name is required";
+                    this.error.first_name_error = this.$t("messages.firstNameRequired");
                 else
                     this.error.first_name_error = "";
             },
             checkdEmail(){
                 if (!this.accountItem.email)
-                    this.error.email_error = "Email is required";
+                    this.error.email_error = this.$t("messages.emailRequired");
                 else{
                     if (!validEmail(this.accountItem.email))
-                        this.error.email_error = "Email is invalid";
+                        this.error.email_error = this.$t("messages.emailInvalid");
                     else
                         this.error.email_error = "";
                 }
             },
             checkPassword(){
                 if (!this.accountItem.password)
-                    this.error.password_error = "Password is required";
+                    this.error.password_error = this.$t("messages.passwordRequired");
                 else
                     this.error.password_error = "";
             },
             checkConfirmPassword(){
                 if (!this.confirmPassword)
-                    this.error.confirmPassword_error = "Confirm Password is required";
+                    this.error.confirmPassword_error = this.$t("messages.confirmpasswordRequired");
                 else{
                     if (this.accountItem.password != this.confirmPassword)
-                        this.error.confirmPassword_error = "Passwords must match";
+                        this.error.confirmPassword_error = this.$t("messages.passwordMatch");
                     else
                         this.error.confirmPassword_error = "";
                 }
             },
             validAccountType(){
                 if (!this.accountItem.account_type)
-                    this.error.account_type_error = "Account Type is required";
+                    this.error.account_type_error = this.$t("messages.accountTypeRequired");
                 else
                     this.error.account_type_error = "";
             },
             validRole(){
                 if (!this.accountItem.role)
-                    this.error.role_error = "Role is required";
+                    this.error.role_error = this.$t("messages.roleRequired");
                 else{
                     this.error.role_error = "";
                     if (this.accountItem.role != this.SuperAdmin){
                         if (!this.accountItem.hospital_id)
-                            this.error.role_error = "Hospital is required";
+                            this.error.role_error = this.$t("messages.hospitalRequired");
                     }
                 }
             },

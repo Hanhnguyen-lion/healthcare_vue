@@ -22,10 +22,10 @@ import { deleteItem } from '@/services/baseServices';
                 this.$confirm(
                 {
                     title: this.titleDialog,
-                    message: 'Are you sure to want delete this item?',
+                    message: this.$t("messages.confirmDelete"),
                     button: {
-                        no: 'No',
-                        yes: 'Yes'
+                        no: this.$t("buttons.no"),
+                        yes: this.$t("buttons.yes")
                     },
                     callback: async confirm => {
                         if (confirm) {

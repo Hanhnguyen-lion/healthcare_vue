@@ -17,12 +17,12 @@
                                     <input type="password" required name="password" v-model="password"
                                         class="form-control" :placeholder="$t('account.login.passwordPlaceholder')" />
                                 </div>
-                                <div class="form-group mb-3">
+                                <!-- <div class="form-group mb-3">
                                     <div class="form-group col d-md-flex">
                                         <RouterLink to="/Account/Forgotpassword"
                                             class="btn btn-link fw-bold text-black">{{ $t('account.login.forgotPassword') }}?</RouterLink>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group mb-3">
                                     <div class="form-group col d-grid gap-2 d-md-flex">
                                         <button type="submit" class="btn btn-outline-primary">

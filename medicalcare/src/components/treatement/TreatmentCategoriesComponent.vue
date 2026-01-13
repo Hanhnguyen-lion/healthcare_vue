@@ -47,7 +47,7 @@
                             :id="item.id" 
                             :apiUrlDelete="apiUrl"
                             :items="categories"
-                            titleDialog="Delete Treatement Category"
+                            :titleDialog="this.$t('messages.deleteTreatementCategory')"
                             routerLinkTo="/Treatement/Category/Edit/"
                             @removeItem="handleItemRemoval">
                         </EditDeleteButtons>

@@ -44,7 +44,7 @@ import { utils, writeFile } from 'xlsx-js-style';
                             :id="item.id" 
                             :apiUrlDelete="apiUrl"
                             :items="data"
-                            titleDialog="Delete Medicine Category"
+                                :titleDialog="this.$t('messages.deleteMedicineCategory')"
                             routerLinkTo="/Medicine/Category/Edit/"
                             @removeItem="handleItemRemoval">
                         </EditDeleteButtons>
