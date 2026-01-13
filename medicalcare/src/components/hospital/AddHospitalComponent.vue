@@ -105,13 +105,13 @@ import { validEmail } from '../helper/helper';
         methods:{
             validName(){
                 if (!this.item.name)
-                    this.name_error = "Name is required";
+                    this.name_error = this.$t('messages.namelHospitalRequired');
                 else
                     this.name_error = "";
             },
             validEmail(){
                 if (this.item.email && !validEmail(this.item.email))
-                    this.email_error = "Email invalid";
+                    this.email_error = this.$t('messages.emailInvalid');
                 else
                     this.email_error = "";
             },

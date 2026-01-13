@@ -173,28 +173,28 @@ export default {
     methods: {
         validMedicine(){
             if (!this.output_data.medicine_id)
-                this.medicine_id_error = "Medicine is required";
+                this.medicine_id_error = this.$t('messages.medicineRequired');
             else{
                 this.medicine_id_error = "";
             }
         },
         validQuantity(){
             if (!this.output_data.quantity)
-                this.quantity_error = "Quantity is required";
+                this.quantity_error = this.$t('messages.quantityRequired');
             else{
                 this.quantity_error = "";
             }
         },
         validPrescriptionDate(){
             if (!this.output_data.prescription_date)
-                this.prescription_date_error = "Prescription date is required";
+                this.prescription_date_error = this.$t('messages.prescriptionDateRequired');
             else{
                 this.prescription_date_error = "";
             }
         },
         validDuration(){
             if (!this.output_data.duration)
-                this.duration_error = "Duration is required";
+                this.duration_error = this.$t('messages.durationRequired');
             else{
                 this.duration_error = "";
             }

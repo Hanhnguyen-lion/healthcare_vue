@@ -90,7 +90,7 @@ import { isSupperAdmin } from '../helper/helper';
         methods:{
             validName(){
                 if (!this.item.name)
-                    this.name_error = "Name is required";
+                    this.name_error = this.$t('messages.namelDepartmentRequired');
                 else
                     this.name_error = "";
             },

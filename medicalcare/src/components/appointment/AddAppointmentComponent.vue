@@ -140,13 +140,13 @@ import { useAuthStore } from '@/store/auth.module';
             },
             validPatient(){
                 if (!this.item.patient_id)
-                    this.patient_error = "Patient is required";
+                    this.patient_error = this.$t("messages.patientRequired");
                 else
                     this.patient_error = "";
             },
             validAppointmentDate(){
                 if (!this.item.appointment_date)
-                    this.appointment_date_error = "Appointment date is required";
+                    this.appointment_date_error = this.$t("messages.appointmentDateRequired");
                 else
                     this.appointment_date_error = "";
             },

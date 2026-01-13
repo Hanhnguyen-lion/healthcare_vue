@@ -19,8 +19,8 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                 <thead class="table-header">
                 <tr>
                     <th>{{$t('patient.patients.code')}}</th>
-                    <th>{{$t('commonText.firstName')}}</th>
                     <th>{{$t('commonText.lastName')}}</th>
+                    <th>{{$t('commonText.firstName')}}</th>
                     <th>{{$t('patient.patients.dob')}}</th>
                     <th>{{$t('commonText.gender')}}</th>
                     <th>{{$t('commonText.hospital')}}</th>
@@ -30,8 +30,8 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                 <tbody>
                     <tr v-for="item in patients" :key="item.id">
                         <td>{{item.code}}</td>
-                        <td>{{item.first_name}}</td>
                         <td>{{item.last_name}}</td>
+                        <td>{{item.first_name}}</td>
                         <td><div v-if="item.date_of_birth">{{formatDateToString(item.date_of_birth, 'DD/MM/YYYY')}}</div></td>
                         <td>{{item.gender}}</td>
                         <td>{{item.hospital_name}}</td>
@@ -40,7 +40,7 @@ import EditDeleteButtons from '../EditDeleteButtons.vue';
                                 :id="item.id" 
                                 :apiUrlDelete="url"
                                 :items="patients"
-                                :titleDialog="this.$t('messages.deletePatient')"
+                                :titleDialog="$t('messages.deletePatient')"
                                 routerLinkTo="/Patient/Edit/"
                                 @removeItem="handleItemRemoval">
                             </EditDeleteButtons>

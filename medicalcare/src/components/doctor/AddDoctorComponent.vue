@@ -150,19 +150,19 @@ import { useAuthStore } from '@/store/auth.module';
         methods:{
             validFirstName(){
                 if (!this.item.first_name)
-                    this.first_name_error = "First Name is required";
+                    this.first_name_error = this.$t("messages.firstNameRequired");
                 else
                     this.first_name_error = "";
             },
             validLastName(){
                 if (!this.item.last_name)
-                    this.last_name_error = "Last Name is required";
+                    this.last_name_error = this.$t("messages.lastNameRequired");
                 else
                     this.last_name_error = "";
             },
             checkEmail(){
                 if (this.item.email && !validEmail(this.item.email))
-                    this.email_error = "email invalid";
+                    this.email_error = this.$t("messages.emailInvalid");
                 else
                     this.email_error = "";
             },

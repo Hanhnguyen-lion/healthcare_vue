@@ -269,21 +269,21 @@ export default{
     methods:{
         validFirstName(){
             if (!this.item.first_name)
-                this.item_error.firstNameError = "First name is required";
+                this.item_error.firstNameError = this.$t("messages.firstNameRequired");
             else{
                 this.item_error.firstNameError = "";
             }
         },
         validCode(){
             if (!this.item.code)
-                this.item_error.codeError = "Code is required";
+                this.item_error.codeError = this.$t("messages.codeRequired");
             else{
                 this.item_error.codeError = "";
             }
         },
         validLastName(){
             if (!this.item.last_name)
-                this.item_error.lastNameError = "Last name is required";
+                this.item_error.lastNameError = this.$t("messages.lastNameRequired");
             else{
                 this.item_error.lastNameError = "";
             }
@@ -293,7 +293,7 @@ export default{
             if (this.item.email){
                 var isValidEmail = regex.test(this.item.email);
                 if (!isValidEmail){
-                    this.item_error.emailError = "Email must be a valid email address";
+                    this.item_error.emailError = this.$t("messages.emailInvalid");
                 }
                 else{
                     this.item_error.emailError = "";

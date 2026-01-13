@@ -1,0 +1,49 @@
+2026.01.13
+Changes record
+
+〇 Account menu
+◇ AccountsComponent.vue
+- Add multi language
+
+◇ RegisterComponent.vue
+- Add multi language
+
+◇ LoginComponent.vue
+- Add multi language
+
+〇 Appointment menu
+◇ AppointmentsComponent.vue, AddAppointmentComponent.vue
+- Add multi language
+
+〇 Billing menu
+◇ AddBillingComponent.vue, BillingComponent.vue, BillingDetailComponent.vue, PrescriptionModal.vue, TreatmentModal.vue
+- Add multi language
+
+〇 Department menu
+◇ DepartmentsComponent.vue, AddDepartmentComponent.vue
+- Add multi language
+
+〇 Doctor menu
+◇ DoctorsComponent.vue, AddDoctorComponent.vue
+- Add multi language
+
+〇 Hospital menu
+◇ HospitalsComponent.vue, AddHospitalComponent.vue
+- Add multi language
+
+〇 MedicalCare menu
+◇ ViewMedicalCareComponent.vue
+- Add multi language
+
+〇 Medicine menu
+◇ AddMedicineCategoryComponent.vue, AddMedicineComponent.vue, MedicineCategoriesComponent.vue, MedicinesComponent.vue
+- Add multi language
+
+〇 Patient menu
+◇ TreatmentCategoriesComponent.vue, AddTreatmentCategoryComponent.vue
+- Add multi language
+
+〇 Treatement menu
+◇ AppointmentsComponent.vue, AddAppointmentComponent.vue
+- Add multi language
+

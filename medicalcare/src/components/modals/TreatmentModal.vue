@@ -124,21 +124,21 @@ export default {
     methods: {
         validQuantity(){
             if (!this.output_data.quantity)
-                this.quantity_error = "Quantity is required";
+                this.quantity_error = this.$t('messages.quantityRequired');
             else{
                 this.quantity_error = "";
             }
         },
         validTreatmentType(){
             if (!this.output_data.category_id)
-                this.treatment_type_error = "Treatment type is required";
+                this.treatment_type_error = this.$t('messages.treatmentTypeRequired');
             else{
                 this.treatment_type_error = "";
             }
         },
         validTreatmentDate(){
             if (!this.output_data.treatment_date)
-                this.treatment_date_error = "Treatment date is required";
+                this.treatment_date_error = this.$t('messages.treatmentDateRequired');
             else{
                 this.treatment_date_error = "";
             }

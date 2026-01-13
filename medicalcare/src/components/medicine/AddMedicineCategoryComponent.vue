@@ -90,7 +90,7 @@ import { enviroment } from '@/enviroments/enviroment';
         methods:{
             validName(){
                 if (!this.item.name_en)
-                    this.name_en_error = "Name is required";
+                    this.name_en_error = this.$t("messages.namelMedicineCategoryRequired");
                 else
                     this.name_en_error = "";
             },

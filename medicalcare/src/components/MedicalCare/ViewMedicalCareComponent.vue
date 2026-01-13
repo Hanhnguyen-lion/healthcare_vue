@@ -71,7 +71,7 @@ import { useAuthStore } from '@/store/auth.module';
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="4" class="bordertop-double">{{$t('medicaleCare.patient')}}</td>
+                                                <td rowspan="4" class="bordertop-double">{{$t('commonText.patient')}}</td>
                                                 <td class="borderleft bordertop-double">{{$t('medicaleCare.fullName')}}</td>
                                                 <td class="borderleft bordertop-double">{{patientItem.patient_name}}</td>
                                                 <td colspan="2" class="bordertop-double">&nbsp;</td>

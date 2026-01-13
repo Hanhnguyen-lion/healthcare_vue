@@ -49,7 +49,7 @@ import { formatDateToString } from '../helper/helper';
                                 :id="item.id" 
                                 :apiUrlDelete="url"
                                 :items="items"
-                                :titleDialog="this.$t('messages.deleteAccount')"
+                                :titleDialog="$t('messages.deleteAccount')"
                                 routerLinkTo="/Account/Register/Edit/"
                                 @removeItem="handleItemRemoval">
                             </EditDeleteButtons>

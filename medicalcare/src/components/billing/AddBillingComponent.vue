@@ -276,35 +276,35 @@ export default{
     methods:{
         validPatient(){
             if (!this.item.patient_id)
-                this.patient_id_error = "Patient is required";
+                this.patient_id_error = this.$t('messages.patientRequired');
             else{
                 this.patient_id_error = "";
             }
         },
         validDoctor(){
             if (!this.item.doctor_id)
-                this.doctor_id_error = "Doctor is required";
+                this.doctor_id_error = this.$t('messages.doctorRequired');
             else{
                 this.doctor_id_error = "";
             }
         },
         validDepartment(){
             if (!this.item.department_id)
-                this.department_id_error = "Department is required";
+                this.department_id_error = this.$t('messages.departmentRequired');
             else{
                 this.department_id_error = "";
             }
         },
         validDischargeDate(){
             if (!this.item.discharge_date)
-                this.discharge_date_error = "Discharge date is required";
+                this.discharge_date_error = this.$t('messages.dischargeDateRequired');
             else{
                 this.discharge_date_error = "";
             }
         },
         validAdmissionDate(){
             if (!this.item.admission_date)
-                this.admission_date_error = "Admission date is required";
+                this.admission_date_error = this.$t('messages.admissionDateRequired');
             else{
                 this.admission_date_error = "";
             }
@@ -402,19 +402,19 @@ export default{
         },
         deletePrescription(id, new_id, type){
             new_id = (new_id) ? new_id: null;
-            var title = "Delete Prescription";
+            var title = this.$t('messages.deletePrescription');
             var url = `${enviroment.apiUrl}/Prescriptions`;
             if (type == "Treatment"){
                 url = `${enviroment.apiUrl}/Treatments`;
-                title = "Delete Treatment";
+                title = this.$t('messages.deleteTreatment');
             }
             this.$confirm(
             {
                 title: title,
-                message: 'Are you sure to want delete this item?',
+                message: this.$t('messages.confirmDelete'),
                 button: {
-                    no: 'No',
-                    yes: 'Yes'
+                    no: this.$t('buttons.no'),
+                    yes: this.$t('buttons.yes')
                 },
                 callback: async confirm => {
                     if (confirm) {
