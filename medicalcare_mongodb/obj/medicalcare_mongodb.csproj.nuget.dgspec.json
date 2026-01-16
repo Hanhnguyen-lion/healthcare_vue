@@ -1,31 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\howork\\2025_TeamWork_Medicalcare\\1_Project_MedicalCare\\04_Source\\healthcare_vue\\medicalcare_mongodb\\medicalcare_mongodb.csproj": {}
+    "/data/projects/healthcare/healthcare_vue/medicalcare_mongodb/medicalcare_mongodb.csproj": {}
   },
   "projects": {
-    "D:\\howork\\2025_TeamWork_Medicalcare\\1_Project_MedicalCare\\04_Source\\healthcare_vue\\medicalcare_mongodb\\medicalcare_mongodb.csproj": {
+    "/data/projects/healthcare/healthcare_vue/medicalcare_mongodb/medicalcare_mongodb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\howork\\2025_TeamWork_Medicalcare\\1_Project_MedicalCare\\04_Source\\healthcare_vue\\medicalcare_mongodb\\medicalcare_mongodb.csproj",
+        "projectUniqueName": "/data/projects/healthcare/healthcare_vue/medicalcare_mongodb/medicalcare_mongodb.csproj",
         "projectName": "medicalcare_mongodb",
-        "projectPath": "D:\\howork\\2025_TeamWork_Medicalcare\\1_Project_MedicalCare\\04_Source\\healthcare_vue\\medicalcare_mongodb\\medicalcare_mongodb.csproj",
-        "packagesPath": "C:\\Users\\hungn\\.nuget\\packages\\",
-        "outputPath": "D:\\howork\\2025_TeamWork_Medicalcare\\1_Project_MedicalCare\\04_Source\\healthcare_vue\\medicalcare_mongodb\\obj\\",
+        "projectPath": "/data/projects/healthcare/healthcare_vue/medicalcare_mongodb/medicalcare_mongodb.csproj",
+        "packagesPath": "/home/hnguyen/.nuget/packages/",
+        "outputPath": "/data/projects/healthcare/healthcare_vue/medicalcare_mongodb/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\hungn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/home/hnguyen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,12 +39,16 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.14.1, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.10, )"
@@ -82,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

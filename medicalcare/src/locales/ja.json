@@ -285,7 +285,8 @@
         "search" : "検索",
         "print" : "印刷",
         "yes" : "はい",
-        "no" : "いいえ"
+        "no" : "いいえ",
+        "send" : "Send"
     },
     "messages":{
         "treatmentTypeRequired": "治療の種類が必要",
@@ -328,7 +329,8 @@
         "deleteDepartment": "診療科を削除",
         "deleteAppointment": "予約を削除",
         "deleteTreatment": "治療を削除",
-        "deletePrescription": "処方箋を削除"
+        "deletePrescription": "処方箋を削除",
+        "emailNotExists": "Email does not exists"
     },
     "commonText":{
         "female": "女子",
@@ -350,6 +352,5 @@
         "doctor": "医者",
         "description": "説明文",
         "enterDescription": "説明文を入力してください"
-
     }
 } 

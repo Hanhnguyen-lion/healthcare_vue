@@ -12,3 +12,7 @@ dotnet add package Swashbuckle.AspNetCore --version 9.0.6
 ```
 dotnet add package MongoDB.EntityFrameworkCore --version 9.0.0
 ```
+## add package an email via SMTP in .NET Core
+```
+dotnet add package MailKit
+```

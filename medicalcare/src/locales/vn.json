@@ -287,7 +287,8 @@
         "search" : "Tìm kiếm",
         "print" : "In",
         "yes" : "Có",
-        "no" : "Không"
+        "no" : "Không",
+        "send" : "Gởi"
     },
     "messages":{
         "treatmentTypeRequired": "Danh mục điều trị là bắt buộc",
@@ -330,7 +331,8 @@
         "deleteDepartment": "Xóa phòng ban",
         "deleteAppointment": "Xóa đặt lịch hẹn",
         "deleteTreatment": "Xóa điều trị",
-        "deletePrescription": "Xóa đơn thuốc"
+        "deletePrescription": "Xóa đơn thuốc",
+        "emailNotExists": "Địa chỉ e-mail không tồn tại"
     },
     "commonText":{
         "female": "Female",

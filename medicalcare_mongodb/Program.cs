@@ -12,6 +12,7 @@ builder.Services.AddOpenApi();
 var mongoDBSettings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
 
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddDbContext<MedicalcareDbContext>(options=>
     options.UseMongoDB(mongoDBSettings?.AtlasURI??"", mongoDBSettings?.DatabaseName??"")
 );

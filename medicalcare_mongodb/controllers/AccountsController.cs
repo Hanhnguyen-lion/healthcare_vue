@@ -1,6 +1,7 @@
 using medicalcare_mongodb.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 
 namespace medicalcare_mongodb.controllers
@@ -10,9 +11,14 @@ namespace medicalcare_mongodb.controllers
     public class AccountsController: BaseController
     {
         private readonly IConfiguration _config;
-        public AccountsController(MedicalcareDbContext context, IConfiguration config) : base(context)
+        private readonly EmailSettings _emailSettings;
+        public AccountsController(
+            MedicalcareDbContext context, 
+            IConfiguration config,
+            IOptions<EmailSettings> emailSettings) : base(context)
         {
             this._config = config;
+            this._emailSettings = emailSettings.Value;
         }
 
         [HttpPost]
@@ -89,7 +95,6 @@ namespace medicalcare_mongodb.controllers
             }
         }
 
-
         [HttpPost]
         [Route("Authenticate")]
         public async Task<IActionResult> Authenticate(Account account)
@@ -140,7 +145,108 @@ namespace medicalcare_mongodb.controllers
                     return Ok(new { message = "Login success." , item = item});
                 }
             }
+       }   
 
+        [HttpPut]
+        [Route("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(Account account)
+        {
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            string email = account?.email?.ToLower()??"";
+            // Check if the email already exists.
+            Account? data = await this.context.m_account.FirstOrDefaultAsync(
+                    m => m.email == email);
+            if (data == null)
+                return NotFound(new { message = "Email does not exists.", item = data } );
+            else{
+                account = data;
+                if (account != null)
+                {
+                    var smtpHost = _emailSettings.Host;
+                    var smtpPort = _emailSettings.Port;
+                    var fromEmail = _emailSettings.Mail;
+                    var displayName = _emailSettings.DisplayName;
+                    var password = _emailSettings.Password;
+                    var reset_password_code = Guid.NewGuid().ToString();
+                    var subject = "Health Care Reset Password: verification code";
+                    var body = @$"Please verify your identity, {account.last_name} {account.first_name}<br />
+                    Here is your reset password code:<br/>
+                    {reset_password_code}<br />
+                    <br />This code is valid for 15 minutes and can only be used once.
+                    <br />Please don't share this code with anyone: we'll never ask for it on the phone or via email.
+                    <br />
+                    <br />
+                    <br />
+                    Thanks,<br />
+                    Health Care Team
+                    ";
+                    account.reset_password_date = DateTime.Now;
+                    account.reset_password_code = reset_password_code;
+                    await Task.Run(() =>
+                    {
+
+                        EmailSender.SendEmail(
+                            smtpHost: smtpHost!,
+                            smtpPort: smtpPort??587,
+                            fromEmail: fromEmail!,
+                            toEmail: email,
+                            password: password!,
+                            username: displayName!,
+                            subject: subject,
+                            body: body
+                        );
+                        this.context.m_account.Entry(data).CurrentValues.SetValues(account);
+                        this.context.SaveChanges();
+                    });
+                }
+                return Ok(account);
+            }
+        }   
+
+        [HttpPut]
+        [Route("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(Account account)
+        {
+            // Validate the incoming model.
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            string email = account?.email?.ToLower()??"";
+            string reset_password_code = account?.reset_password_code??"";
+            string password = account?.password!;
+            // Check if the email already exists.
+            Account? data = await this.context.m_account.FirstOrDefaultAsync(
+                    m => m.email == email && m.reset_password_code == reset_password_code);
+            if (data == null)
+                return NotFound(new { message = "Email Or Code is incorrect.", item = data } );
+            else{
+                var reset_password_date = data.reset_password_date;
+                DateTime saigonDateTime = TimeZoneInfo.ConvertTimeFromUtc(reset_password_date??DateTime.Now, TimeZoneInfo.Utc);
+
+                 Console.WriteLine("reset_password_date:"+reset_password_date);
+                //  Console.WriteLine("saigonDateTime: "+saigonDateTime);
+                // if (this.context.ExpireMinutes(reset_password_date??DateTime.Now, 15))
+                //     return NotFound(new { message = "Code is expire.", item = data } );
+                // else
+                // {
+                    account = data;
+                    account.password = password;
+                    if (account != null)
+                    {
+                        await Task.Run(() =>
+                        {
+                            this.context.m_account.Entry(data).CurrentValues.SetValues(account);
+                            this.context.SaveChanges();
+                        });
+                    }
+                    return Ok(account);
+                // }
+            }
         }   
     }
 }

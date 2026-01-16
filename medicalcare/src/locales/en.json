@@ -44,7 +44,9 @@
             "phonePlaceholder": "Enter Phone",
             "address": "Address",
             "addressPlaceholder": "Enter adress"
-            
+        },
+        "forgotPassword":{
+            "title": "Forgot Password"
         }
     },
     "home":{
@@ -288,7 +290,8 @@
         "search" : "Search",
         "print" : "Print",
         "yes" : "Yes",
-        "no" : "No"
+        "no" : "No",
+        "send" : "Send"
     },
     "messages":{
         "treatmentTypeRequired": "Treatment type is required",
@@ -331,7 +334,8 @@
         "deleteDepartment": "Delete Department",
         "deleteAppointment": "Delete Appointment",
         "deleteTreatment": "Delete Treatment",
-        "deletePrescription": "Delete Prescription"
+        "deletePrescription": "Delete Prescription",
+        "emailNotExists": "Email does not exists"
     },
     "commonText":{
         "female": "Female",

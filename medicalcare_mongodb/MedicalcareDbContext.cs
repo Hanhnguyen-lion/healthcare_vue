@@ -65,6 +65,19 @@ namespace medicalcare_mongodb
             return (daysUntilExpiration <= expireDay) ? false: true;
         }
 
+        public bool ExpireMinutes(DateTime expireDate, int expireMinutes)
+        {
+            DateTime today = DateTime.Now;
+
+            // Calculate the difference in days
+            Console.WriteLine("today:"+today);
+            Console.WriteLine("expireDate:"+expireDate);
+            TimeSpan timeRemaining = today.Subtract(expireDate);
+            double minutesUntilExpiration = timeRemaining.TotalMinutes;
+            Console.WriteLine("daysUntilExpiration:"+minutesUntilExpiration);
+            return (minutesUntilExpiration <= expireMinutes) ? false: true;
+        }
+
         public async Task<IEnumerable> GetBillings()
         {
             var billings = await this.h_billing.ToArrayAsync();
@@ -364,7 +377,9 @@ namespace medicalcare_mongodb
                 m.account_type,
                 m.password,
                 m.dob,
-                m.create_date
+                m.create_date,
+                m.reset_password_code,
+                m.reset_password_date
             };
             return results;
         }
