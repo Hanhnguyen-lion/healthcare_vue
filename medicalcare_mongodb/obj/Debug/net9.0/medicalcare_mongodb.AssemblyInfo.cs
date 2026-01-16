@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("medicalcare_mongodb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fa04c6e81940d599defe02986091af8ad29ee40")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da72e1ded508755503669ca0655d591691adf155")]
 [assembly: System.Reflection.AssemblyProductAttribute("medicalcare_mongodb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("medicalcare_mongodb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
