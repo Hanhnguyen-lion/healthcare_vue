@@ -60,7 +60,7 @@ namespace medicalcare_mongodb
             DateTime today = DateTime.Now;
 
             // Calculate the difference in days
-            TimeSpan timeRemaining = expireDate - today;
+            TimeSpan timeRemaining = today - expireDate;
             int daysUntilExpiration = (int)Math.Floor(timeRemaining.TotalDays);
             return (daysUntilExpiration <= expireDay) ? false: true;
         }
